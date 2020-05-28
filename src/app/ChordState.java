@@ -355,6 +355,50 @@ public class ChordState {
 		updateSuccessorTable();
 	}
 
+	public void removeNode(ServentInfo node) {
+		int nodeId = node.getUuid();
+		AppConfig.timestampedStandardPrint(allNodeInfo.remove(node)+"");
+
+		if (nodeId < AppConfig.myServentInfo.getUuid()) {
+			AppConfig.myServentInfo.setUuid(AppConfig.myServentInfo.getUuid() - 1);
+		}
+
+		allNodeInfo.sort(new Comparator<ServentInfo>() {
+
+			@Override
+			public int compare(ServentInfo o1, ServentInfo o2) {
+				return o1.getUuid() - o2.getUuid();
+			}
+
+		});
+
+		List<ServentInfo> newList = new ArrayList<>();
+		List<ServentInfo> newList2 = new ArrayList<>();
+
+		int myId = AppConfig.myServentInfo.getUuid();
+		for (ServentInfo serventInfo : allNodeInfo) {
+			if (serventInfo.getUuid() > nodeId) {
+				serventInfo.setUuid(serventInfo.getUuid() - 1);
+			}
+			if (serventInfo.getUuid() < myId) {
+				newList2.add(serventInfo);
+			} else {
+				newList.add(serventInfo);
+			}
+		}
+
+		allNodeInfo.clear();
+		allNodeInfo.addAll(newList);
+		allNodeInfo.addAll(newList2);
+		if (newList2.size() > 0) {
+			predecessorInfo = newList2.get(newList2.size()-1);
+		} else {
+			predecessorInfo = newList.get(newList.size()-1);
+		}
+
+		updateSuccessorTable();
+	}
+
 	/**
 	 * The Chord put operation. Stores locally if key is ours, otherwise sends it on.
 	 */

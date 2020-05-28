@@ -1,4 +1,5 @@
 pause 30000
 pause 10000
 successor_info
-stop
+pause 10000
+quit

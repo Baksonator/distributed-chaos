@@ -1,6 +1,7 @@
 package app;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * This is an immutable class that holds all the information for a servent.
@@ -55,4 +56,16 @@ public class ServentInfo implements Serializable {
 		return "[" + uuid + "|" + ipAddress + "|" + listenerPort + "]";
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ServentInfo that = (ServentInfo) o;
+		return uuid == that.uuid;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(uuid);
+	}
 }

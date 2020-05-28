@@ -2,4 +2,6 @@ pause 40000
 pause 5000
 pause 5000
 successor_info
+pause 40000
+successor_info
 stop

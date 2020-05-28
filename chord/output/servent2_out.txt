@@ -1,19 +1,17 @@
-22:32:05 - Starting servent [0|localhost|1300]
-22:32:05 - Pausing for 30000 ms
-22:32:06 - Sending message [4|1300|0||NEW_NODE|1200|48]
-22:32:08 - Got message [28|1100|2||WELCOME|1300|4]
-22:32:09 - Sending message [4|1300|1||UPDATE|1100|28]
-22:32:11 - Got message [4|1300|3|1100,1200|UPDATE|1300|4]
-22:32:16 - Got message [24|1400|0||NEW_NODE|1300|4]
-22:32:17 - Sending message [24|1400|2||NEW_NODE|1100|28]
-22:32:21 - Got message [24|1400|4|1100,1200|UPDATE|1300|4]
-22:32:22 - Sending message [24|1400|3|1100,1200,1300|UPDATE|1400|24]
-22:32:26 - Got message [0|1600|0||NEW_NODE|1300|4]
-22:32:27 - Sending message [0|1600|4||NEW_NODE|1100|28]
-22:32:31 - Got message [0|1600|5|1100,1200|UPDATE|1300|4]
-22:32:32 - Sending message [0|1600|5|1100,1200,1300|UPDATE|1400|24]
-22:32:35 - Pausing for 10000 ms
+00:38:04 - Starting servent [0|localhost|1300]
+00:38:04 - Pausing for 30000 ms
+00:38:05 - Sending message [4|1300|0||NEW_NODE|1100|28]
+00:38:07 - Got message [28|1100|2||WELCOME|1300|4]
+00:38:08 - Sending message [4|1300|1||UPDATE|1100|28]
+00:38:10 - Got message [4|1300|2|1100,1200|UPDATE|1300|4]
+00:38:20 - Got message [24|1400|3|1100,1200|UPDATE|1300|4]
+00:38:21 - Sending message [24|1400|2|1100,1200,1300|UPDATE|1400|24]
+00:38:30 - Got message [0|1600|4|1100,1200|UPDATE|1300|4]
+00:38:31 - Sending message [0|1600|3|1100,1200,1300|UPDATE|1400|24]
+00:38:34 - Pausing for 10000 ms
 2
 0: [3|localhost|1400]
 1: [4|localhost|1600]
-22:32:45 - Stopping...
+00:38:44 - Pausing for 10000 ms
+00:38:54 - Stopping...
+00:38:55 - Sending message [4|1300|4|2|LEAVE|1400|24]
