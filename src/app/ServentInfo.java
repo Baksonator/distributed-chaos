@@ -14,6 +14,7 @@ public class ServentInfo implements Serializable {
 	private final int listenerPort;
 	private final int chordId;
 	private int uuid;
+	private String fractalId;
 	
 	public ServentInfo(String ipAddress, int listenerPort) {
 		this.ipAddress = ipAddress;
@@ -35,6 +36,14 @@ public class ServentInfo implements Serializable {
 
 	public int getUuid() {
 		return uuid;
+	}
+
+	public String getFractalId() {
+		return fractalId;
+	}
+
+	public void setFractalId(String fractalId) {
+		this.fractalId = fractalId;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import app.AppConfig;
+import app.ChordState;
 import app.ServentInfo;
 import servent.message.Message;
 import servent.message.MessageType;
@@ -23,6 +24,19 @@ public class NewNodeHandler implements MessageHandler {
 	
 	@Override
 	public void run() {
+		if (clientMessage.getMessageType() == MessageType.NEW_NODE) {
+			int newNodePort = clientMessage.getSenderPort();
+			ServentInfo newNodeInfo = new ServentInfo("localhost", newNodePort);
+
+			int nodeCount = AppConfig.chordState.getNodeCount();
+
+			if (nodeCount == 1) {
+				AppConfig.chordState.setPredecessor(newNodeInfo);
+				AppConfig.chordState.setNodeCount(nodeCount + 1);
+			} else {
+
+			}
+		}
 		if (clientMessage.getMessageType() == MessageType.NEW_NODE) {
 			int newNodePort = clientMessage.getSenderPort();
 			ServentInfo newNodeInfo = new ServentInfo("localhost", newNodePort);

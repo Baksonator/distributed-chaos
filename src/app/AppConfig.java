@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 
@@ -19,6 +20,7 @@ public class AppConfig {
 	 * Convenience access for this servent's information
 	 */
 	public static ServentInfo myServentInfo;
+	public static ArrayList<Job> jobs = new ArrayList<>();
 	
 	/**
 	 * Print a message to stdout with a timestamp
@@ -44,7 +46,10 @@ public class AppConfig {
 	
 	public static boolean INITIALIZED = false;
 	public static int BOOTSTRAP_PORT;
+	public static String BOOTSTRAP_IP;
 	public static int SERVENT_COUNT;
+	public static int SOFT_FAILURE_TIME;
+	public static int HARD_FAILURE_TIME;
 	
 	public static ChordState chordState;
 	
@@ -85,12 +90,57 @@ public class AppConfig {
 			timestampedErrorPrint("Problem reading bootstrap_port. Exiting...");
 			System.exit(0);
 		}
+
+		BOOTSTRAP_IP = properties.getProperty("bs.ip_address");
 		
 		try {
 			SERVENT_COUNT = Integer.parseInt(properties.getProperty("servent_count"));
 		} catch (NumberFormatException e) {
 			timestampedErrorPrint("Problem reading servent_count. Exiting...");
 			System.exit(0);
+		}
+
+		try {
+			SOFT_FAILURE_TIME = Integer.parseInt(properties.getProperty("soft_failure_time"));
+		} catch (NumberFormatException e) {
+			timestampedErrorPrint("Problem reading soft_failure_time. Exiting...");
+			System.exit(0);
+		}
+
+		try {
+			HARD_FAILURE_TIME = Integer.parseInt(properties.getProperty("hard_failure_time"));
+		} catch (NumberFormatException e) {
+			timestampedErrorPrint("Problem reading hard_failure_time. Exiting...");
+			System.exit(0);
+		}
+
+		int jobCount = -1;
+
+		try {
+			jobCount = Integer.parseInt(properties.getProperty("job_count"));
+		} catch (NumberFormatException e) {
+			timestampedErrorPrint("Problem reading job_count. Exiting...");
+			System.exit(0);
+		}
+
+		for (int i = 1; i <= jobCount; i++) {
+			try {
+				String jobName = properties.getProperty("job" + i + ".name");
+				int n = Integer.parseInt(properties.getProperty("job" + i + ".n"));
+				double p = Double.parseDouble(properties.getProperty("job" + i + ".p"));
+				int w = Integer.parseInt(properties.getProperty("job" + i + ".w"));
+				int h = Integer.parseInt(properties.getProperty("job" + i + ".h"));
+				ArrayList<Point> points = new ArrayList<>();
+				String pointsString = properties.getProperty("job" + i + ".a");
+				String[] splitPoints = pointsString.split(",");
+				for (int j = 0; j < splitPoints.length; j += 2) {
+					points.add(new Point(Integer.parseInt(splitPoints[j]), Integer.parseInt(splitPoints[j + 1])));
+				}
+				jobs.add(new Job(jobName, n, p, w, h, points));
+			} catch (NumberFormatException e) {
+				timestampedErrorPrint("Problem reading job" + i + ". Exiting...");
+				System.exit(0);
+			}
 		}
 		
 		try {

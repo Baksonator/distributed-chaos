@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class BootstrapServer {
 
 	private volatile boolean working = true;
-	private List<Integer> activeServents;
+	private List<ServentInfoBootstrap> activeServents;
 	
 	private class CLIWorker implements Runnable {
 		@Override
@@ -79,11 +79,15 @@ public class BootstrapServer {
 					PrintWriter socketWriter = new PrintWriter(newServentSocket.getOutputStream());
 					
 					if (activeServents.size() == 0) {
-						socketWriter.write(String.valueOf(-1) + "\n");
-						activeServents.add(newServentPort); //first one doesn't need to confirm
+						socketWriter.write("-1," + String.valueOf(-1) + "\n");
+//						activeServents.add(newServentPort);
+						activeServents.add(new ServentInfoBootstrap(newServentSocket.getInetAddress().toString(), newServentPort)); //first one doesn't need to confirm
 					} else {
-						int randServent = activeServents.get(rand.nextInt(activeServents.size()));
-						socketWriter.write(String.valueOf(randServent) + "\n");
+//						int randServent = activeServents.get(rand.nextInt(activeServents.size()));
+						ServentInfoBootstrap randServent = activeServents.get(rand.nextInt(activeServents.size()));
+						String randServentIp = randServent.getIpAddress();
+						int randServentPort = randServent.getListenerPort();
+						socketWriter.write(randServentIp + "," + String.valueOf(randServentPort) + "\n");
 					}
 					
 					socketWriter.flush();
@@ -95,9 +99,12 @@ public class BootstrapServer {
 					int newServentPort = socketScanner.nextInt();
 					
 					System.out.println("adding " + newServentPort);
-					
-					activeServents.add(newServentPort);
+
+//					activeServents.add(newServentPort);
+					activeServents.add(new ServentInfoBootstrap(newServentSocket.getInetAddress().toString(), newServentPort));
 					newServentSocket.close();
+				} else if (message.equals("Left")) {
+					// TODO Remove node that left from list
 				}
 				
 			} catch (SocketTimeoutException e) {

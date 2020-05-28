@@ -73,11 +73,13 @@ public class MultipleServentStarter {
 		Process bsProcess = null;
 		ProcessBuilder bsBuilder = new ProcessBuilder("java", "-cp", "bin/", "app.BootstrapServer", String.valueOf(AppConfig.BOOTSTRAP_PORT));
 		try {
+			bsBuilder.redirectOutput(new File(testName + "/bootstrap.txt"));
+			bsBuilder.redirectError(new File(testName + "/bootstrap.txt"));
 			bsProcess = bsBuilder.start();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		//wait for bootstrap to start
 		try {
 			Thread.sleep(2000);

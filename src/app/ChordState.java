@@ -44,7 +44,9 @@ public class ChordState {
 	public static int chordHash(int value) {
 		return 61 * value % CHORD_SIZE;
 	}
-	
+
+	private int nodeCount;
+
 	private int chordLevel; //log_2(CHORD_SIZE)
 	
 	private ServentInfo[] successorTable;
@@ -129,7 +131,15 @@ public class ChordState {
 	public void setValueMap(Map<Integer, Integer> valueMap) {
 		this.valueMap = valueMap;
 	}
-	
+
+	public int getNodeCount() {
+		return nodeCount;
+	}
+
+	public void setNodeCount(int nodeCount) {
+		this.nodeCount = nodeCount;
+	}
+
 	public boolean isCollision(int chordId) {
 		if (chordId == AppConfig.myServentInfo.getChordId()) {
 			return true;
