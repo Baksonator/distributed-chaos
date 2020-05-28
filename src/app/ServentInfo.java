@@ -38,6 +38,10 @@ public class ServentInfo implements Serializable {
 		return uuid;
 	}
 
+	public void setUuid(int uuid) {
+		this.uuid = uuid;
+	}
+
 	public String getFractalId() {
 		return fractalId;
 	}
@@ -48,7 +52,7 @@ public class ServentInfo implements Serializable {
 
 	@Override
 	public String toString() {
-		return "[" + chordId + "|" + ipAddress + "|" + listenerPort + "]";
+		return "[" + uuid + "|" + ipAddress + "|" + listenerPort + "]";
 	}
 
 }

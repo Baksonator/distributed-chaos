@@ -9,6 +9,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import servent.message.AskGetMessage;
 import servent.message.PutMessage;
@@ -48,8 +50,11 @@ public class ChordState {
 	private int nodeCount;
 
 	private int chordLevel; //log_2(CHORD_SIZE)
+
+	private int logLevel;
 	
 	private ServentInfo[] successorTable;
+	private List<ServentInfo> successorTableAlt;
 	private ServentInfo predecessorInfo;
 	
 	//we DO NOT use this to send messages, but only to construct the successor table
@@ -74,8 +79,9 @@ public class ChordState {
 		}
 		
 		predecessorInfo = null;
-		valueMap = new HashMap<>();
-		allNodeInfo = new ArrayList<>();
+		successorTableAlt = new ArrayList<>();
+		valueMap = new ConcurrentHashMap<>();
+		allNodeInfo = new CopyOnWriteArrayList<>();
 	}
 	
 	/**
@@ -86,6 +92,7 @@ public class ChordState {
 	public void init(WelcomeMessage welcomeMsg) {
 		//set a temporary pointer to next node, for sending of update message
 		successorTable[0] = new ServentInfo("localhost", welcomeMsg.getSenderPort());
+		successorTableAlt.add(new ServentInfo("localhost", welcomeMsg.getSenderPort()));
 		this.valueMap = welcomeMsg.getValues();
 		
 		//tell bootstrap this node is not a collider
@@ -113,7 +120,8 @@ public class ChordState {
 	}
 	
 	public int getNextNodePort() {
-		return successorTable[0].getListenerPort();
+		return successorTableAlt.get(0).getListenerPort();
+//		return successorTable[0].getListenerPort();
 	}
 	
 	public ServentInfo getPredecessor() {
@@ -140,6 +148,33 @@ public class ChordState {
 		this.nodeCount = nodeCount;
 	}
 
+	public List<ServentInfo> getSuccessorTableAlt() {
+		return successorTableAlt;
+	}
+
+	public int getLogLevel() {
+		return logLevel;
+	}
+
+	public void updateLogLevel() {
+		this.logLevel = 1;
+		int tmp = this.nodeCount;
+		while (tmp % 2 != 0) {
+			tmp--;
+		}
+		while (tmp != 2) {
+			if (tmp % 2 != 0) { //not a power of 2
+				throw new NumberFormatException();
+			}
+			tmp /= 2;
+			this.logLevel++;
+		}
+	}
+
+	public void incrementNodeCount() {
+		 this.nodeCount++;
+	}
+
 	public boolean isCollision(int chordId) {
 		if (chordId == AppConfig.myServentInfo.getChordId()) {
 			return true;
@@ -160,22 +195,34 @@ public class ChordState {
 			return true;
 		}
 		
-		int predecessorChordId = predecessorInfo.getChordId();
-		int myChordId = AppConfig.myServentInfo.getChordId();
+		int predecessorUuid = predecessorInfo.getUuid();
+		int myChordUuid = AppConfig.myServentInfo.getUuid();
 		
-		if (predecessorChordId < myChordId) { //no overflow
-			if (key <= myChordId && key > predecessorChordId) {
+		if (predecessorUuid < myChordUuid) { //no overflow
+			if (key <= myChordUuid && key > predecessorUuid) {
 				return true;
 			}
 		} else { //overflow
-			if (key <= myChordId || key > predecessorChordId) {
+			if (key <= myChordUuid || key > predecessorUuid) {
 				return true;
 			}
 		}
 		
 		return false;
 	}
-	
+
+	public ServentInfo getNextNodeForFirst() {
+		for (int i = 1; i < successorTableAlt.size(); i++) {
+			int successorId = successorTableAlt.get(i).getUuid();
+
+			if (successorId > 0) {
+				return successorTableAlt.get(i - 1);
+			}
+		}
+
+		return successorTableAlt.get(successorTableAlt.size() - 1);
+	}
+
 	/**
 	 * Main chord operation - find the nearest node to hop to to find a specific key.
 	 * We have to take a value that is smaller than required to make sure we don't overshoot.
@@ -185,7 +232,7 @@ public class ChordState {
 		if (isKeyMine(key)) {
 			return AppConfig.myServentInfo;
 		}
-		
+
 		int previousId = successorTable[0].getChordId();
 		for (int i = 1; i < successorTable.length; i++) {
 			if (successorTable[i] == null) {
@@ -194,7 +241,7 @@ public class ChordState {
 			}
 			
 			int successorId = successorTable[i].getChordId();
-			
+
 			if (successorId >= key) {
 				return successorTable[i-1];
 			}
@@ -213,51 +260,57 @@ public class ChordState {
 		
 		int currentNodeIndex = 0;
 		ServentInfo currentNode = allNodeInfo.get(currentNodeIndex);
+		successorTableAlt.clear();
+		successorTableAlt.add(currentNode);
 		successorTable[0] = currentNode;
 		
 		int currentIncrement = 2;
 		
 		ServentInfo previousNode = AppConfig.myServentInfo;
-		
-		//i is successorTable index
-		for(int i = 1; i < chordLevel; i++, currentIncrement *= 2) {
-			//we are looking for the node that has larger chordId than this
-			int currentValue = (AppConfig.myServentInfo.getChordId() + currentIncrement) % CHORD_SIZE;
-			
-			int currentId = currentNode.getChordId();
-			int previousId = previousNode.getChordId();
-			
-			//this loop needs to skip all nodes that have smaller chordId than currentValue
-			while (true) {
-				if (currentValue > currentId) {
-					//before skipping, check for overflow
-					if (currentId > previousId || currentValue < previousId) {
-						//try same value with the next node
-						previousId = currentId;
-						currentNodeIndex = (currentNodeIndex + 1) % allNodeInfo.size();
-						currentNode = allNodeInfo.get(currentNodeIndex);
-						currentId = currentNode.getChordId();
-					} else {
-						successorTable[i] = currentNode;
-						break;
-					}
-				} else { //node id is larger
-					ServentInfo nextNode = allNodeInfo.get((currentNodeIndex + 1) % allNodeInfo.size());
-					int nextNodeId = nextNode.getChordId();
-					//check for overflow
-					if (nextNodeId < currentId && currentValue <= nextNodeId) {
-						//try same value with the next node
-						previousId = currentId;
-						currentNodeIndex = (currentNodeIndex + 1) % allNodeInfo.size();
-						currentNode = allNodeInfo.get(currentNodeIndex);
-						currentId = currentNode.getChordId();
-					} else {
-						successorTable[i] = currentNode;
-						break;
-					}
-				}
-			}
+
+		for (int i = 1; i < logLevel; i++, currentIncrement *= 2) {
+			successorTableAlt.add(allNodeInfo.get(currentIncrement - 1));
 		}
+
+//		//i is successorTable index
+//		for(int i = 1; i < chordLevel; i++, currentIncrement *= 2) {
+//			//we are looking for the node that has larger chordId than this
+//			int currentValue = (AppConfig.myServentInfo.getChordId() + currentIncrement) % CHORD_SIZE;
+//
+//			int currentId = currentNode.getChordId();
+//			int previousId = previousNode.getChordId();
+//
+//			//this loop needs to skip all nodes that have smaller chordId than currentValue
+//			while (true) {
+//				if (currentValue > currentId) {
+//					//before skipping, check for overflow
+//					if (currentId > previousId || currentValue < previousId) {
+//						//try same value with the next node
+//						previousId = currentId;
+//						currentNodeIndex = (currentNodeIndex + 1) % allNodeInfo.size();
+//						currentNode = allNodeInfo.get(currentNodeIndex);
+//						currentId = currentNode.getChordId();
+//					} else {
+//						successorTable[i] = currentNode;
+//						break;
+//					}
+//				} else { //node id is larger
+//					ServentInfo nextNode = allNodeInfo.get((currentNodeIndex + 1) % allNodeInfo.size());
+//					int nextNodeId = nextNode.getChordId();
+//					//check for overflow
+//					if (nextNodeId < currentId && currentValue <= nextNodeId) {
+//						//try same value with the next node
+//						previousId = currentId;
+//						currentNodeIndex = (currentNodeIndex + 1) % allNodeInfo.size();
+//						currentNode = allNodeInfo.get(currentNodeIndex);
+//						currentId = currentNode.getChordId();
+//					} else {
+//						successorTable[i] = currentNode;
+//						break;
+//					}
+//				}
+//			}
+//		}
 		
 	}
 
@@ -273,7 +326,7 @@ public class ChordState {
 			
 			@Override
 			public int compare(ServentInfo o1, ServentInfo o2) {
-				return o1.getChordId() - o2.getChordId();
+				return o1.getUuid() - o2.getUuid();
 			}
 			
 		});
@@ -281,9 +334,9 @@ public class ChordState {
 		List<ServentInfo> newList = new ArrayList<>();
 		List<ServentInfo> newList2 = new ArrayList<>();
 		
-		int myId = AppConfig.myServentInfo.getChordId();
+		int myId = AppConfig.myServentInfo.getUuid();
 		for (ServentInfo serventInfo : allNodeInfo) {
-			if (serventInfo.getChordId() < myId) {
+			if (serventInfo.getUuid() < myId) {
 				newList2.add(serventInfo);
 			} else {
 				newList.add(serventInfo);

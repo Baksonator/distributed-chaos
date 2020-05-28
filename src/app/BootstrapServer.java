@@ -85,6 +85,7 @@ public class BootstrapServer {
 					} else {
 //						int randServent = activeServents.get(rand.nextInt(activeServents.size()));
 						ServentInfoBootstrap randServent = activeServents.get(rand.nextInt(activeServents.size()));
+//						ServentInfoBootstrap randServent = activeServents.get(0);
 						String randServentIp = randServent.getIpAddress();
 						int randServentPort = randServent.getListenerPort();
 						socketWriter.write(randServentIp + "," + String.valueOf(randServentPort) + "\n");

@@ -23,9 +23,13 @@ public class UpdateHandler implements MessageHandler {
 		if (clientMessage.getMessageType() == MessageType.UPDATE) {
 			if (clientMessage.getSenderPort() != AppConfig.myServentInfo.getListenerPort()) {
 				ServentInfo newNodInfo = new ServentInfo("localhost", clientMessage.getSenderPort());
+				newNodInfo.setUuid(AppConfig.chordState.getNodeCount());
 				List<ServentInfo> newNodes = new ArrayList<>();
 				newNodes.add(newNodInfo);
-				
+
+				AppConfig.chordState.incrementNodeCount();
+				AppConfig.chordState.updateLogLevel();
+
 				AppConfig.chordState.addNodes(newNodes);
 				String newMessageText = "";
 				if (clientMessage.getMessageText().equals("")) {
@@ -41,9 +45,16 @@ public class UpdateHandler implements MessageHandler {
 				String[] ports = messageText.split(",");
 				
 				List<ServentInfo> allNodes = new ArrayList<>();
+				int i = 0;
 				for (String port : ports) {
-					allNodes.add(new ServentInfo("localhost", Integer.parseInt(port)));
+					ServentInfo newServentInfo = new ServentInfo("localhost", Integer.parseInt(port));
+					newServentInfo.setUuid(i++);
+					allNodes.add(newServentInfo);
 				}
+
+				AppConfig.myServentInfo.setUuid(allNodes.size());
+				AppConfig.chordState.setNodeCount(allNodes.size() + 1);
+				AppConfig.chordState.updateLogLevel();
 				AppConfig.chordState.addNodes(allNodes);
 			}
 		} else {

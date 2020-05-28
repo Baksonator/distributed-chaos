@@ -3,6 +3,8 @@ package cli.command;
 import app.AppConfig;
 import app.ServentInfo;
 
+import java.util.List;
+
 public class SuccessorInfo implements CLICommand {
 
 	@Override
@@ -12,8 +14,10 @@ public class SuccessorInfo implements CLICommand {
 
 	@Override
 	public void execute(String args) {
-		ServentInfo[] successorTable = AppConfig.chordState.getSuccessorTable();
-		
+		List<ServentInfo> successorTable = AppConfig.chordState.getSuccessorTableAlt();
+//		ServentInfo[] successorTable = AppConfig.chordState.getSuccessorTable();
+
+		System.out.println(AppConfig.myServentInfo.getUuid());
 		int num = 0;
 		for (ServentInfo serventInfo : successorTable) {
 			System.out.println(num + ": " + serventInfo);
