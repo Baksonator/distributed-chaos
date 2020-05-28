@@ -1,31 +1,31 @@
-00:37:44 - Starting servent [0|localhost|1100]
-00:37:44 - First node in Chord system.
-00:37:44 - Pausing for 50000 ms
-00:37:56 - Got message [48|1200|0||NEW_NODE|1100|28]
-00:37:56 - Sending message [28|1100|0||WELCOME|1200|48]
-00:37:57 - Got message [48|1200|1||UPDATE|1100|28]
-00:37:59 - Sending message [48|1200|1|1100|UPDATE|1200|48]
-00:38:05 - Got message [4|1300|0||NEW_NODE|1100|28]
-00:38:07 - Sending message [28|1100|2||WELCOME|1300|4]
-00:38:08 - Got message [4|1300|1||UPDATE|1100|28]
-00:38:09 - Sending message [4|1300|3|1100|UPDATE|1200|48]
-00:38:15 - Got message [24|1400|0||NEW_NODE|1100|28]
-00:38:16 - Sending message [28|1100|4||WELCOME|1400|24]
-00:38:18 - Got message [24|1400|1||UPDATE|1100|28]
-00:38:19 - Sending message [24|1400|5|1100|UPDATE|1200|48]
-00:38:25 - Got message [0|1600|0||NEW_NODE|1100|28]
-00:38:26 - Sending message [28|1100|6||WELCOME|1600|0]
-00:38:28 - Got message [0|1600|1||UPDATE|1100|28]
-00:38:29 - Sending message [0|1600|7|1100|UPDATE|1200|48]
-00:38:34 - Pausing for 10000 ms
+01:28:05 - Starting servent [0|localhost|1100]
+01:28:05 - Pausing for 50000 ms
+01:28:05 - First node in Chord system.
+01:28:16 - Got message [48|1200|0||NEW_NODE|1100|28]
+01:28:17 - Sending message [28|1100|0||WELCOME|1200|48]
+01:28:18 - Got message [48|1200|1||UPDATE|1100|28]
+01:28:19 - Sending message [48|1200|1|1100|UPDATE|1200|48]
+01:28:27 - Got message [4|1300|2||NEW_NODE|1100|28]
+01:28:28 - Sending message [28|1100|2||WELCOME|1300|4]
+01:28:29 - Got message [4|1300|1||UPDATE|1100|28]
+01:28:30 - Sending message [4|1300|3|1100|UPDATE|1200|48]
+01:28:36 - Got message [24|1400|0||NEW_NODE|1100|28]
+01:28:37 - Sending message [28|1100|4||WELCOME|1400|24]
+01:28:37 - Got message [24|1400|1||UPDATE|1100|28]
+01:28:38 - Sending message [24|1400|5|1100|UPDATE|1200|48]
+01:28:47 - Got message [0|1600|3||NEW_NODE|1100|28]
+01:28:48 - Sending message [28|1100|6||WELCOME|1600|0]
+01:28:48 - Got message [0|1600|1||UPDATE|1100|28]
+01:28:49 - Sending message [0|1600|7|1100|UPDATE|1200|48]
+01:28:55 - Pausing for 10000 ms
 0
 0: [1|localhost|1200]
 1: [2|localhost|1300]
-00:38:44 - Pausing for 40000 ms
-00:38:57 - Got message [4|1300|2|2|LEAVE|1100|28]
-00:38:57 - true
-00:38:58 - Sending message [4|1300|8|2|LEAVE|1200|48]
+01:29:05 - Pausing for 40000 ms
+01:29:18 - Got message [4|1300|2|2|LEAVE|1100|28]
+01:29:18 - true
+01:29:19 - Sending message [4|1300|8|2|LEAVE|1200|48]
 0
 0: [1|localhost|1200]
 1: [2|localhost|1400]
-00:39:24 - Stopping...
+01:29:45 - Stopping...

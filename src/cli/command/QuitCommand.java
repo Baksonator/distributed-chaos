@@ -42,20 +42,11 @@ public class QuitCommand implements CLICommand {
         int bsPort = AppConfig.BOOTSTRAP_PORT;
         String bsIp = AppConfig.BOOTSTRAP_IP;
 
-        String ip = null;
-
-        try(final Socket socket = new Socket()){
-            socket.connect(new InetSocketAddress("google.com", 80));
-            ip = socket.getLocalAddress().getHostAddress();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         try {
             Socket bsSocket = new Socket(bsIp, bsPort);
 
             PrintWriter bsWriter = new PrintWriter(bsSocket.getOutputStream());
-            bsWriter.write("Left\n" + ip + "\n" + AppConfig.myServentInfo.getListenerPort() + "\n");
+            bsWriter.write("Left\n" + AppConfig.myServentInfo.getListenerPort() + "\n");
             bsWriter.flush();
 
             bsSocket.close();

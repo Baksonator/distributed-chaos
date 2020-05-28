@@ -81,7 +81,7 @@ public class BootstrapServer {
 					if (activeServents.size() == 0) {
 						socketWriter.write("-1," + String.valueOf(-1) + "\n");
 //						activeServents.add(newServentPort);
-						activeServents.add(new ServentInfoBootstrap(newServentSocket.getInetAddress().toString(), newServentPort)); //first one doesn't need to confirm
+						activeServents.add(new ServentInfoBootstrap(newServentSocket.getLocalAddress().getHostAddress(), newServentPort)); //first one doesn't need to confirm
 					} else {
 //						int randServent = activeServents.get(rand.nextInt(activeServents.size()));
 						ServentInfoBootstrap randServent = activeServents.get(rand.nextInt(activeServents.size()));
@@ -102,10 +102,18 @@ public class BootstrapServer {
 					System.out.println("adding " + newServentPort);
 
 //					activeServents.add(newServentPort);
-					activeServents.add(new ServentInfoBootstrap(newServentSocket.getInetAddress().toString(), newServentPort));
+					activeServents.add(new ServentInfoBootstrap(newServentSocket.getLocalAddress().getHostAddress(), newServentPort));
+					AppConfig.timestampedStandardPrint(activeServents.toString());
 					newServentSocket.close();
 				} else if (message.equals("Left")) {
-					// TODO Remove node that left from list
+					String ip = newServentSocket.getLocalAddress().getHostAddress();
+					int port = socketScanner.nextInt();
+
+					AppConfig.timestampedStandardPrint(ip + ":" + port + " leaving");
+
+					activeServents.remove(new ServentInfoBootstrap(ip, port));
+					AppConfig.timestampedStandardPrint(activeServents.toString());
+					newServentSocket.close();
 				}
 				
 			} catch (SocketTimeoutException e) {
