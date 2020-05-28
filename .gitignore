@@ -1,2 +1,7 @@
 # Project exclude paths
 /bin/
+.idea
+.classpath
+.project
+kids_2020_proj_bogdan_bakarec_rn2016.iml
+.settings
