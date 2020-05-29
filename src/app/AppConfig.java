@@ -52,6 +52,8 @@ public class AppConfig {
 	public static int HARD_FAILURE_TIME;
 	
 	public static ChordState chordState;
+
+	public static JobWorker jobWorker;
 	
 	/**
 	 * Reads a config file. Should be called once at start of app.

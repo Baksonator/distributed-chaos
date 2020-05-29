@@ -22,6 +22,7 @@ public class StopCommand implements CLICommand {
 	@Override
 	public void execute(String args) {
 		AppConfig.timestampedStandardPrint("Stopping...");
+		AppConfig.jobWorker.stop();
 		parser.stop();
 		listener.stop();
 	}

@@ -1,17 +1,29 @@
-01:28:45 - Starting servent [0|localhost|1600]
-01:28:45 - Pausing for 10000 ms
-01:28:46 - Sending message [0|1600|0||NEW_NODE|1300|4]
-01:28:48 - Got message [28|1100|6||WELCOME|1600|0]
-01:28:48 - Sending message [0|1600|1||UPDATE|1100|28]
-01:28:52 - Got message [0|1600|2|1100,1200,1300,1400|UPDATE|1600|0]
+19:48:41 - Starting servent [0|localhost|1600]
+19:48:41 - Pausing for 10000 ms
+19:48:41 - Sending message [0|1600|0||NEW_NODE|1100|28]
+19:48:43 - Got message [28|1100|6||WELCOME|1600|0]
+19:48:44 - Sending message [0|1600|1||UPDATE|1100|28]
+19:48:47 - Got message [0|1600|2|1100,1200,1300,1400|UPDATE|1600|0]
 4
 0: [0|localhost|1100]
 1: [1|localhost|1200]
-01:28:55 - Pausing for 40000 ms
-01:29:17 - Got message [4|1300|3|2|LEAVE|1600|0]
-01:29:17 - true
-01:29:18 - Sending message [4|1300|2|2|LEAVE|1100|28]
-3
-0: [0|localhost|1100]
-1: [1|localhost|1200]
-01:29:35 - Stopping...
+19:48:51 - Pausing for 20000 ms
+19:49:03 - Got message [24|1400|3|4|JOB|1600|0]
+19:49:03 - Started work
+19:49:03 - 5 SIZE
+19:49:03 - 10 SIZE
+19:49:04 - 15 SIZE
+19:49:04 - 20 SIZE
+19:49:05 - 25 SIZE
+19:49:05 - 30 SIZE
+19:49:06 - 35 SIZE
+19:49:06 - 40 SIZE
+19:49:07 - 45 SIZE
+19:49:07 - 50 SIZE
+19:49:08 - 55 SIZE
+19:49:08 - 60 SIZE
+19:49:09 - 65 SIZE
+19:49:09 - 70 SIZE
+19:49:10 - 75 SIZE
+19:49:10 - 80 SIZE
+19:49:11 - Stopping...

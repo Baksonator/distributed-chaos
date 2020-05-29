@@ -191,24 +191,30 @@ public class ChordState {
 	 * Returns true if we are the owner of the specified key.
 	 */
 	public boolean isKeyMine(int key) {
-		if (predecessorInfo == null) {
+		if (key == AppConfig.myServentInfo.getUuid()) {
 			return true;
+		} else {
+			return false;
 		}
-		
-		int predecessorUuid = predecessorInfo.getUuid();
-		int myChordUuid = AppConfig.myServentInfo.getUuid();
-		
-		if (predecessorUuid < myChordUuid) { //no overflow
-			if (key <= myChordUuid && key > predecessorUuid) {
-				return true;
-			}
-		} else { //overflow
-			if (key <= myChordUuid || key > predecessorUuid) {
-				return true;
-			}
-		}
-		
-		return false;
+
+//		if (predecessorInfo == null) {
+//			return true;
+//		}
+//
+//		int predecessorUuid = predecessorInfo.getUuid();
+//		int myChordUuid = AppConfig.myServentInfo.getUuid();
+//
+//		if (predecessorUuid < myChordUuid) { //no overflow
+//			if (key <= myChordUuid && key > predecessorUuid) {
+//				return true;
+//			}
+//		} else { //overflow
+//			if (key <= myChordUuid || key > predecessorUuid) {
+//				return true;
+//			}
+//		}
+//
+//		return false;
 	}
 
 	public ServentInfo getNextNodeForFirst() {
@@ -233,26 +239,52 @@ public class ChordState {
 			return AppConfig.myServentInfo;
 		}
 
-		int previousId = successorTable[0].getChordId();
-		for (int i = 1; i < successorTable.length; i++) {
-			if (successorTable[i] == null) {
+//		int previousId = successorTable[0].getChordId();
+		int previousId = successorTableAlt.get(0).getUuid();
+		if (previousId == key) {
+			return successorTableAlt.get(0);
+		}
+		for (int i = 1; i < successorTableAlt.size(); i++) {
+			if (successorTableAlt.get(i) == null) {
 				AppConfig.timestampedErrorPrint("Couldn't find successor for " + key);
 				break;
 			}
 			
-			int successorId = successorTable[i].getChordId();
+			int successorId = successorTableAlt.get(i).getUuid();
 
-			if (successorId >= key) {
-				return successorTable[i-1];
+			if (successorId == key) {
+				return successorTableAlt.get(i);
 			}
-			if (key > previousId && successorId < previousId) { //overflow
-				return successorTable[i-1];
+			if (AppConfig.myServentInfo.getUuid() < key) {
+				if (successorId >= key) {
+					return successorTableAlt.get(i - 1);
+				}
+				if (key > previousId && successorId < previousId) { //overflow
+					return successorTableAlt.get(i - 1);
+				}
+			} else {
+				if (successorId < AppConfig.myServentInfo.getUuid() && successorId >= key) {
+					return successorTableAlt.get(i - 1);
+				}
+				if (key > previousId && successorId < previousId) { //overflow
+					return successorTableAlt.get(i - 1);
+				}
 			}
+//			if (successorId >= key) {
+//				if (AppConfig.myServentInfo.getUuid() > key) {
+//
+//				} else {
+//					return successorTableAlt.get(i - 1);
+//				}
+//			}
+//			if (key > previousId && successorId < previousId) { //overflow
+//				return successorTableAlt.get(i - 1);
+//			}
 			previousId = successorId;
 		}
 		//if we have only one node in all slots in the table, we might get here
 		//then we can return any item
-		return successorTable[0];
+		return successorTableAlt.get(successorTableAlt.size() - 1);
 	}
 
 	private void updateSuccessorTable() {

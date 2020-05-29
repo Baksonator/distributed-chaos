@@ -1,8 +1,12 @@
 package app;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class Job {
+public class Job implements Serializable {
+
+    private static final long serialVersionUID = 2704538302672546227L;
 
     private final String name;
     private final int n;
@@ -44,4 +48,16 @@ public class Job {
         return points;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Job job = (Job) o;
+        return Objects.equals(name, job.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }
