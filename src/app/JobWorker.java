@@ -3,6 +3,7 @@ package app;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class JobWorker implements Runnable {
 
@@ -12,7 +13,7 @@ public class JobWorker implements Runnable {
 
     public JobWorker(Job job) {
         this.job = job;
-        this.results = new ArrayList<>();
+        this.results = new CopyOnWriteArrayList<>();
         this.working = true;
     }
 
@@ -42,6 +43,14 @@ public class JobWorker implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public List<Point> getResults() {
+        return results;
+    }
+
+    public Job getJob() {
+        return job;
     }
 
     public void stop() {

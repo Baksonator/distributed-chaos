@@ -36,6 +36,7 @@ public class JobHandler implements MessageHandler {
                 String justId = myFractalId.substring(firstZero);
 
                 if (justId.length() - level == 1) {
+                    JobCommandHandler.fractalIds = fractalIds;
                     AppConfig.myServentInfo.setFractalId(myFractalId);
                     JobWorker worker = new JobWorker(job);
                     AppConfig.jobWorker = worker;

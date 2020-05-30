@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class JobCommandHandler {
 
-    static Map<Integer, String> fractalIds = new HashMap<>();
+    public static Map<Integer, String> fractalIds = new HashMap<>();
     static int overflowLevelNodes = 0;
     static int baseFractalLevel = 0;
 

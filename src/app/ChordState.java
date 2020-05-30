@@ -156,6 +156,10 @@ public class ChordState {
 		return logLevel;
 	}
 
+	public List<ServentInfo> getAllNodeInfo() {
+		return allNodeInfo;
+	}
+
 	public void updateLogLevel() {
 		this.logLevel = 1;
 		int tmp = this.nodeCount;

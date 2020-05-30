@@ -54,6 +54,8 @@ public class AppConfig {
 	public static ChordState chordState;
 
 	public static JobWorker jobWorker;
+
+	public static String pendingResultJobName = "";
 	
 	/**
 	 * Reads a config file. Should be called once at start of app.
