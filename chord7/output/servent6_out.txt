@@ -1,0 +1,19 @@
+19:40:39 - Starting servent [0|localhost|1800]
+19:40:39 - Pausing for 30000 ms
+19:40:40 - Sending message [40|1800|0||NEW_NODE|1100|28]
+19:40:42 - Got message [28|1100|10||WELCOME|1800|40]
+19:40:43 - Sending message [40|1800|1||UPDATE|1100|28]
+19:40:49 - Got message [40|1800|2|1100,1200,1300,1400,1600,1700|UPDATE|1800|40]
+6
+0: [0|localhost|1100]
+1: [1|localhost|1200]
+19:41:09 - Pausing for 80000 ms
+19:41:23 - Got message [20|1700|4|6|JOB|1800|40]
+19:41:23 - Started new work
+19:42:13 - Got message [48|1200|7|6|RESULT_COLLECTION|1800|40]
+19:42:13 - DOLAZI
+19:42:13 - ULAZI
+19:42:13 - ULAZI
+19:42:13 - 1
+19:42:14 - Sending message [40|1800|2|1|RESULT_REPLY|1200|48]
+19:42:29 - Stopping...

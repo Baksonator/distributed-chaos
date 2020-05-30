@@ -1,0 +1,47 @@
+19:39:54 - Starting servent [0|localhost|1400]
+19:39:54 - Pausing for 75000 ms
+19:39:55 - Sending message [24|1400|0||NEW_NODE|1300|4]
+19:39:57 - Got message [28|1100|4||WELCOME|1400|24]
+19:39:58 - Sending message [24|1400|1||UPDATE|1100|28]
+19:40:01 - Got message [24|1400|3|1100,1200,1300|UPDATE|1400|24]
+19:40:16 - Got message [0|1600|4|1100,1200,1300|UPDATE|1400|24]
+19:40:17 - Sending message [0|1600|2|1100,1200,1300,1400|UPDATE|1600|0]
+19:40:31 - Got message [20|1700|5|1100,1200,1300|UPDATE|1400|24]
+19:40:32 - Sending message [20|1700|3|1100,1200,1300,1400|UPDATE|1600|0]
+19:40:46 - Got message [40|1800|6|1100,1200,1300|UPDATE|1400|24]
+19:40:47 - Sending message [40|1800|4|1100,1200,1300,1400|UPDATE|1600|0]
+19:41:09 - Pausing for 10000 ms
+3
+0: [4|localhost|1600]
+1: [5|localhost|1700]
+19:41:19 - Pausing for 80000 ms
+19:41:20 - Got message [48|1200|9|6|JOB|1400|24]
+19:41:20 - Got message [48|1200|7|0|JOB|1400|24]
+19:41:20 - Next node for key:6 is 5
+19:41:20 - Next node for key:0 is 5
+19:41:20 - Got message [48|1200|8|3|JOB|1400|24]
+19:41:20 - Next node for key:3 is 3
+19:41:20 - Next node for key:4 is 4
+19:41:20 - Next node for key:5 is 5
+19:41:21 - Sending message [24|1400|6|0|JOB|1700|20]
+19:41:21 - Sending message [24|1400|5|6|JOB|1700|20]
+19:41:21 - Sending message [24|1400|8|4|JOB|1600|0]
+19:41:22 - Sending message [24|1400|9|5|JOB|1700|20]
+19:41:22 - Sending message [24|1400|7|3|JOB|1400|24]
+19:41:22 - Got message [24|1400|7|3|JOB|1400|24]
+19:41:22 - Started new work
+19:41:40 - Got message [48|1200|10|0|JOB|1400|24]
+19:41:40 - Next node for key:0 is 5
+19:41:40 - Got message [48|1200|13|3|JOB|1400|24]
+19:41:40 - Got message [48|1200|15|5|JOB|1400|24]
+19:41:40 - Next node for key:5 is 5
+19:41:40 - Got message [48|1200|14|4|JOB|1400|24]
+19:41:40 - Next node for key:4 is 4
+19:41:41 - Sending message [24|1400|10|0|JOB|1700|20]
+19:41:41 - Got message [48|1200|16|4|JOB_MIGRATION|1400|24]
+19:41:41 - Sending message [24|1400|11|5|JOB|1700|20]
+19:41:42 - Sending message [24|1400|12|4|JOB|1600|0]
+19:41:42 - Sending message [24|1400|13|4|JOB_MIGRATION|1600|0]
+19:42:10 - Got message [48|1200|17|4,6|RESULT_REQUEST|1400|24]
+19:42:11 - Sending message [48|1200|14|4,6|RESULT_REQUEST|1600|0]
+19:42:39 - Stopping...

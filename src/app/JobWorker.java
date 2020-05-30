@@ -17,17 +17,28 @@ public class JobWorker implements Runnable {
         this.working = true;
     }
 
+    public JobWorker(Job job, List<Point> newData) {
+        this.job = job;
+        this.results = new CopyOnWriteArrayList<>(newData);
+        this.working = true;
+    }
+
     @Override
     public void run() {
         ArrayList<Point> boundingPoints = job.getPoints();
         double p = job.getP();
 
-        AppConfig.timestampedStandardPrint("Started work");
-
         Random random = new Random(System.currentTimeMillis());
 
-        Point currentPoint = new Point(random.nextInt(job.getWidth()), random.nextInt(job.getHeight()));
-        results.add(currentPoint);
+        Point currentPoint = null;
+        if (results.size() == 0) {
+            currentPoint = new Point(random.nextInt(job.getWidth()), random.nextInt(job.getHeight()));
+            results.add(currentPoint);
+            AppConfig.timestampedStandardPrint("Started new work");
+        } else {
+            currentPoint = results.get(results.size() - 1);
+            AppConfig.timestampedStandardPrint("Started someone else's work");
+        }
 
         while (working) {
             Point chosenPoint = boundingPoints.get(random.nextInt(job.getN()));

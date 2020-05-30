@@ -162,10 +162,14 @@ public class ChordState {
 
 	public void updateLogLevel() {
 		this.logLevel = 1;
-		int tmp = this.nodeCount;
-		while (tmp % 2 != 0) {
-			tmp--;
+//		int tmp = this.nodeCount;
+		int tmp = 1;
+		while (tmp * 2 <= this.nodeCount) {
+			tmp *= 2;
 		}
+//		while (tmp % 2 != 0) {
+//			tmp--;
+//		}
 		while (tmp != 2) {
 			if (tmp % 2 != 0) { //not a power of 2
 				throw new NumberFormatException();

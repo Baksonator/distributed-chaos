@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Job implements Serializable {
+public class Job implements Serializable, Comparable<Job> {
 
     private static final long serialVersionUID = 2704538302672546227L;
 
@@ -59,5 +59,15 @@ public class Job implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public int compareTo(Job o) {
+        return name.compareTo(o.name);
+    }
+
+    @Override
+    public String toString() {
+        return points.toString();
     }
 }

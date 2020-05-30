@@ -1,0 +1,14 @@
+16:35:14 - Starting servent [0|localhost|1900]
+16:35:15 - Pausing for 15000 ms
+16:35:16 - Sending message [60|1900|0||NEW_NODE|1100|28]
+16:35:17 - Got message [28|1100|12||WELCOME|1900|60]
+16:35:18 - Sending message [60|1900|1||UPDATE|1100|28]
+16:35:25 - Got message [60|1900|2|1100,1200,1300,1400,1600,1700,1800|UPDATE|1900|60]
+16:35:25 - Dosao Update
+16:35:25 - USAO ELSE
+7
+0: [0|localhost|1100]
+1: [1|localhost|1200]
+2: [3|localhost|1400]
+16:35:30 - Pausing for 50000 ms
+16:36:20 - Stopping...

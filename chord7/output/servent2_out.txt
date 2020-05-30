@@ -1,0 +1,29 @@
+19:39:39 - Starting servent [0|localhost|1300]
+19:39:39 - Pausing for 90000 ms
+19:39:40 - Sending message [4|1300|0||NEW_NODE|1100|28]
+19:39:41 - Got message [28|1100|2||WELCOME|1300|4]
+19:39:42 - Sending message [4|1300|1||UPDATE|1100|28]
+19:39:44 - Got message [4|1300|2|1100,1200|UPDATE|1300|4]
+19:39:55 - Got message [24|1400|0||NEW_NODE|1300|4]
+19:39:56 - Sending message [24|1400|2||NEW_NODE|1100|28]
+19:40:01 - Got message [24|1400|3|1100,1200|UPDATE|1300|4]
+19:40:01 - Sending message [24|1400|3|1100,1200,1300|UPDATE|1400|24]
+19:40:14 - Got message [0|1600|4|1100,1200|UPDATE|1300|4]
+19:40:16 - Sending message [0|1600|4|1100,1200,1300|UPDATE|1400|24]
+19:40:31 - Got message [20|1700|5|1100,1200|UPDATE|1300|4]
+19:40:31 - Sending message [20|1700|5|1100,1200,1300|UPDATE|1400|24]
+19:40:45 - Got message [40|1800|6|1100,1200|UPDATE|1300|4]
+19:40:46 - Sending message [40|1800|6|1100,1200,1300|UPDATE|1400|24]
+19:41:09 - Pausing for 10000 ms
+2
+0: [3|localhost|1400]
+1: [4|localhost|1600]
+19:41:19 - Pausing for 80000 ms
+19:41:23 - Got message [28|1100|14|2|JOB|1300|4]
+19:41:23 - Started new work
+19:41:40 - Got message [48|1200|12|2|JOB|1300|4]
+19:41:40 - Started new work
+19:41:41 - Sending message [4|1300|7|4|JOB_MIGRATION|1600|0]
+19:41:43 - Got message [28|1100|15|4|JOB_MIGRATION|1300|4]
+19:41:43 - Sending message [4|1300|8|4|JOB_MIGRATION|1600|0]
+19:42:39 - Stopping...

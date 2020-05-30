@@ -1,21 +1,19 @@
-01:04:56 - Starting servent [0|localhost|1600]
-01:04:56 - Pausing for 10000 ms
-01:04:57 - Sending message [0|1600|0||NEW_NODE|1300|4]
-01:04:59 - Got message [28|1100|6||WELCOME|1600|0]
-01:05:01 - Sending message [0|1600|1||UPDATE|1100|28]
-01:05:05 - Got message [0|1600|2|1100,1200,1300,1400|UPDATE|1600|0]
+15:04:40 - Starting servent [0|localhost|1600]
+15:04:40 - Pausing for 10000 ms
+15:04:40 - Sending message [0|1600|0||NEW_NODE|1100|28]
+15:04:41 - Got message [28|1100|6||WELCOME|1600|0]
+15:04:42 - Sending message [0|1600|1||UPDATE|1100|28]
+15:04:46 - Got message [0|1600|2|1100,1200,1300,1400|UPDATE|1600|0]
 4
 0: [0|localhost|1100]
 1: [1|localhost|1200]
-01:05:06 - Pausing for 50000 ms
-01:05:17 - Got message [24|1400|3|4|JOB|1600|0]
-01:05:17 - Started work
-01:05:41 - Got message [48|1200|6|4|RESULT_COLLECTION|1600|0]
-01:05:41 - DOLAZI
-01:05:41 - ULAZI
-01:05:41 - ULAZI
-01:05:41 - ULAZI
-01:05:41 - ULAZI
-01:05:41 - 1
-01:05:42 - Sending message [0|1600|2|1|RESULT_REPLY|1200|48]
-01:05:56 - Stopping...
+15:04:50 - Pausing for 50000 ms
+15:05:02 - Got message [24|1400|3|4|JOB|1600|0]
+15:05:02 - Started work
+15:05:25 - Got message [48|1200|6|4|RESULT_COLLECTION|1600|0]
+15:05:25 - DOLAZI
+15:05:25 - ULAZI
+15:05:25 - ULAZI
+15:05:25 - 1
+15:05:26 - Sending message [0|1600|2|1|RESULT_REPLY|1200|48]
+15:05:40 - Stopping...

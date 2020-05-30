@@ -1,0 +1,4 @@
+pause 45000
+successor_info
+pause 80000
+stop

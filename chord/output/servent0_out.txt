@@ -1,22 +1,36 @@
-01:56:09 - Starting servent [0|localhost|1100]
-01:56:09 - Pausing for 50000 ms
-01:56:09 - First node in Chord system.
-01:56:20 - Got message [48|1200|0||NEW_NODE|1100|28]
-01:56:21 - Sending message [28|1100|0||WELCOME|1200|48]
-01:56:22 - Got message [48|1200|1||UPDATE|1100|28]
-01:56:23 - Sending message [48|1200|1|1100|UPDATE|1200|48]
-01:56:30 - Got message [4|1300|0||NEW_NODE|1100|28]
-01:56:31 - Sending message [28|1100|2||WELCOME|1300|4]
-01:56:32 - Got message [4|1300|1||UPDATE|1100|28]
-01:56:34 - Sending message [4|1300|3|1100|UPDATE|1200|48]
-01:56:59 - Pausing for 10000 ms
+15:03:59 - Starting servent [0|localhost|1100]
+15:04:00 - Pausing for 50000 ms
+15:04:00 - First node in Chord system.
+15:04:11 - Got message [48|1200|0||NEW_NODE|1100|28]
+15:04:12 - Sending message [28|1100|0||WELCOME|1200|48]
+15:04:13 - Got message [48|1200|1||UPDATE|1100|28]
+15:04:14 - Sending message [48|1200|1|1100|UPDATE|1200|48]
+15:04:21 - Got message [4|1300|0||NEW_NODE|1100|28]
+15:04:22 - Sending message [28|1100|2||WELCOME|1300|4]
+15:04:23 - Got message [4|1300|1||UPDATE|1100|28]
+15:04:24 - Sending message [4|1300|3|1100|UPDATE|1200|48]
+15:04:32 - Got message [24|1400|2||NEW_NODE|1100|28]
+15:04:33 - Sending message [28|1100|4||WELCOME|1400|24]
+15:04:34 - Got message [24|1400|1||UPDATE|1100|28]
+15:04:35 - Sending message [24|1400|5|1100|UPDATE|1200|48]
+15:04:40 - Got message [0|1600|0||NEW_NODE|1100|28]
+15:04:41 - Sending message [28|1100|6||WELCOME|1600|0]
+15:04:42 - Got message [0|1600|1||UPDATE|1100|28]
+15:04:43 - Sending message [0|1600|7|1100|UPDATE|1200|48]
+15:04:50 - Pausing for 10000 ms
 0
 0: [1|localhost|1200]
-01:57:09 - Pausing for 50000 ms
-01:57:11 - Got message [4|1300|2|0|JOB|1100|28]
-01:57:11 - Started work
-01:57:30 - Got message [48|1200|3|0,2|RESULT_REQUEST|1100|28]
-01:57:31 - Sending message [48|1200|4|2|RESULT_COLLECTION|1200|48]
-01:57:34 - Got message [4|1300|4|1|RESULT_REPLY|1100|28]
-01:57:35 - Sending message [28|1100|5|1|RESULT_REPLY|1200|48]
-01:57:59 - Stopping...
+1: [2|localhost|1300]
+15:05:00 - Pausing for 50000 ms
+15:05:02 - Got message [24|1400|4|0|JOB|1100|28]
+15:05:02 - Next node for key:0 is 0
+15:05:02 - Next node for key:1 is 1
+15:05:02 - Next node for key:2 is 2
+15:05:02 - Sending message [28|1100|9|1|JOB|1200|48]
+15:05:03 - Sending message [28|1100|10|2|JOB|1300|4]
+15:05:03 - Sending message [28|1100|8|0|JOB|1100|28]
+15:05:03 - Got message [28|1100|8|0|JOB|1100|28]
+15:05:03 - Started work
+15:05:22 - Got message [48|1200|5|0,4|RESULT_REQUEST|1100|28]
+15:05:23 - Sending message [48|1200|11|4|RESULT_COLLECTION|1200|48]
+15:05:50 - Stopping...

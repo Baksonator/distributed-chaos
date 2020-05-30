@@ -1,16 +1,16 @@
 package servent.handler;
 
-import app.AppConfig;
-import app.Job;
-import app.JobCommandHandler;
-import app.JobWorker;
+import app.*;
 import servent.message.JobMessage;
+import servent.message.JobMigrationMessage;
 import servent.message.Message;
 import servent.message.MessageType;
 import servent.message.util.MessageUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class JobHandler implements MessageHandler {
 
@@ -36,12 +36,52 @@ public class JobHandler implements MessageHandler {
                 String justId = myFractalId.substring(firstZero);
 
                 if (justId.length() - level == 1) {
-                    JobCommandHandler.fractalIds = fractalIds;
-                    AppConfig.myServentInfo.setFractalId(myFractalId);
-                    JobWorker worker = new JobWorker(job);
-                    AppConfig.jobWorker = worker;
-                    Thread t = new Thread(worker);
-                    t.start();
+                    if (jobMsg.getFractalIdMapping() != null) {
+                        String myOldFractalId = AppConfig.myServentInfo.getFractalId();
+                        for (Map.Entry<String, String> entry : jobMsg.getFractalIdMapping().entrySet()) {
+                            if (entry.getKey().equals(myOldFractalId)) {
+                                Integer key = getKeyByValue(fractalIds, entry.getValue());
+                                JobMigrationMessage jobMigrationMessage = new JobMigrationMessage(
+                                        AppConfig.myServentInfo.getListenerPort(),
+                                        AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
+                                        Integer.toString(key), AppConfig.jobWorker.getResults());
+                                MessageUtil.sendMessage(jobMigrationMessage);
+                            }
+                        }
+
+                        int blockingCounter = 0;
+                        for (Map.Entry<String, String> entry : jobMsg.getFractalIdMapping().entrySet()) {
+                            if (entry.getValue().equals(myFractalId)) {
+                                blockingCounter++;
+                            }
+                        }
+
+                        List<Point> newData = new ArrayList<>();
+                        while (blockingCounter > 0) {
+                            try {
+                                newData.addAll(AppConfig.incomingData.take());
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            blockingCounter--;
+                        }
+
+                        JobCommandHandler.fractalIds = fractalIds;
+                        AppConfig.myServentInfo.setFractalId(myFractalId);
+                        AppConfig.activeJobs.add(jobMsg.getMainJob());
+                        JobWorker worker = new JobWorker(job, newData);
+                        AppConfig.jobWorker = worker;
+                        Thread t = new Thread(worker);
+                        t.start();
+                    } else {
+                        JobCommandHandler.fractalIds = fractalIds;
+                        AppConfig.myServentInfo.setFractalId(myFractalId);
+                        AppConfig.activeJobs.add(jobMsg.getMainJob());
+                        JobWorker worker = new JobWorker(job);
+                        AppConfig.jobWorker = worker;
+                        Thread t = new Thread(worker);
+                        t.start();
+                    }
                 } else {
                     ArrayList<Job> jobs = JobCommandHandler.prepareJobs(job);
 
@@ -77,7 +117,7 @@ public class JobHandler implements MessageHandler {
                         AppConfig.timestampedStandardPrint("Next node for key:" + lastAssigned + " is " + AppConfig.chordState.getNextNodeForKey(lastAssigned).getUuid());
                         JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(lastAssigned).getListenerPort(),
-                                Integer.toString(lastAssigned), jobs.get(i), fractalIds, level + 1);
+                                Integer.toString(lastAssigned), jobs.get(i), fractalIds, level + 1, jobMsg.getMainJob(), jobMsg.getFractalIdMapping());
                         MessageUtil.sendMessage(jobMessage);
 
                         if (overflowLevelNodes > 0) {
@@ -92,9 +132,18 @@ public class JobHandler implements MessageHandler {
                 AppConfig.timestampedStandardPrint("Next node for key:" + receiver + " is " + AppConfig.chordState.getNextNodeForKey(receiver).getUuid());
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiver).getListenerPort(), clientMessage.getMessageText(),
-                        jobMsg.getJob(), jobMsg.getFractalIds(), jobMsg.getLevel());
+                        jobMsg.getJob(), jobMsg.getFractalIds(), jobMsg.getLevel(), jobMsg.getMainJob(), jobMsg.getFractalIdMapping());
                 MessageUtil.sendMessage(jobMessage);
             }
         }
+    }
+
+    private  <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }

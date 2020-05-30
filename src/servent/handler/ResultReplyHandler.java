@@ -3,8 +3,6 @@ package servent.handler;
 import app.AppConfig;
 import app.Job;
 import app.Point;
-import rafgfxlib.ImageViewer;
-import rafgfxlib.Util;
 import servent.message.Message;
 import servent.message.MessageType;
 import servent.message.ResultReplyMessage;

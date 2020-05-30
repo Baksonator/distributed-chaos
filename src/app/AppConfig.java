@@ -7,7 +7,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * This class contains all the global application configuration stuff.
@@ -21,6 +25,7 @@ public class AppConfig {
 	 */
 	public static ServentInfo myServentInfo;
 	public static ArrayList<Job> jobs = new ArrayList<>();
+	public static List<Job> activeJobs = new CopyOnWriteArrayList<>();
 	
 	/**
 	 * Print a message to stdout with a timestamp
@@ -56,6 +61,8 @@ public class AppConfig {
 	public static JobWorker jobWorker;
 
 	public static String pendingResultJobName = "";
+
+	public static BlockingQueue<List<Point>> incomingData = new LinkedBlockingQueue<>();
 	
 	/**
 	 * Reads a config file. Should be called once at start of app.

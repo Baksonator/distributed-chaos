@@ -1,0 +1,45 @@
+19:39:09 - Starting servent [0|localhost|1100]
+19:39:09 - Pausing for 120000 ms
+19:39:09 - First node in Chord system.
+19:39:25 - Got message [48|1200|0||NEW_NODE|1100|28]
+19:39:26 - Sending message [28|1100|0||WELCOME|1200|48]
+19:39:27 - Got message [48|1200|1||UPDATE|1100|28]
+19:39:29 - Sending message [48|1200|1|1100|UPDATE|1200|48]
+19:39:40 - Got message [4|1300|0||NEW_NODE|1100|28]
+19:39:41 - Sending message [28|1100|2||WELCOME|1300|4]
+19:39:42 - Got message [4|1300|1||UPDATE|1100|28]
+19:39:43 - Sending message [4|1300|3|1100|UPDATE|1200|48]
+19:39:56 - Got message [24|1400|2||NEW_NODE|1100|28]
+19:39:57 - Sending message [28|1100|4||WELCOME|1400|24]
+19:39:58 - Got message [24|1400|1||UPDATE|1100|28]
+19:39:59 - Sending message [24|1400|5|1100|UPDATE|1200|48]
+19:40:11 - Got message [0|1600|0||NEW_NODE|1100|28]
+19:40:12 - Sending message [28|1100|6||WELCOME|1600|0]
+19:40:12 - Got message [0|1600|1||UPDATE|1100|28]
+19:40:14 - Sending message [0|1600|7|1100|UPDATE|1200|48]
+19:40:27 - Got message [20|1700|2||NEW_NODE|1100|28]
+19:40:27 - Sending message [28|1100|8||WELCOME|1700|20]
+19:40:28 - Got message [20|1700|1||UPDATE|1100|28]
+19:40:29 - Sending message [20|1700|9|1100|UPDATE|1200|48]
+19:40:40 - Got message [40|1800|0||NEW_NODE|1100|28]
+19:40:42 - Sending message [28|1100|10||WELCOME|1800|40]
+19:40:43 - Got message [40|1800|1||UPDATE|1100|28]
+19:40:44 - Sending message [40|1800|11|1100|UPDATE|1200|48]
+19:41:09 - Pausing for 10000 ms
+0
+0: [1|localhost|1200]
+1: [2|localhost|1300]
+19:41:19 - Pausing for 80000 ms
+19:41:22 - Got message [20|1700|3|0|JOB|1100|28]
+19:41:22 - Next node for key:0 is 0
+19:41:22 - Next node for key:1 is 1
+19:41:22 - Next node for key:2 is 2
+19:41:23 - Sending message [28|1100|12|0|JOB|1100|28]
+19:41:23 - Got message [28|1100|12|0|JOB|1100|28]
+19:41:23 - Started new work
+19:41:23 - Sending message [28|1100|14|2|JOB|1300|4]
+19:41:23 - Sending message [28|1100|13|1|JOB|1200|48]
+19:41:42 - Got message [20|1700|5|0|JOB|1100|28]
+19:41:42 - Started new work
+19:41:43 - Sending message [28|1100|15|4|JOB_MIGRATION|1300|4]
+19:42:39 - Stopping...

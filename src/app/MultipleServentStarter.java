@@ -108,7 +108,7 @@ public class MultipleServentStarter {
 				e.printStackTrace();
 			}
 			try { //give each node 10s to start up
-				Thread.sleep(10000);
+				Thread.sleep(15000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -135,8 +135,8 @@ public class MultipleServentStarter {
 	}
 	
 	public static void main(String[] args) {
-		startServentTest("chord");
-		
+//		startServentTest("chord");
+		startServentTest("chord7");
 	}
 
 }
