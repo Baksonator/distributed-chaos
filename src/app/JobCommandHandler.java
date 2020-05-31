@@ -74,7 +74,8 @@ public class JobCommandHandler {
                 if (fractalIdName.equals("")) {
                     continue;
                 }
-                if (fractalIdName.substring(0, jobNameLen).equals(job.getName())) {
+                String onlyFractalIdName = fractalIdName.substring(0, fractalIdName.indexOf("0"));
+                if (onlyFractalIdName.equals(job.getName())) {
                     fractalIdMapping.put(fractalIdName, "");
                 }
             }
@@ -119,7 +120,7 @@ public class JobCommandHandler {
                         AppConfig.timestampedStandardPrint("Next node for key:" + lastAssigned + " is " + AppConfig.chordState.getNextNodeForKey(lastAssigned).getUuid());
                         JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(lastAssigned).getListenerPort(), Integer.toString(lastAssigned),
-                                jobs.get(j).get(i), fractalIds, 1, job, fractalIdMapping);
+                                jobs.get(j).get(i), fractalIds, 1, newJob, fractalIdMapping);
                         MessageUtil.sendMessage(jobMessage);
 
                         int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -220,7 +221,6 @@ public class JobCommandHandler {
     }
 
     private static void assignFractalsIds(Job job, int nodeCount, int lastAssigned) {
-        // TODO Special case when only one node needed
 //        int nodeCount = AppConfig.chordState.getNodeCount();
 //        int nodeCount = 10;
         if (nodeCount < job.getN()) {

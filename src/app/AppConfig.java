@@ -62,7 +62,13 @@ public class AppConfig {
 
 	public static String pendingResultJobName = "";
 
+	public static Job myMainJob;
+
 	public static BlockingQueue<List<Point>> incomingData = new LinkedBlockingQueue<>();
+
+	public static BlockingQueue<StatusResult> statusResults = new LinkedBlockingQueue<>();
+
+	public static volatile boolean  isSingleId = false;
 	
 	/**
 	 * Reads a config file. Should be called once at start of app.

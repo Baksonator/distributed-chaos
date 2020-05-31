@@ -7,10 +7,7 @@ import servent.message.Message;
 import servent.message.MessageType;
 import servent.message.util.MessageUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class JobHandler implements MessageHandler {
 
@@ -45,9 +42,12 @@ public class JobHandler implements MessageHandler {
                             }
                         }
 
+                        // TODO Nadji nacin da uklanjas iz activeJobs
                         JobCommandHandler.fractalIds = fractalIds;
                         AppConfig.myServentInfo.setFractalId("");
                         AppConfig.activeJobs.add(jobMsg.getMainJob());
+                        AppConfig.myMainJob = jobMsg.getMainJob();
+                        AppConfig.jobWorker.stop();
                     }
                     return;
                 }
@@ -59,9 +59,12 @@ public class JobHandler implements MessageHandler {
                 if (justId.length() - level == 1) {
                     if (jobMsg.getFractalIdMapping() != null) {
                         String myOldFractalId = AppConfig.myServentInfo.getFractalId();
+//                        AppConfig.timestampedStandardPrint(jobMsg.getFractalIdMapping().toString());
+//                        AppConfig.timestampedStandardPrint(sortByValue(jobMsg.getFractalIdMapping()).toString());
                         for (Map.Entry<String, String> entry : jobMsg.getFractalIdMapping().entrySet()) {
                             if (entry.getKey().equals(myOldFractalId)) {
                                 Integer key = getKeyByValue(fractalIds, entry.getValue());
+                                // TODO Vidi ovde da uparis sa prepare jobs da bi slao samo delove podataka ako treba
                                 JobMigrationMessage jobMigrationMessage = new JobMigrationMessage(
                                         AppConfig.myServentInfo.getListenerPort(),
                                         AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
@@ -90,7 +93,9 @@ public class JobHandler implements MessageHandler {
                         JobCommandHandler.fractalIds = fractalIds;
                         AppConfig.myServentInfo.setFractalId(myFractalId);
                         AppConfig.activeJobs.add(jobMsg.getMainJob());
+                        AppConfig.myMainJob = jobMsg.getMainJob();
                         JobWorker worker = new JobWorker(job, newData);
+                        AppConfig.jobWorker.stop();
                         AppConfig.jobWorker = worker;
                         Thread t = new Thread(worker);
                         t.start();
@@ -98,6 +103,7 @@ public class JobHandler implements MessageHandler {
                         JobCommandHandler.fractalIds = fractalIds;
                         AppConfig.myServentInfo.setFractalId(myFractalId);
                         AppConfig.activeJobs.add(jobMsg.getMainJob());
+                        AppConfig.myMainJob = jobMsg.getMainJob();
                         JobWorker worker = new JobWorker(job);
                         AppConfig.jobWorker = worker;
                         Thread t = new Thread(worker);
@@ -166,5 +172,17 @@ public class JobHandler implements MessageHandler {
             }
         }
         return null;
+    }
+
+    private  <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Map.Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
     }
 }

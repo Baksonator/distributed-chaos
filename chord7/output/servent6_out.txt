@@ -1,23 +1,21 @@
-02:31:41 - Starting servent [0|localhost|1800]
-02:31:42 - Pausing for 30000 ms
-02:31:43 - Sending message [40|1800|0||NEW_NODE|1700|20]
-02:31:45 - Got message [28|1100|10||WELCOME|1800|40]
-02:31:46 - Sending message [40|1800|1||UPDATE|1100|28]
-02:31:53 - Got message [40|1800|3|1100,1200,1300,1400,1600,1700|UPDATE|1800|40]
+16:26:44 - Starting servent [0|localhost|1800]
+16:26:44 - Pausing for 30000 ms
+16:26:46 - Sending message [40|1800|0||NEW_NODE|1300|4]
+16:26:50 - Got message [28|1100|10||WELCOME|1800|40]
+16:26:51 - Sending message [40|1800|1||UPDATE|1100|28]
+16:26:57 - Got message [40|1800|2|1100,1200,1300,1400,1600,1700|UPDATE|1800|40]
 6
 0: [0|localhost|1100]
 1: [1|localhost|1200]
-02:32:12 - Pausing for 80000 ms
-02:32:25 - Got message [20|1700|5|6|JOB|1800|40]
-02:32:25 - Started new work
-02:32:46 - Got message [20|1700|8|6|JOB|1800|40]
-02:32:46 - Sending message [40|1800|2|6|JOB_MIGRATION|1800|40]
-02:32:46 - Got message [40|1800|2|6|JOB_MIGRATION|1800|40]
-02:32:46 - Started someone else's work
-02:33:16 - Got message [48|1200|9|6|RESULT_COLLECTION|1800|40]
-02:33:16 - DOLAZI
-02:33:16 - ULAZI
-02:33:16 - ULAZI
-02:33:16 - 1
-02:33:17 - Sending message [40|1800|3|1|RESULT_REPLY|1200|48]
-02:33:32 - Stopping...
+16:27:14 - Pausing for 80000 ms
+16:27:27 - Got message [20|1700|4|6|JOB|1800|40]
+16:27:27 - Started new work
+16:27:48 - Got message [20|1700|7|6|JOB|1800|40]
+16:27:49 - Sending message [40|1800|2|6|JOB_MIGRATION|1800|40]
+16:27:49 - Got message [40|1800|2|6|JOB_MIGRATION|1800|40]
+16:27:49 - Started someone else's work
+16:28:18 - Got message [48|1200|8|6|STATUS_COLLECTION|1800|40]
+16:28:19 - Sending message [40|1800|3|1|STATUS_REPLY|1200|48]
+16:28:21 - Got message [0|1600|7|1|STATUS_REPLY|1800|40]
+16:28:23 - Sending message [40|1800|4|1|STATUS_REPLY|1200|48]
+16:28:34 - Stopping...

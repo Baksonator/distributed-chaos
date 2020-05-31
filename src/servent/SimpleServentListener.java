@@ -97,6 +97,15 @@ public class SimpleServentListener implements Runnable, Cancellable {
 				case JOB_MIGRATION:
 					messageHandler = new JobMigrationHandler(clientMessage);
 					break;
+				case STATUS_REQUEST:
+					messageHandler = new StatusRequestHandler(clientMessage);
+					break;
+				case STATUS_COLLECTION:
+					messageHandler = new StatusCollectionHandler(clientMessage);
+					break;
+				case STATUS_REPLY:
+					messageHandler = new StatusReplyHandler(clientMessage);
+					break;
 				case POISON:
 					break;
 				}

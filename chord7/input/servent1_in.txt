@@ -5,6 +5,6 @@ start prvi
 pause 20000
 start drugi
 pause 30000
-result drugi
+status
 pause 30000
 stop

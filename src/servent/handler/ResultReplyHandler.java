@@ -31,7 +31,8 @@ public class ResultReplyHandler implements MessageHandler {
             if (requestorId == AppConfig.myServentInfo.getUuid()) {
                 List<Point> results = resultReplyMessage.getResults();
 
-                Job myJob = AppConfig.jobs.stream().filter(job -> job.getName().equals(AppConfig.pendingResultJobName)).findFirst().get();
+//                Job myJob = AppConfig.jobs.stream().filter(job -> job.getName().equals(AppConfig.pendingResultJobName)).findFirst().get();
+                Job myJob = resultReplyMessage.getJob();
                 BufferedImage image = new BufferedImage(myJob.getWidth(), myJob.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
                 WritableRaster writableRaster = image.getRaster();
                 int[] rgb = new int[3];
@@ -52,7 +53,7 @@ public class ResultReplyHandler implements MessageHandler {
             } else {
                 ResultReplyMessage resultReplyMessageNew = new ResultReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
-                        resultReplyMessage.getResults());
+                        resultReplyMessage.getResults(), resultReplyMessage.getJob());
                 MessageUtil.sendMessage(resultReplyMessageNew);
             }
         }

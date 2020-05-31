@@ -34,21 +34,21 @@ public class ResultCollectionHandler implements MessageHandler {
                                 oldMsg.getResults().stream()).collect(Collectors.toList()));
                 MessageUtil.sendMessage(resultCollectionMessage);
             } else {
-                AppConfig.timestampedStandardPrint("DOLAZI");
                 int requestorId = -1;
                 for (ServentInfo nodeInfo : AppConfig.chordState.getAllNodeInfo()) {
                     // TODO Add IP Address as well
-                    AppConfig.timestampedStandardPrint("ULAZI");
                     if (nodeInfo.getListenerPort() == clientMessage.getSenderPort()) {
                         requestorId = nodeInfo.getUuid();
                         break;
                     }
                 }
-                AppConfig.timestampedStandardPrint(""+requestorId);
+                if (AppConfig.myServentInfo.getListenerPort() == clientMessage.getSenderPort()) {
+                    requestorId = AppConfig.myServentInfo.getUuid();
+                }
                 ResultReplyMessage resultReplyMessage = new ResultReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
                         Stream.concat(AppConfig.jobWorker.getResults().stream(),
-                                oldMsg.getResults().stream()).collect(Collectors.toList()));
+                                oldMsg.getResults().stream()).collect(Collectors.toList()), AppConfig.myMainJob);
                 MessageUtil.sendMessage(resultReplyMessage);
             }
         }

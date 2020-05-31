@@ -22,7 +22,6 @@ public class Point implements Serializable {
     }
 
     public static Point pointOnP(Point first, Point second, double p) {
-        // TODO Change this
         double newX = first.x + p * (second.x - first.x);
         double newY = first.y + p * (second.y - first.y);
         return new Point(newX, newY);

@@ -26,7 +26,8 @@ public class ResultCommand implements CLICommand {
                 if (entry.getValue().equals("")) {
                     continue;
                 }
-                if (entry.getValue().substring(0, nameLen).equals(jobName)) {
+                String realJobName = entry.getValue().substring(0, entry.getValue().indexOf("0"));
+                if (realJobName.equals(jobName)) {
                     receiverId = entry.getKey();
                     break;
                 }
@@ -36,7 +37,8 @@ public class ResultCommand implements CLICommand {
                 if (entry.getValue().equals("")) {
                     continue;
                 }
-                if (entry.getValue().substring(0, nameLen).equals(jobName)) {
+                String realJobName = entry.getValue().substring(0, entry.getValue().indexOf("0"));
+                if (realJobName.equals(jobName)) {
                     lastId = entry.getKey();
                 }
             }
@@ -46,7 +48,26 @@ public class ResultCommand implements CLICommand {
                     AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), receiverId + "," + lastId);
             MessageUtil.sendMessage(resultRequestMessage);
         } else {
-            // TODO Dodaj i za fraktalniID
+            String jobName = splitArgs[0];
+            String fractalId = splitArgs[1];
+            String fullFractalId = jobName + fractalId;
+
+            int receiverId = -1;
+            for (Map.Entry<Integer, String> entry : JobCommandHandler.fractalIds.entrySet()) {
+                if (entry.getValue().equals("")) {
+                    continue;
+                }
+                if (entry.getValue().equals(fullFractalId)) {
+                    receiverId = entry.getKey();
+                    break;
+                }
+            }
+
+            ResultRequestMessage resultRequestMessage = new ResultRequestMessage(AppConfig.myServentInfo.getListenerPort(),
+                    AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), receiverId + "," + receiverId);
+            MessageUtil.sendMessage(resultRequestMessage);
+
+            AppConfig.pendingResultJobName = jobName;
         }
     }
 }

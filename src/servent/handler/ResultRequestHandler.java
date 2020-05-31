@@ -32,9 +32,12 @@ public class ResultRequestHandler implements MessageHandler {
                             requestorId = nodeInfo.getUuid();
                         }
                     }
+                    if (AppConfig.myServentInfo.getListenerPort() == clientMessage.getSenderPort()) {
+                        requestorId = AppConfig.myServentInfo.getUuid();
+                    }
                     ResultReplyMessage resultReplyMessage = new ResultReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
-                            AppConfig.jobWorker.getResults());
+                            AppConfig.jobWorker.getResults(), AppConfig.myMainJob);
                     MessageUtil.sendMessage(resultReplyMessage);
                 }
             } else {
