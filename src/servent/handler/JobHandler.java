@@ -31,6 +31,27 @@ public class JobHandler implements MessageHandler {
                 Map<Integer, String> fractalIds = jobMsg.getFractalIds();
                 int level = jobMsg.getLevel();
 
+                if (job == null) {
+                    if (jobMsg.getFractalIdMapping() != null) {
+                        String myOldFractalId = AppConfig.myServentInfo.getFractalId();
+                        for (Map.Entry<String, String> entry : jobMsg.getFractalIdMapping().entrySet()) {
+                            if (entry.getKey().equals(myOldFractalId)) {
+                                Integer key = getKeyByValue(fractalIds, entry.getValue());
+                                JobMigrationMessage jobMigrationMessage = new JobMigrationMessage(
+                                        AppConfig.myServentInfo.getListenerPort(),
+                                        AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
+                                        Integer.toString(key), AppConfig.jobWorker.getResults());
+                                MessageUtil.sendMessage(jobMigrationMessage);
+                            }
+                        }
+
+                        JobCommandHandler.fractalIds = fractalIds;
+                        AppConfig.myServentInfo.setFractalId("");
+                        AppConfig.activeJobs.add(jobMsg.getMainJob());
+                    }
+                    return;
+                }
+
                 String myFractalId = fractalIds.get(AppConfig.myServentInfo.getUuid());
                 int firstZero = myFractalId.indexOf("0");
                 String justId = myFractalId.substring(firstZero);

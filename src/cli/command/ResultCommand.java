@@ -23,6 +23,9 @@ public class ResultCommand implements CLICommand {
 
             int receiverId = -1;
             for (Map.Entry<Integer, String> entry : JobCommandHandler.fractalIds.entrySet()) {
+                if (entry.getValue().equals("")) {
+                    continue;
+                }
                 if (entry.getValue().substring(0, nameLen).equals(jobName)) {
                     receiverId = entry.getKey();
                     break;
@@ -30,6 +33,9 @@ public class ResultCommand implements CLICommand {
             }
             int lastId = -1;
             for (Map.Entry<Integer, String> entry : JobCommandHandler.fractalIds.entrySet()) {
+                if (entry.getValue().equals("")) {
+                    continue;
+                }
                 if (entry.getValue().substring(0, nameLen).equals(jobName)) {
                     lastId = entry.getKey();
                 }
