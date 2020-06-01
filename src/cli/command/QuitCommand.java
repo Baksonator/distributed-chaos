@@ -33,9 +33,7 @@ public class QuitCommand implements CLICommand {
                 AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()));
         MessageUtil.sendMessage(leaveMessage);
 
-        AppConfig.timestampedStandardPrint("Stopping...");
         parser.stop();
-        listener.stop();
     }
 
     private void contactBootstrap() {

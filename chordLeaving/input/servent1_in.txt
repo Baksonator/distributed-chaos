@@ -1,0 +1,11 @@
+pause 105000
+pause 5000
+pause 5000
+start prvi
+pause 20000
+status prvi
+pause 30000
+pause 30000
+status prvi
+pause 30000
+stop

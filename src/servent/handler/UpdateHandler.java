@@ -23,6 +23,7 @@ public class UpdateHandler implements MessageHandler {
 	@Override
 	public void run() {
 		if (clientMessage.getMessageType() == MessageType.UPDATE) {
+			// TODO Mora i IP Adresa ili nesto
 			if (clientMessage.getSenderPort() != AppConfig.myServentInfo.getListenerPort()) {
 				ServentInfo newNodInfo = new ServentInfo("localhost", clientMessage.getSenderPort());
 				newNodInfo.setUuid(AppConfig.chordState.getNodeCount());

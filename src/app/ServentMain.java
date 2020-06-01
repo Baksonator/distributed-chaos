@@ -54,6 +54,8 @@ public class ServentMain {
 		CLIParser cliParser = new CLIParser(simpleListener);
 		Thread cliThread = new Thread(cliParser);
 		cliThread.start();
+
+		simpleListener.setCliParser(cliParser);
 		
 		ServentInitializer serventInitializer = new ServentInitializer();
 		Thread initializerThread = new Thread(serventInitializer);

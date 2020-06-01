@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 
 import app.AppConfig;
 import app.Cancellable;
+import cli.CLIParser;
 import servent.handler.*;
 import servent.message.Message;
 import servent.message.util.MessageUtil;
@@ -16,9 +17,15 @@ import servent.message.util.MessageUtil;
 public class SimpleServentListener implements Runnable, Cancellable {
 
 	private volatile boolean working = true;
+
+	private CLIParser cliParser;
 	
 	public SimpleServentListener() {
 		
+	}
+
+	public void setCliParser(CLIParser cliParser) {
+		this.cliParser = cliParser;
 	}
 
 	/*
@@ -80,7 +87,7 @@ public class SimpleServentListener implements Runnable, Cancellable {
 					messageHandler = new TellGetHandler(clientMessage);
 					break;
 				case LEAVE:
-					messageHandler = new LeaveHandler(clientMessage);
+					messageHandler = new LeaveHandler(clientMessage, cliParser, this);
 					break;
 				case JOB:
 					messageHandler = new JobHandler(clientMessage);

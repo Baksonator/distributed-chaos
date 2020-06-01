@@ -1,6 +1,7 @@
 package app;
 
 import servent.message.JobMessage;
+import servent.message.JobMigrationMessage;
 import servent.message.JobStopMessage;
 import servent.message.util.MessageUtil;
 
@@ -23,6 +24,7 @@ public class JobCommandHandler {
 //        if (!helperActiveJobs.isEmpty()) {
         // TODO Kad ne moze da se izvrsi posao
         // TODO Validacija i za ovo i za stop
+        // TODO AKO NESTO BAGUJE PROVERI LAST ASSIGNED SVUDA
         if (!AppConfig.activeJobs.isEmpty()) {
             Map<Integer, String> oldFractalIds = fractalIds;
 
@@ -53,8 +55,9 @@ public class JobCommandHandler {
             }
 
             for (int i = 0; i < AppConfig.chordState.getNodeCount(); i++) {
-                if (!fractalIds.containsKey(i)) {
-                    fractalIds.put(i, "");
+                int key = AppConfig.chordState.getAllNodeInfoHelper().get(i).getUuid();
+                if (!fractalIds.containsKey(key)) {
+                    fractalIds.put(key, "");
                 }
             }
 
@@ -107,25 +110,27 @@ public class JobCommandHandler {
             int j = 0;
             for (Job newJob : newJobs) {
                 AppConfig.timestampedStandardPrint(newJob.getName());
-                lastAssigned = next;
+                lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
                 int tempNodesByJob = nodesByJob;
                 if (extraNodes > 0) {
                     tempNodesByJob++;
                 }
                 if (tempNodesByJob < newJob.getN()) {
-                    AppConfig.timestampedStandardPrint("Next node for key:" + 0 + " is " + AppConfig.chordState.getNextNodeForKey(lastAssigned).getUuid());
+                    int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
+                    AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                     // TODO Mozda ti ne valjda ovaj newJob pre fractalIds, proveri to dobro, to imas i dole u stop
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
-                            AppConfig.chordState.getNextNodeForKey(lastAssigned).getListenerPort(), Integer.toString(lastAssigned),
+                            AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             newJob, fractalIds, 0, job, fractalIdMapping);
                     MessageUtil.sendMessage(jobMessage);
                 } else {
                     int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
                     int currBaseFractalLevel = baseFractalLevelsByJob.get(j);
                     for (int i = 0; i < newJob.getN(); i++) {
-                        AppConfig.timestampedStandardPrint("Next node for key:" + lastAssigned + " is " + AppConfig.chordState.getNextNodeForKey(lastAssigned).getUuid());
+                        int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
+                        AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                         JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
-                                AppConfig.chordState.getNextNodeForKey(lastAssigned).getListenerPort(), Integer.toString(lastAssigned),
+                                AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                                 jobs.get(j).get(i), fractalIds, 1, job, fractalIdMapping);
                         MessageUtil.sendMessage(jobMessage);
 
@@ -158,8 +163,9 @@ public class JobCommandHandler {
             assignFractalsIds(job, AppConfig.chordState.getNodeCount(), 0);
 //            assignFractalsIds(job, 9, 0);
             for (int i = 0; i < AppConfig.chordState.getNodeCount(); i++) {
-                if (!fractalIds.containsKey(i)) {
-                    fractalIds.put(i, "");
+                int key = AppConfig.chordState.getAllNodeInfoHelper().get(i).getUuid();
+                if (!fractalIds.containsKey(key)) {
+                    fractalIds.put(key, "");
                 }
             }
 
@@ -171,17 +177,19 @@ public class JobCommandHandler {
 //            System.out.println(fractalIds.toString());
 
             if (AppConfig.chordState.getNodeCount() < job.getN()) {
-                AppConfig.timestampedStandardPrint("Next node for key:" + 0 + " is " + AppConfig.chordState.getNextNodeForKey(0).getUuid());
+                int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(0).getUuid();
+                AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
-                        AppConfig.chordState.getNextNodeForKey(0).getListenerPort(), Integer.toString(0),
+                        AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         job, fractalIds, 0, job, null);
                 MessageUtil.sendMessage(jobMessage);
             } else {
-                int lastAssigned = 0;
+                int lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(0).getUuid();
                 for (int i = 0; i < job.getN(); i++) {
-                    AppConfig.timestampedStandardPrint("Next node for key:" + lastAssigned + " is " + AppConfig.chordState.getNextNodeForKey(lastAssigned).getUuid());
+                    int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
+                    AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
-                            AppConfig.chordState.getNextNodeForKey(lastAssigned).getListenerPort(), Integer.toString(lastAssigned),
+                            AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             jobs.get(i), fractalIds, 1, job, null);
                     MessageUtil.sendMessage(jobMessage);
 
@@ -238,8 +246,9 @@ public class JobCommandHandler {
             }
 
             for (int i = 0; i < AppConfig.chordState.getNodeCount(); i++) {
-                if (!fractalIds.containsKey(i)) {
-                    fractalIds.put(i, "");
+                int key = AppConfig.chordState.getAllNodeInfoHelper().get(i).getUuid();
+                if (!fractalIds.containsKey(key)) {
+                    fractalIds.put(key, "");
                 }
             }
 
@@ -291,24 +300,26 @@ public class JobCommandHandler {
             int j = 0;
             for (Job newJob : newJobs) {
                 AppConfig.timestampedStandardPrint(newJob.getName());
-                lastAssigned = next;
+                lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
                 int tempNodesByJob = nodesByJob;
                 if (extraNodes > 0) {
                     tempNodesByJob++;
                 }
                 if (tempNodesByJob < newJob.getN()) {
-                    AppConfig.timestampedStandardPrint("Next node for key:" + 0 + " is " + AppConfig.chordState.getNextNodeForKey(lastAssigned).getUuid());
+                    int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
+                    AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                     JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
-                            AppConfig.chordState.getNextNodeForKey(lastAssigned).getListenerPort(), Integer.toString(lastAssigned),
+                            AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             newJob, fractalIds, 0, job, fractalIdMapping);
                     MessageUtil.sendMessage(jobMessage);
                 } else {
                     int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
                     int currBaseFractalLevel = baseFractalLevelsByJob.get(j);
                     for (int i = 0; i < newJob.getN(); i++) {
-                        AppConfig.timestampedStandardPrint("Next node for key:" + lastAssigned + " is " + AppConfig.chordState.getNextNodeForKey(lastAssigned).getUuid());
+                        int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
+                        AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                         JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
-                                AppConfig.chordState.getNextNodeForKey(lastAssigned).getListenerPort(), Integer.toString(lastAssigned),
+                                AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                                 jobs.get(j).get(i), fractalIds, 1, job, fractalIdMapping);
                         MessageUtil.sendMessage(jobMessage);
 
@@ -342,7 +353,8 @@ public class JobCommandHandler {
 //            assignFractalsIds(job, 9, 0);
             for (int i = 0; i < AppConfig.chordState.getNodeCount(); i++) {
 //                if (!fractalIds.containsKey(i)) {
-                fractalIds.put(i, "");
+                int key = AppConfig.chordState.getAllNodeInfoHelper().get(i).getUuid();
+                fractalIds.put(key, "");
 //                }
             }
 
@@ -419,8 +431,9 @@ public class JobCommandHandler {
         }
 
         for (int i = 0; i < AppConfig.chordState.getNodeCount(); i++) {
-            if (!fractalIds.containsKey(i)) {
-                fractalIds.put(i, "");
+            int key = AppConfig.chordState.getAllNodeInfoHelper().get(i).getUuid();
+            if (!fractalIds.containsKey(key)) {
+                fractalIds.put(key, "");
             }
         }
 
@@ -472,24 +485,26 @@ public class JobCommandHandler {
         int j = 0;
         for (Job newJob : newJobs) {
             AppConfig.timestampedStandardPrint(newJob.getName());
-            lastAssigned = next;
+            lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
             int tempNodesByJob = nodesByJob;
             if (extraNodes > 0) {
                 tempNodesByJob++;
             }
             if (tempNodesByJob < newJob.getN()) {
-                AppConfig.timestampedStandardPrint("Next node for key:" + 0 + " is " + AppConfig.chordState.getNextNodeForKey(lastAssigned).getUuid());
+                int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
+                AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                 JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
-                        AppConfig.chordState.getNextNodeForKey(lastAssigned).getListenerPort(), Integer.toString(lastAssigned),
+                        AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         newJob, fractalIds, 0, null, fractalIdMapping);
                 MessageUtil.sendMessage(jobMessage);
             } else {
                 int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
                 int currBaseFractalLevel = baseFractalLevelsByJob.get(j);
                 for (int i = 0; i < newJob.getN(); i++) {
-                    AppConfig.timestampedStandardPrint("Next node for key:" + lastAssigned + " is " + AppConfig.chordState.getNextNodeForKey(lastAssigned).getUuid());
+                    int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
+                    AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                     JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
-                            AppConfig.chordState.getNextNodeForKey(lastAssigned).getListenerPort(), Integer.toString(lastAssigned),
+                            AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping);
                     MessageUtil.sendMessage(jobMessage);
 
@@ -549,8 +564,9 @@ public class JobCommandHandler {
         }
 
         for (int i = 0; i < AppConfig.chordState.getNodeCount(); i++) {
-            if (!fractalIds.containsKey(i)) {
-                fractalIds.put(i, "");
+            int key = AppConfig.chordState.getAllNodeInfoHelper().get(i).getUuid();
+            if (!fractalIds.containsKey(key)) {
+                fractalIds.put(key, "");
             }
         }
 
@@ -603,25 +619,27 @@ public class JobCommandHandler {
         int j = 0;
         for (Job newJob : newJobs) {
             AppConfig.timestampedStandardPrint(newJob.getName());
-            lastAssigned = next;
+            lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
             int tempNodesByJob = nodesByJob;
             if (extraNodes > 0) {
                 tempNodesByJob++;
             }
             if (tempNodesByJob < newJob.getN()) {
-                AppConfig.timestampedStandardPrint("Next node for key:" + 0 + " is " + AppConfig.chordState.getNextNodeForKey(lastAssigned).getUuid());
+                int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
+                AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                 // TODO Mozda ti ne valjda ovaj newJob pre fractalIds, proveri to dobro, to imas i dole u stop
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
-                        AppConfig.chordState.getNextNodeForKey(lastAssigned).getListenerPort(), Integer.toString(lastAssigned),
+                        AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         newJob, fractalIds, 0, null, fractalIdMapping);
                 MessageUtil.sendMessage(jobMessage);
             } else {
                 int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
                 int currBaseFractalLevel = baseFractalLevelsByJob.get(j);
                 for (int i = 0; i < newJob.getN(); i++) {
-                    AppConfig.timestampedStandardPrint("Next node for key:" + lastAssigned + " is " + AppConfig.chordState.getNextNodeForKey(lastAssigned).getUuid());
+                    int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
+                    AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
-                            AppConfig.chordState.getNextNodeForKey(lastAssigned).getListenerPort(), Integer.toString(lastAssigned),
+                            AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping);
                     MessageUtil.sendMessage(jobMessage);
 
@@ -649,6 +667,18 @@ public class JobCommandHandler {
                 MessageUtil.sendMessage(jobMessage);
             }
         }
+
+        String myOldFractalId = AppConfig.myServentInfo.getFractalId();
+        for (Map.Entry<String, String> entry : fractalIdMapping.entrySet()) {
+            if (entry.getKey().equals(myOldFractalId)) {
+                Integer key = Utils.getKeyByValue(fractalIds, entry.getValue());
+                JobMigrationMessage jobMigrationMessage = new JobMigrationMessage(
+                        AppConfig.myServentInfo.getListenerPort(),
+                        AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
+                        Integer.toString(key), AppConfig.jobWorker.getResults());
+                MessageUtil.sendMessage(jobMigrationMessage);
+            }
+        }
     }
 
     public static ArrayList<Job> prepareJobs(Job job) {
@@ -673,7 +703,8 @@ public class JobCommandHandler {
 //        int nodeCount = AppConfig.chordState.getNodeCount();
 //        int nodeCount = 10;
         if (nodeCount < job.getN()) {
-            fractalIds.put(lastAssigned, job.getName() + "0");
+            int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
+            fractalIds.put(receiverId, job.getName() + "0");
             baseFractalLevel = 1;
             baseFractalLevelsByJob.add(baseFractalLevel);
             overflowLevelNodes = 0;
@@ -718,7 +749,8 @@ public class JobCommandHandler {
 
     private static void assign(String prefix, int left, int right, int dots) {
         if (left == right) {
-            fractalIds.put(left, prefix);
+            int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(left).getUuid();
+            fractalIds.put(receiverId, prefix);
         } else {
             int incrementLevel = (int)Math.pow(dots, (int)((right - left + 1) / dots - 1));
             int suffix = 0;
