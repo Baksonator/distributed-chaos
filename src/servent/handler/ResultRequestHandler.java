@@ -37,7 +37,7 @@ public class ResultRequestHandler implements MessageHandler {
                     }
                     ResultReplyMessage resultReplyMessage = new ResultReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
-                            AppConfig.jobWorker.getResults(), AppConfig.myMainJob);
+                            AppConfig.jobWorker.getResults(), AppConfig.jobWorker.getJob());
                     MessageUtil.sendMessage(resultReplyMessage);
                 }
             } else {

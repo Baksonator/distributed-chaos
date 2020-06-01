@@ -50,7 +50,7 @@ public class StatusCollectionHandler implements MessageHandler {
                 newIds.add(AppConfig.myServentInfo.getFractalId());
                 StatusReplyMessage statusReplyMessage = new StatusReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
-                        newResults, newIds, AppConfig.myMainJob);
+                        newResults, newIds, AppConfig.jobWorker.getJob());
                 MessageUtil.sendMessage(statusReplyMessage);
             }
         }

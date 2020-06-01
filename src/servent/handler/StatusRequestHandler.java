@@ -47,7 +47,7 @@ public class StatusRequestHandler implements MessageHandler {
                     ids.add(AppConfig.myServentInfo.getFractalId());
                     StatusReplyMessage statusReplyMessage = new StatusReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
-                            result, ids, AppConfig.myMainJob);
+                            result, ids, AppConfig.jobWorker.getJob());
                     MessageUtil.sendMessage(statusReplyMessage);
                 }
             } else {

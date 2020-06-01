@@ -48,7 +48,7 @@ public class ResultCollectionHandler implements MessageHandler {
                 ResultReplyMessage resultReplyMessage = new ResultReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
                         Stream.concat(AppConfig.jobWorker.getResults().stream(),
-                                oldMsg.getResults().stream()).collect(Collectors.toList()), AppConfig.myMainJob);
+                                oldMsg.getResults().stream()).collect(Collectors.toList()), AppConfig.jobWorker.getJob());
                 MessageUtil.sendMessage(resultReplyMessage);
             }
         }

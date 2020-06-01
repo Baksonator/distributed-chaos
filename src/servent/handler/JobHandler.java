@@ -33,7 +33,7 @@ public class JobHandler implements MessageHandler {
                         String myOldFractalId = AppConfig.myServentInfo.getFractalId();
                         for (Map.Entry<String, String> entry : jobMsg.getFractalIdMapping().entrySet()) {
                             if (entry.getKey().equals(myOldFractalId)) {
-                                Integer key = getKeyByValue(fractalIds, entry.getValue());
+                                Integer key = Utils.getKeyByValue(fractalIds, entry.getValue());
                                 JobMigrationMessage jobMigrationMessage = new JobMigrationMessage(
                                         AppConfig.myServentInfo.getListenerPort(),
                                         AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
@@ -41,14 +41,12 @@ public class JobHandler implements MessageHandler {
                                 MessageUtil.sendMessage(jobMigrationMessage);
                             }
                         }
-
-                        // TODO Nadji nacin da uklanjas iz activeJobs
-                        JobCommandHandler.fractalIds = fractalIds;
-                        AppConfig.myServentInfo.setFractalId("");
-                        AppConfig.activeJobs.add(jobMsg.getMainJob());
-                        AppConfig.myMainJob = jobMsg.getMainJob();
-                        AppConfig.jobWorker.stop();
                     }
+                    JobCommandHandler.fractalIds = fractalIds;
+                    AppConfig.myServentInfo.setFractalId("");
+                    AppConfig.activeJobs.add(jobMsg.getMainJob());
+                    AppConfig.myMainJob = jobMsg.getMainJob();
+                    AppConfig.jobWorker.stop();
                     return;
                 }
 
@@ -63,8 +61,7 @@ public class JobHandler implements MessageHandler {
 //                        AppConfig.timestampedStandardPrint(sortByValue(jobMsg.getFractalIdMapping()).toString());
                         for (Map.Entry<String, String> entry : jobMsg.getFractalIdMapping().entrySet()) {
                             if (entry.getKey().equals(myOldFractalId)) {
-                                Integer key = getKeyByValue(fractalIds, entry.getValue());
-                                // TODO Vidi ovde da uparis sa prepare jobs da bi slao samo delove podataka ako treba
+                                Integer key = Utils.getKeyByValue(fractalIds, entry.getValue());
                                 JobMigrationMessage jobMigrationMessage = new JobMigrationMessage(
                                         AppConfig.myServentInfo.getListenerPort(),
                                         AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
@@ -163,26 +160,5 @@ public class JobHandler implements MessageHandler {
                 MessageUtil.sendMessage(jobMessage);
             }
         }
-    }
-
-    private  <T, E> T getKeyByValue(Map<T, E> map, E value) {
-        for (Map.Entry<T, E> entry : map.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
-    private  <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
-        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
-        list.sort(Map.Entry.comparingByValue());
-
-        Map<K, V> result = new LinkedHashMap<>();
-        for (Map.Entry<K, V> entry : list) {
-            result.put(entry.getKey(), entry.getValue());
-        }
-
-        return result;
     }
 }

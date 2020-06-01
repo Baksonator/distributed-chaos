@@ -5,6 +5,8 @@ start prvi
 pause 20000
 start drugi
 pause 30000
-status
+stopJob prvi
+pause 30000
+result drugi
 pause 30000
 stop
