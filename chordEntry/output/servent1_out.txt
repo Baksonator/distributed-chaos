@@ -1,0 +1,55 @@
+18:37:21 - Starting servent [0|localhost|1200]
+18:37:21 - Pausing for 40000 ms
+18:37:21 - Sending message [48|1200|0||NEW_NODE|1100|28]
+18:37:22 - Got message [28|1100|0||WELCOME|1200|48]
+18:37:23 - Sending message [48|1200|1||UPDATE|1100|28]
+18:37:25 - Got message [48|1200|1|1100|UPDATE|1200|48]
+18:37:32 - Got message [4|1300|0||NEW_NODE|1200|48]
+18:37:33 - Sending message [4|1300|2||NEW_NODE|1100|28]
+18:37:36 - Got message [4|1300|3|1100|UPDATE|1200|48]
+18:37:37 - Sending message [4|1300|3|1100,1200|UPDATE|1300|4]
+18:37:46 - Got message [24|1400|5|1100|UPDATE|1200|48]
+18:37:47 - Sending message [24|1400|4|1100,1200|UPDATE|1300|4]
+18:38:01 - Pausing for 5000 ms
+18:38:06 - Pausing for 5000 ms
+18:38:11 - {0=prvi00, 1=prvi01, 2=prvi02, 3=}
+18:38:11 - [[[200.0|500.0], [350.0|350.0], [350.0|600.0]], [[500.0|200.0], [350.0|350.0], [500.0|450.0]], [[500.0|700.0], [350.0|600.0], [500.0|450.0]]]
+18:38:11 - Next node for key:0 is 3
+18:38:11 - Next node for key:1 is 1
+18:38:11 - Next node for key:2 is 2
+18:38:11 - Pausing for 20000 ms
+18:38:12 - Sending message [48|1200|8|3|JOB|1400|24]
+18:38:12 - Sending message [48|1200|6|1|JOB|1200|48]
+18:38:12 - Got message [48|1200|6|1|JOB|1200|48]
+18:38:12 - Started new work
+18:38:12 - Sending message [48|1200|5|0|JOB|1400|24]
+18:38:12 - Sending message [48|1200|7|2|JOB|1300|4]
+18:38:31 - Pausing for 90000 ms
+18:38:31 - Sending message [48|1200|9|0,2|STATUS_REQUEST|1400|24]
+18:38:33 - Got message [48|1200|6|2|STATUS_COLLECTION|1200|48]
+18:38:34 - Sending message [48|1200|10|2|STATUS_COLLECTION|1300|4]
+18:38:35 - Got message [28|1100|7|1|STATUS_REPLY|1200|48]
+18:38:35 - STATUS FOR JOB: prvi
+18:38:35 - NUMBER OF NODES WORKING: 3
+18:38:35 - NUMBER OF POINTS FOR ID: prvi00 IS 193
+18:38:35 - NUMBER OF POINTS FOR ID: prvi01 IS 216
+18:38:35 - NUMBER OF POINTS FOR ID: prvi02 IS 216
+18:38:45 - Got message [0|1600|0||NEW_NODE|1200|48]
+18:38:46 - Sending message [0|1600|11||NEW_NODE|1300|4]
+18:38:50 - Got message [0|1600|9|1100|UPDATE|1200|48]
+18:38:52 - Sending message [0|1600|12|1100,1200|UPDATE|1300|4]
+18:38:55 - Got message [0|1600|3|3|JOB_STOP|1200|48]
+18:38:55 - Next node for key:3 is 3
+18:38:55 - Got message [28|1100|11|1|JOB_STOP|1200|48]
+18:38:55 - USAO
+18:38:55 - NUMBER TO SEND TO 1
+18:38:55 - BLOCKING COUNTER 1
+18:38:56 - Sending message [48|1200|13|3|JOB_STOP|1400|24]
+18:38:56 - Got message [28|1100|15|1|JOB_MIGRATION|1200|48]
+18:38:56 - DRUGI KRAJ
+18:38:56 - [[350.0|350.0], [275.0|425.0], [350.0|475.0]]
+18:38:56 - Started someone else's work
+18:38:57 - Sending message [48|1200|14|3|JOB_MIGRATION|1400|24]
+18:39:12 - Got message [0|1600|16|4|STATUS_COLLECTION|1200|48]
+18:39:13 - Sending message [0|1600|15|4|STATUS_COLLECTION|1300|4]
+18:40:01 - Stopping...

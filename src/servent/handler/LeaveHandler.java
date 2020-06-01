@@ -23,6 +23,7 @@ public class LeaveHandler implements MessageHandler {
             leaverInfo.setUuid(leaverId);
             AppConfig.chordState.removeNode(leaverInfo);
 
+            // TODO Pazi na overflow
             if (AppConfig.myServentInfo.getUuid() != leaverId - 1) {
                 LeaveMessage leaveMessage = new LeaveMessage(clientMessage.getSenderPort(),
                         AppConfig.chordState.getNextNodePort(), Integer.toString(leaverId));

@@ -79,9 +79,13 @@ public class JobStopHandler implements MessageHandler {
                     }
                     JobCommandHandler.fractalIds = fractalIds;
                     AppConfig.myServentInfo.setFractalId("");
-                    AppConfig.activeJobs.remove(jobStopMsg.getMainJob());
-                    AppConfig.myMainJob = jobStopMsg.getMainJob();
-                    AppConfig.jobWorker.stop();
+                    if (jobStopMsg.getMainJob() != null) {
+                        AppConfig.activeJobs.remove(jobStopMsg.getMainJob());
+                        AppConfig.myMainJob = jobStopMsg.getMainJob();
+                    }
+                    if (AppConfig.jobWorker != null) {
+                        AppConfig.jobWorker.stop();
+                    }
                     return;
                 }
 
@@ -159,18 +163,24 @@ public class JobStopHandler implements MessageHandler {
 
                         JobCommandHandler.fractalIds = fractalIds;
                         AppConfig.myServentInfo.setFractalId(myFractalId);
-                        AppConfig.activeJobs.remove(jobStopMsg.getMainJob());
-                        AppConfig.myMainJob = jobStopMsg.getMainJob();
+                        if (jobStopMsg.getMainJob() != null) {
+                            AppConfig.activeJobs.remove(jobStopMsg.getMainJob());
+                            AppConfig.myMainJob = jobStopMsg.getMainJob();
+                        }
                         JobWorker worker = new JobWorker(job, newData);
-                        AppConfig.jobWorker.stop();
+                        if (AppConfig.jobWorker != null) {
+                            AppConfig.jobWorker.stop();
+                        }
                         AppConfig.jobWorker = worker;
                         Thread t = new Thread(worker);
                         t.start();
                     } else {
                         JobCommandHandler.fractalIds = fractalIds;
                         AppConfig.myServentInfo.setFractalId(myFractalId);
-                        AppConfig.activeJobs.remove(jobStopMsg.getMainJob());
-                        AppConfig.myMainJob = jobStopMsg.getMainJob();
+                        if (jobStopMsg.getMainJob() != null) {
+                            AppConfig.activeJobs.remove(jobStopMsg.getMainJob());
+                            AppConfig.myMainJob = jobStopMsg.getMainJob();
+                        }
                         JobWorker worker = new JobWorker(job);
                         AppConfig.jobWorker = worker;
                         Thread t = new Thread(worker);

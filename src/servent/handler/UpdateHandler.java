@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.AppConfig;
+import app.Job;
+import app.JobCommandHandler;
 import app.ServentInfo;
 import servent.message.Message;
 import servent.message.MessageType;
@@ -37,8 +39,9 @@ public class UpdateHandler implements MessageHandler {
 				} else {
 					newMessageText = clientMessage.getMessageText() + "," + AppConfig.myServentInfo.getListenerPort();
 				}
+				JobCommandHandler.fractalIds.put(AppConfig.chordState.getNodeCount() - 1, "");
 				Message nextUpdate = new UpdateMessage(clientMessage.getSenderPort(), AppConfig.chordState.getNextNodePort(),
-						newMessageText);
+						newMessageText, JobCommandHandler.fractalIds, AppConfig.activeJobs);
 				MessageUtil.sendMessage(nextUpdate);
 			} else {
 				String messageText = clientMessage.getMessageText();
@@ -56,6 +59,12 @@ public class UpdateHandler implements MessageHandler {
 				AppConfig.chordState.setNodeCount(allNodes.size() + 1);
 				AppConfig.chordState.updateLogLevel();
 				AppConfig.chordState.addNodes(allNodes);
+				UpdateMessage arrivedMessage = (UpdateMessage) clientMessage;
+				JobCommandHandler.fractalIds = arrivedMessage.getFractalIds();
+				AppConfig.activeJobs = arrivedMessage.getActiveJobs();
+				if (AppConfig.activeJobs.size() > 0) {
+					JobCommandHandler.restructureEntry();
+				}
 			}
 		} else {
 			AppConfig.timestampedErrorPrint("Update message handler got message that is not UPDATE");

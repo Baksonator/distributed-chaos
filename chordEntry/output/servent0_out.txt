@@ -1,0 +1,51 @@
+18:37:11 - Starting servent [0|localhost|1100]
+18:37:11 - Pausing for 50000 ms
+18:37:11 - First node in Chord system.
+18:37:21 - Got message [48|1200|0||NEW_NODE|1100|28]
+18:37:22 - Sending message [28|1100|0||WELCOME|1200|48]
+18:37:23 - Got message [48|1200|1||UPDATE|1100|28]
+18:37:25 - Sending message [48|1200|1|1100|UPDATE|1200|48]
+18:37:33 - Got message [4|1300|2||NEW_NODE|1100|28]
+18:37:34 - Sending message [28|1100|2||WELCOME|1300|4]
+18:37:35 - Got message [4|1300|1||UPDATE|1100|28]
+18:37:36 - Sending message [4|1300|3|1100|UPDATE|1200|48]
+18:37:43 - Got message [24|1400|2||NEW_NODE|1100|28]
+18:37:44 - Sending message [28|1100|4||WELCOME|1400|24]
+18:37:45 - Got message [24|1400|1||UPDATE|1100|28]
+18:37:46 - Sending message [24|1400|5|1100|UPDATE|1200|48]
+18:38:01 - Pausing for 10000 ms
+0
+0: [1|localhost|1200]
+1: [2|localhost|1300]
+18:38:11 - Pausing for 110000 ms
+18:38:13 - Got message [24|1400|2|0|JOB|1100|28]
+18:38:13 - Started new work
+18:38:33 - Got message [48|1200|3|0,2|STATUS_REQUEST|1100|28]
+18:38:33 - Sending message [48|1200|6|2|STATUS_COLLECTION|1200|48]
+18:38:35 - Got message [4|1300|4|1|STATUS_REPLY|1100|28]
+18:38:35 - Sending message [28|1100|7|1|STATUS_REPLY|1200|48]
+18:38:47 - Got message [0|1600|5||NEW_NODE|1100|28]
+18:38:48 - Sending message [28|1100|8||WELCOME|1600|0]
+18:38:49 - Got message [0|1600|1||UPDATE|1100|28]
+18:38:50 - Sending message [0|1600|9|1100|UPDATE|1200|48]
+18:38:54 - Got message [0|1600|2|0|JOB_STOP|1100|28]
+18:38:54 - Next node for key:0 is 0
+18:38:54 - Next node for key:1 is 1
+18:38:54 - Next node for key:2 is 2
+18:38:55 - Sending message [28|1100|10|0|JOB_STOP|1100|28]
+18:38:55 - Got message [28|1100|10|0|JOB_STOP|1100|28]
+18:38:55 - USAO
+18:38:55 - NUMBER TO SEND TO 3
+18:38:55 - Sending message [28|1100|12|2|JOB_STOP|1300|4]
+18:38:55 - BLOCKING COUNTER 1
+18:38:55 - Sending message [28|1100|11|1|JOB_STOP|1200|48]
+18:38:56 - Sending message [28|1100|14|2|JOB_MIGRATION|1300|4]
+18:38:56 - Sending message [28|1100|13|0|JOB_MIGRATION|1100|28]
+18:38:56 - Got message [28|1100|13|0|JOB_MIGRATION|1100|28]
+18:38:56 - DRUGI KRAJ
+18:38:56 - [[200.0|500.0], [275.0|425.0], [275.0|550.0]]
+18:38:56 - Started someone else's work
+18:38:56 - Sending message [28|1100|15|1|JOB_MIGRATION|1200|48]
+18:39:11 - Got message [0|1600|5|0,4|STATUS_REQUEST|1100|28]
+18:39:12 - Sending message [0|1600|16|4|STATUS_COLLECTION|1200|48]
+18:40:01 - Stopping...

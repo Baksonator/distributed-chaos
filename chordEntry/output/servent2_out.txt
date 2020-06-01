@@ -1,0 +1,35 @@
+18:37:31 - Starting servent [0|localhost|1300]
+18:37:31 - Pausing for 30000 ms
+18:37:32 - Sending message [4|1300|0||NEW_NODE|1200|48]
+18:37:34 - Got message [28|1100|2||WELCOME|1300|4]
+18:37:35 - Sending message [4|1300|1||UPDATE|1100|28]
+18:37:37 - Got message [4|1300|3|1100,1200|UPDATE|1300|4]
+18:37:42 - Got message [24|1400|0||NEW_NODE|1300|4]
+18:37:43 - Sending message [24|1400|2||NEW_NODE|1100|28]
+18:37:47 - Got message [24|1400|4|1100,1200|UPDATE|1300|4]
+18:37:48 - Sending message [24|1400|3|1100,1200,1300|UPDATE|1400|24]
+18:38:01 - Pausing for 10000 ms
+2
+0: [3|localhost|1400]
+1: [0|localhost|1100]
+18:38:11 - Pausing for 110000 ms
+18:38:12 - Got message [48|1200|7|2|JOB|1300|4]
+18:38:12 - Started new work
+18:38:34 - Got message [48|1200|10|2|STATUS_COLLECTION|1300|4]
+18:38:35 - Sending message [4|1300|4|1|STATUS_REPLY|1100|28]
+18:38:46 - Got message [0|1600|11||NEW_NODE|1300|4]
+18:38:47 - Sending message [0|1600|5||NEW_NODE|1100|28]
+18:38:52 - Got message [0|1600|12|1100,1200|UPDATE|1300|4]
+18:38:52 - Sending message [0|1600|6|1100,1200,1300|UPDATE|1400|24]
+18:38:55 - Got message [28|1100|12|2|JOB_STOP|1300|4]
+18:38:55 - USAO
+18:38:55 - NUMBER TO SEND TO 1
+18:38:55 - BLOCKING COUNTER 1
+18:38:56 - Got message [28|1100|14|2|JOB_MIGRATION|1300|4]
+18:38:56 - DRUGI KRAJ
+18:38:56 - [[350.0|600.0], [275.0|550.0], [350.0|475.0]]
+18:38:56 - Started someone else's work
+18:38:56 - Sending message [4|1300|7|4|JOB_MIGRATION|1600|0]
+18:39:13 - Got message [0|1600|15|4|STATUS_COLLECTION|1300|4]
+18:39:14 - Sending message [0|1600|8|4|STATUS_COLLECTION|1400|24]
+18:40:01 - Stopping...

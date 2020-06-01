@@ -1,0 +1,30 @@
+18:37:41 - Starting servent [0|localhost|1400]
+18:37:41 - Pausing for 20000 ms
+18:37:42 - Sending message [24|1400|0||NEW_NODE|1300|4]
+18:37:44 - Got message [28|1100|4||WELCOME|1400|24]
+18:37:45 - Sending message [24|1400|1||UPDATE|1100|28]
+18:37:48 - Got message [24|1400|3|1100,1200,1300|UPDATE|1400|24]
+18:38:01 - Pausing for 10000 ms
+3
+0: [0|localhost|1100]
+1: [1|localhost|1200]
+18:38:11 - Pausing for 110000 ms
+18:38:12 - Got message [48|1200|8|3|JOB|1400|24]
+18:38:12 - Got message [48|1200|5|0|JOB|1400|24]
+18:38:12 - Next node for key:0 is 0
+18:38:13 - Sending message [24|1400|2|0|JOB|1100|28]
+18:38:31 - Got message [48|1200|9|0,2|STATUS_REQUEST|1400|24]
+18:38:33 - Sending message [48|1200|3|0,2|STATUS_REQUEST|1100|28]
+18:38:52 - Got message [0|1600|6|1100,1200,1300|UPDATE|1400|24]
+18:38:54 - Sending message [0|1600|4|1100,1200,1300,1400|UPDATE|1600|0]
+18:38:56 - Got message [48|1200|13|3|JOB_STOP|1400|24]
+18:38:56 - USAO
+18:38:56 - NUMBER TO SEND TO 0
+18:38:56 - BLOCKING COUNTER 1
+18:38:57 - Got message [48|1200|14|3|JOB_MIGRATION|1400|24]
+18:38:57 - DRUGI KRAJ
+18:38:57 - [[500.0|200.0], [350.0|350.0], [500.0|450.0]]
+18:38:57 - Started someone else's work
+18:39:14 - Got message [0|1600|8|4|STATUS_COLLECTION|1400|24]
+18:39:14 - Sending message [0|1600|5|4|STATUS_COLLECTION|1600|0]
+18:40:01 - Stopping...

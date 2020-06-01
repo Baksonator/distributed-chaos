@@ -52,6 +52,7 @@ public class ServentInitializer implements Runnable {
 			AppConfig.timestampedStandardPrint("First node in Chord system.");
 			AppConfig.chordState.setNodeCount(1);
 			AppConfig.myServentInfo.setUuid(0);
+			JobCommandHandler.fractalIds.put(0, "");
 		} else { //bootstrap gave us something else - let that node tell our successor that we are here
 			NewNodeMessage nnm = new NewNodeMessage(AppConfig.myServentInfo.getListenerPort(), someServentPort);
 			MessageUtil.sendMessage(nnm);
