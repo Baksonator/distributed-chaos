@@ -44,9 +44,13 @@ public class JobHandler implements MessageHandler {
                     }
                     JobCommandHandler.fractalIds = fractalIds;
                     AppConfig.myServentInfo.setFractalId("");
-                    AppConfig.activeJobs.add(jobMsg.getMainJob());
-                    AppConfig.myMainJob = jobMsg.getMainJob();
-                    AppConfig.jobWorker.stop();
+                    if (jobMsg.getMainJob() != null) {
+                        AppConfig.activeJobs.add(jobMsg.getMainJob());
+                        AppConfig.myMainJob = jobMsg.getMainJob();
+                    }
+                    if (AppConfig.jobWorker != null) {
+                        AppConfig.jobWorker.stop();
+                    }
                     return;
                 }
 
@@ -89,18 +93,24 @@ public class JobHandler implements MessageHandler {
 
                         JobCommandHandler.fractalIds = fractalIds;
                         AppConfig.myServentInfo.setFractalId(myFractalId);
-                        AppConfig.activeJobs.add(jobMsg.getMainJob());
-                        AppConfig.myMainJob = jobMsg.getMainJob();
+                        if (jobMsg.getMainJob() != null) {
+                            AppConfig.activeJobs.add(jobMsg.getMainJob());
+                            AppConfig.myMainJob = jobMsg.getMainJob();
+                        }
                         JobWorker worker = new JobWorker(job, newData);
-                        AppConfig.jobWorker.stop();
+                        if (AppConfig.jobWorker != null) {
+                            AppConfig.jobWorker.stop();
+                        }
                         AppConfig.jobWorker = worker;
                         Thread t = new Thread(worker);
                         t.start();
                     } else {
                         JobCommandHandler.fractalIds = fractalIds;
                         AppConfig.myServentInfo.setFractalId(myFractalId);
-                        AppConfig.activeJobs.add(jobMsg.getMainJob());
-                        AppConfig.myMainJob = jobMsg.getMainJob();
+                        if (jobMsg.getMainJob() != null) {
+                            AppConfig.activeJobs.add(jobMsg.getMainJob());
+                            AppConfig.myMainJob = jobMsg.getMainJob();
+                        }
                         JobWorker worker = new JobWorker(job);
                         AppConfig.jobWorker = worker;
                         Thread t = new Thread(worker);

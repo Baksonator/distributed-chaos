@@ -1,32 +1,32 @@
-17:27:01 - Starting servent [0|localhost|1600]
-17:27:01 - Pausing for 60000 ms
-17:27:03 - Sending message [0|1600|0||NEW_NODE|1100|28]
-17:27:04 - Got message [28|1100|6||WELCOME|1600|0]
-17:27:05 - Sending message [0|1600|1||UPDATE|1100|28]
-17:27:08 - Got message [0|1600|2|1100,1200,1300,1400|UPDATE|1600|0]
-17:27:27 - Got message [20|1700|4|1100,1200,1300,1400|UPDATE|1600|0]
-17:27:28 - Sending message [20|1700|2|1100,1200,1300,1400,1600|UPDATE|1700|20]
-17:27:34 - Got message [40|1800|5||NEW_NODE|1600|0]
-17:27:35 - Sending message [40|1800|3||NEW_NODE|1100|28]
-17:27:41 - Got message [40|1800|6|1100,1200,1300,1400|UPDATE|1600|0]
-17:27:42 - Sending message [40|1800|4|1100,1200,1300,1400,1600|UPDATE|1700|20]
+21:44:45 - Starting servent [0|localhost|1600]
+21:44:45 - Pausing for 60000 ms
+21:44:46 - Sending message [0|1600|0||NEW_NODE|1200|48]
+21:44:48 - Got message [28|1100|6||WELCOME|1600|0]
+21:44:49 - Sending message [0|1600|1||UPDATE|1100|28]
+21:44:53 - Got message [0|1600|2|1100,1200,1300,1400|UPDATE|1600|0]
+21:45:08 - Got message [20|1700|4|1100,1200,1300,1400|UPDATE|1600|0]
+21:45:08 - Sending message [20|1700|2|1100,1200,1300,1400,1600|UPDATE|1700|20]
+21:45:17 - Got message [40|1800|5||NEW_NODE|1600|0]
+21:45:18 - Sending message [40|1800|3||NEW_NODE|1100|28]
+21:45:25 - Got message [40|1800|6|1100,1200,1300,1400|UPDATE|1600|0]
+21:45:26 - Sending message [40|1800|4|1100,1200,1300,1400,1600|UPDATE|1700|20]
 4
 0: [5|localhost|1700]
 1: [6|localhost|1800]
-17:28:01 - Pausing for 110000 ms
-17:28:13 - Got message [24|1400|10|4|JOB|1600|0]
-17:28:13 - Started new work
-17:28:33 - Got message [4|1300|9|4|JOB_MIGRATION|1600|0]
-17:28:33 - Got message [24|1400|15|4|JOB|1600|0]
-17:28:34 - Got message [24|1400|17|4|JOB_MIGRATION|1600|0]
-17:28:34 - Sending message [0|1600|5|5|JOB_MIGRATION|1700|20]
-17:28:35 - Got message [4|1300|10|4|JOB_MIGRATION|1600|0]
-17:28:35 - Started someone else's work
-17:29:03 - Got message [24|1400|20|4|JOB_STOP|1600|0]
-17:29:06 - Got message [4|1300|11|6|JOB_MIGRATION|1600|0]
-17:29:06 - Sending message [0|1600|6|6|JOB_MIGRATION|1800|40]
-17:29:07 - Got message [24|1400|23|4|JOB_MIGRATION|1600|0]
-17:29:07 - Started someone else's work
-17:29:37 - Got message [48|1200|26|6|RESULT_COLLECTION|1600|0]
-17:29:38 - Sending message [48|1200|7|6|RESULT_COLLECTION|1700|20]
-17:29:51 - Stopping...
+21:45:45 - Pausing for 110000 ms
+21:45:57 - Got message [24|1400|10|4|JOB|1600|0]
+21:45:57 - Started new work
+21:46:17 - Got message [24|1400|15|4|JOB|1600|0]
+21:46:17 - Got message [4|1300|8|4|JOB_MIGRATION|1600|0]
+21:46:17 - Got message [24|1400|17|4|JOB_MIGRATION|1600|0]
+21:46:17 - Sending message [0|1600|5|5|JOB_MIGRATION|1700|20]
+21:46:20 - Got message [4|1300|9|4|JOB_MIGRATION|1600|0]
+21:46:20 - Started someone else's work
+21:46:47 - Got message [24|1400|21|4|JOB_STOP|1600|0]
+21:46:51 - Got message [4|1300|10|6|JOB_MIGRATION|1600|0]
+21:46:52 - Sending message [0|1600|6|6|JOB_MIGRATION|1800|40]
+21:46:52 - Got message [24|1400|24|4|JOB_MIGRATION|1600|0]
+21:46:52 - Started someone else's work
+21:47:22 - Got message [48|1200|26|6|RESULT_COLLECTION|1600|0]
+21:47:23 - Sending message [48|1200|7|6|RESULT_COLLECTION|1700|20]
+21:47:35 - Stopping...

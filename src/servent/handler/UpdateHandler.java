@@ -33,6 +33,7 @@ public class UpdateHandler implements MessageHandler {
 				AppConfig.chordState.updateLogLevel();
 
 				AppConfig.chordState.addNodes(newNodes);
+				AppConfig.chordState.getAllNodeInfoHelper().add(newNodInfo);
 				String newMessageText = "";
 				if (clientMessage.getMessageText().equals("")) {
 					newMessageText = String.valueOf(AppConfig.myServentInfo.getListenerPort());
@@ -57,6 +58,8 @@ public class UpdateHandler implements MessageHandler {
 
 				AppConfig.myServentInfo.setUuid(allNodes.size());
 				AppConfig.chordState.setNodeCount(allNodes.size() + 1);
+				AppConfig.chordState.getAllNodeInfoHelper().addAll(allNodes);
+				AppConfig.chordState.getAllNodeInfoHelper().add(AppConfig.myServentInfo);
 				AppConfig.chordState.updateLogLevel();
 				AppConfig.chordState.addNodes(allNodes);
 				UpdateMessage arrivedMessage = (UpdateMessage) clientMessage;

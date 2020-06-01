@@ -59,6 +59,8 @@ public class ChordState {
 	
 	//we DO NOT use this to send messages, but only to construct the successor table
 	private List<ServentInfo> allNodeInfo;
+
+	private List<ServentInfo> allNodeInfoHelper;
 	
 	private Map<Integer, Integer> valueMap;
 	
@@ -82,6 +84,7 @@ public class ChordState {
 		successorTableAlt = new ArrayList<>();
 		valueMap = new ConcurrentHashMap<>();
 		allNodeInfo = new CopyOnWriteArrayList<>();
+		allNodeInfoHelper = new CopyOnWriteArrayList<>();
 	}
 	
 	/**
@@ -160,6 +163,10 @@ public class ChordState {
 		return allNodeInfo;
 	}
 
+	public List<ServentInfo> getAllNodeInfoHelper() {
+		return allNodeInfoHelper;
+	}
+
 	public void updateLogLevel() {
 		this.logLevel = 1;
 //		int tmp = this.nodeCount;
@@ -181,6 +188,10 @@ public class ChordState {
 
 	public void incrementNodeCount() {
 		 this.nodeCount++;
+	}
+
+	public void decrementNodeCount() {
+		this.nodeCount--;
 	}
 
 	public boolean isCollision(int chordId) {
@@ -370,6 +381,8 @@ public class ChordState {
 			}
 			
 		});
+
+//		allNodeInfoHelper.addAll(newNodes);
 		
 		List<ServentInfo> newList = new ArrayList<>();
 		List<ServentInfo> newList2 = new ArrayList<>();
@@ -397,11 +410,14 @@ public class ChordState {
 
 	public void removeNode(ServentInfo node) {
 		int nodeId = node.getUuid();
-		AppConfig.timestampedStandardPrint(allNodeInfo.remove(node)+"");
+		allNodeInfo.remove(node);
+//		AppConfig.timestampedStandardPrint(allNodeInfo.remove(node)+"");
 
-		if (nodeId < AppConfig.myServentInfo.getUuid()) {
-			AppConfig.myServentInfo.setUuid(AppConfig.myServentInfo.getUuid() - 1);
-		}
+//		allNodeInfoHelper.remove(node);
+
+//		if (nodeId < AppConfig.myServentInfo.getUuid()) {
+//			AppConfig.myServentInfo.setUuid(AppConfig.myServentInfo.getUuid() - 1);
+//		}
 
 		allNodeInfo.sort(new Comparator<ServentInfo>() {
 
@@ -417,9 +433,9 @@ public class ChordState {
 
 		int myId = AppConfig.myServentInfo.getUuid();
 		for (ServentInfo serventInfo : allNodeInfo) {
-			if (serventInfo.getUuid() > nodeId) {
-				serventInfo.setUuid(serventInfo.getUuid() - 1);
-			}
+//			if (serventInfo.getUuid() > nodeId) {
+//				serventInfo.setUuid(serventInfo.getUuid() - 1);
+//			}
 			if (serventInfo.getUuid() < myId) {
 				newList2.add(serventInfo);
 			} else {

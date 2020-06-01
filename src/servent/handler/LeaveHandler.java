@@ -21,6 +21,10 @@ public class LeaveHandler implements MessageHandler {
             int leaverId = Integer.parseInt(clientMessage.getMessageText());
             ServentInfo leaverInfo = new ServentInfo("localhost", clientMessage.getSenderPort());
             leaverInfo.setUuid(leaverId);
+
+            AppConfig.chordState.decrementNodeCount();
+            AppConfig.chordState.updateLogLevel();
+
             AppConfig.chordState.removeNode(leaverInfo);
 
             // TODO Pazi na overflow
