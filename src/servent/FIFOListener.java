@@ -80,14 +80,17 @@ public class FIFOListener implements Runnable, Cancellable {
                         break;
                     case MUTEX_RELEASE:
                         senderId = Integer.parseInt(clientMessage.getMessageText());
+                        MutexReleaseMessage mutexReleaseMessage = (MutexReleaseMessage) clientMessage;
                         if (senderId != AppConfig.myServentInfo.getUuid()) {
-                            MutexReleaseMessage mutexReleaseMessage = (MutexReleaseMessage) clientMessage;
                             AppConfig.lamportClock.receiveAction(mutexReleaseMessage.getLogicalTimestamp().getClock());
                             AppConfig.requestQueue.poll();
                             MutexReleaseMessage newMutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
                                     AppConfig.chordState.getNextNodePort(), clientMessage.getMessageText(),
-                                    mutexReleaseMessage.getLogicalTimestamp());
+                                    mutexReleaseMessage.getLogicalTimestamp(), mutexReleaseMessage.isFlag());
                             MessageUtil.sendMessage(newMutexReleaseMessage);
+                        } else if (mutexReleaseMessage.isFlag()) {
+                            AppConfig.lamportClock.receiveAction(mutexReleaseMessage.getLogicalTimestamp().getClock());
+                            AppConfig.requestQueue.poll();
                         }
 
                         break;

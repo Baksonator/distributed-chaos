@@ -44,15 +44,14 @@ public class JobHandler implements MessageHandler {
                     if (jobMsg.getMainJob() != null) {
                         AppConfig.activeJobs.add(jobMsg.getMainJob());
                         AppConfig.myMainJob = jobMsg.getMainJob();
-
-                        JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
-                                AppConfig.chordState.getNextNodeForKey(jobMsg.getSenderId()).getListenerPort(),
-                                Integer.toString(jobMsg.getSenderId()));
-                        MessageUtil.sendMessage(jobMessageResponse);
                     }
                     if (AppConfig.jobWorker != null) {
                         AppConfig.jobWorker.stop();
                     }
+                    JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
+                            AppConfig.chordState.getNextNodeForKey(jobMsg.getSenderId()).getListenerPort(),
+                            Integer.toString(jobMsg.getSenderId()));
+                    MessageUtil.sendMessage(jobMessageResponse);
                     return;
                 }
 
@@ -98,11 +97,6 @@ public class JobHandler implements MessageHandler {
                         if (jobMsg.getMainJob() != null) {
                             AppConfig.activeJobs.add(jobMsg.getMainJob());
                             AppConfig.myMainJob = jobMsg.getMainJob();
-
-                            JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
-                                    AppConfig.chordState.getNextNodeForKey(jobMsg.getSenderId()).getListenerPort(),
-                                    Integer.toString(jobMsg.getSenderId()));
-                            MessageUtil.sendMessage(jobMessageResponse);
                         }
                         JobWorker worker = new JobWorker(job, newData);
                         if (AppConfig.jobWorker != null) {
@@ -111,6 +105,10 @@ public class JobHandler implements MessageHandler {
                         AppConfig.jobWorker = worker;
                         Thread t = new Thread(worker);
                         t.start();
+                        JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
+                                AppConfig.chordState.getNextNodeForKey(jobMsg.getSenderId()).getListenerPort(),
+                                Integer.toString(jobMsg.getSenderId()));
+                        MessageUtil.sendMessage(jobMessageResponse);
                     } else {
                         JobCommandHandler.fractalIds = fractalIds;
                         AppConfig.myServentInfo.setFractalId(myFractalId);

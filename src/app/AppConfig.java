@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This class contains all the global application configuration stuff.
@@ -86,6 +87,7 @@ public class AppConfig {
 
 	public static final Semaphore localSemaphore = new Semaphore(1, true);
 
+	public static volatile boolean isDesignated = false;
 	/**
 	 * Reads a config file. Should be called once at start of app.
 	 * The config file should be of the following format:

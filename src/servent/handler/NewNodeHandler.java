@@ -37,6 +37,7 @@ public class NewNodeHandler implements MessageHandler {
 				LogicalTimestamp myRequestLogicalTimestamp = new LogicalTimestamp(AppConfig.lamportClock.getValue(),
 						AppConfig.myServentInfo.getUuid());
 
+				AppConfig.isDesignated = false;
 				AppConfig.replyLatch = new CountDownLatch(AppConfig.chordState.getNodeCount() - 1);
 
 				if (AppConfig.chordState.getNodeCount() > 1) {

@@ -183,6 +183,10 @@ public class ChordState {
 	}
 
 	public void updateLogLevel() {
+		if (nodeCount == 1) {
+			this.logLevel = 1;
+			return;
+		}
 		this.logLevel = 1;
 //		int tmp = this.nodeCount;
 		int tmp = 1;
@@ -323,6 +327,10 @@ public class ChordState {
 
 	private void updateSuccessorTable() {
 		//first node after me has to be successorTable[0]
+		if (nodeCount == 1) {
+			successorTableAlt.clear();
+			return;
+		}
 		
 		int currentNodeIndex = 0;
 		ServentInfo currentNode = allNodeInfo.get(currentNodeIndex);
@@ -426,6 +434,11 @@ public class ChordState {
 	public void removeNode(ServentInfo node) {
 		int nodeId = node.getUuid();
 		allNodeInfo.remove(node);
+
+		if (allNodeInfo.size() == 0) {
+			updateSuccessorTable();
+			return;
+		}
 //		AppConfig.timestampedStandardPrint(allNodeInfo.remove(node)+"");
 
 //		allNodeInfoHelper.remove(node);

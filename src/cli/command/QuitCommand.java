@@ -6,6 +6,7 @@ import mutex.LogicalTimestamp;
 import servent.SimpleServentListener;
 import servent.message.LeaveMessage;
 import servent.message.MutexRequestMessage;
+import servent.message.util.FifoSendWorker;
 import servent.message.util.MessageUtil;
 
 import java.io.IOException;
@@ -31,6 +32,16 @@ public class QuitCommand implements CLICommand {
     @Override
     public void execute(String args) {
         contactBootstrap();
+
+        if (AppConfig.chordState.getNodeCount() == 1) {
+            parser.stop();
+            listener.stop();
+            AppConfig.timestampedStandardPrint("Stopping...");
+            for (FifoSendWorker senderWorker : AppConfig.fifoSendWorkers) {
+                senderWorker.stop();
+            }
+            return;
+        }
 
         AppConfig.lamportClock.tick();
         LogicalTimestamp myRequestLogicalTimestamp = new LogicalTimestamp(AppConfig.lamportClock.getValue(),
@@ -62,7 +73,7 @@ public class QuitCommand implements CLICommand {
         }
 
         LeaveMessage leaveMessage = new LeaveMessage(AppConfig.myServentInfo.getListenerPort(),
-                AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()));
+                AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()), true);
         MessageUtil.sendMessage(leaveMessage);
 
         parser.stop();

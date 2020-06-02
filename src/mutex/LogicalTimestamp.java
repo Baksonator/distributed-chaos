@@ -45,4 +45,12 @@ public class LogicalTimestamp implements Serializable, Comparable<LogicalTimesta
     public int hashCode() {
         return Objects.hash(clock, uuid);
     }
+
+    @Override
+    public String toString() {
+        return "LogicalTimestamp{" +
+                "clock=" + clock +
+                ", uuid=" + uuid +
+                '}';
+    }
 }

@@ -1,9 +1,8 @@
 package servent.handler;
 
 import app.AppConfig;
-import servent.message.JobMessageResponse;
-import servent.message.Message;
-import servent.message.MessageType;
+import mutex.LogicalTimestamp;
+import servent.message.*;
 import servent.message.util.MessageUtil;
 
 public class JobMessageResponseHandler implements MessageHandler {
@@ -21,6 +20,17 @@ public class JobMessageResponseHandler implements MessageHandler {
             int receiverId = Integer.parseInt(jobMessageResponse.getMessageText());
             if (receiverId == AppConfig.myServentInfo.getUuid()) {
                 AppConfig.jobLatch.countDown();
+                if (AppConfig.isDesignated) {
+                    if (AppConfig.jobLatch.getCount() == 0) {
+                        AppConfig.isDesignated = false;
+                        AppConfig.lamportClock.tick();
+                        AppConfig.requestQueue.poll();
+                        MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
+                                AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
+                                new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), false);
+                        MessageUtil.sendMessage(mutexReleaseMessage);
+                    }
+                }
             } else {
                 JobMessageResponse newJobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(),

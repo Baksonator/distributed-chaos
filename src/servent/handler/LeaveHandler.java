@@ -14,6 +14,7 @@ import servent.message.util.FifoSendWorker;
 import servent.message.util.MessageUtil;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class LeaveHandler implements MessageHandler {
 
@@ -32,6 +33,12 @@ public class LeaveHandler implements MessageHandler {
         if (clientMessage.getMessageType() == MessageType.LEAVE) {
             int leaverId = Integer.parseInt(clientMessage.getMessageText());
             if (leaverId != AppConfig.myServentInfo.getUuid()) {
+                LeaveMessage leaveMessage = (LeaveMessage) clientMessage;
+                if (leaveMessage.isFirst()) {
+                    AppConfig.jobLatch = new CountDownLatch(AppConfig.chordState.getNodeCount() - 1);
+                    AppConfig.isDesignated = true;
+                }
+
                 int oldPort = AppConfig.chordState.getNextNodePort();
 
                 ServentInfo leaverInfo = new ServentInfo("localhost", clientMessage.getSenderPort());
@@ -51,29 +58,36 @@ public class LeaveHandler implements MessageHandler {
                     }
                 }
 
-                LeaveMessage leaveMessage = new LeaveMessage(AppConfig.myServentInfo.getListenerPort(),
-                        oldPort, Integer.toString(leaverId));
-                MessageUtil.sendMessage(leaveMessage);
+                LeaveMessage newLeaveMessage = new LeaveMessage(AppConfig.myServentInfo.getListenerPort(),
+                        oldPort, Integer.toString(leaverId), false);
+                MessageUtil.sendMessage(newLeaveMessage);
             } else {
                 AppConfig.chordState.decrementNodeCount();
                 AppConfig.chordState.getAllNodeInfoHelper().remove(AppConfig.myServentInfo);
 
                 if (AppConfig.activeJobs.size() > 0) {
-                    AppConfig.jobLatch = new CountDownLatch(AppConfig.chordState.getNodeCount());
+//                    AppConfig.jobLatch = new CountDownLatch(AppConfig.chordState.getNodeCount());
                     JobCommandHandler.restructureDeparture();
-                    try {
-                        AppConfig.jobLatch.await();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        AppConfig.jobLatch.await();
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+                } else {
+                    AppConfig.lamportClock.tick();
+                    AppConfig.requestQueue.poll();
+                    MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
+                            AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.chordState.getPredecessor().getUuid()),
+                            new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), true);
+                    MessageUtil.sendMessage(mutexReleaseMessage);
                 }
 
-                AppConfig.lamportClock.tick();
-                AppConfig.requestQueue.poll();
-                MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
-                        AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
-                        new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.chordState.getPredecessor().getUuid()));
-                MessageUtil.sendMessage(mutexReleaseMessage);
+//                AppConfig.lamportClock.tick();
+//                AppConfig.requestQueue.poll();
+//                MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
+//                        AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
+//                        new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.chordState.getPredecessor().getUuid()));
+//                MessageUtil.sendMessage(mutexReleaseMessage);
 
                 try {
                     Thread.sleep(3000);
