@@ -1,17 +1,11 @@
 package servent.handler;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.concurrent.CountDownLatch;
 
 import app.AppConfig;
-import app.ChordState;
 import app.ServentInfo;
-import servent.message.Message;
-import servent.message.MessageType;
-import servent.message.NewNodeMessage;
-import servent.message.SorryMessage;
-import servent.message.WelcomeMessage;
+import mutex.LogicalTimestamp;
+import servent.message.*;
 import servent.message.util.MessageUtil;
 
 public class NewNodeHandler implements MessageHandler {
@@ -28,12 +22,50 @@ public class NewNodeHandler implements MessageHandler {
 			int newNodePort = clientMessage.getSenderPort();
 			ServentInfo newNodeInfo = new ServentInfo("localhost", newNodePort);
 
-			if (AppConfig.myServentInfo.getUuid() == 0) {
+			// TODO PAZI NA OVU PROMENU
+			if (AppConfig.myServentInfo.getUuid() == AppConfig.chordState.getAllNodeInfoHelper().get(0).getUuid()) {
 				// I am the first node in the ring
 				AppConfig.chordState.setPredecessor(newNodeInfo);
 
-				WelcomeMessage wm = new WelcomeMessage(AppConfig.myServentInfo.getListenerPort(), newNodePort, null);
+//				synchronized (AppConfig.localLock) {
+				try {
+					AppConfig.localSemaphore.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				AppConfig.lamportClock.tick();
+				LogicalTimestamp myRequestLogicalTimestamp = new LogicalTimestamp(AppConfig.lamportClock.getValue(),
+						AppConfig.myServentInfo.getUuid());
+
+				AppConfig.replyLatch = new CountDownLatch(AppConfig.chordState.getNodeCount() - 1);
+
+				if (AppConfig.chordState.getNodeCount() > 1) {
+					MutexRequestMessage mutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
+							AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
+							myRequestLogicalTimestamp);
+					MessageUtil.sendMessage(mutexRequestMessage);
+				}
+
+				AppConfig.requestQueue.add(myRequestLogicalTimestamp);
+
+				try {
+					AppConfig.replyLatch.await();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				while (!AppConfig.requestQueue.peek().equals(myRequestLogicalTimestamp)) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+
+				WelcomeMessage wm = new WelcomeMessage(AppConfig.myServentInfo.getListenerPort(), newNodePort, null,
+						AppConfig.lamportClock.getValue(), AppConfig.chordState.getNodeCount());
 				MessageUtil.sendMessage(wm);
+//				}
 			} else {
 				ServentInfo nextNode = AppConfig.chordState.getNextNodeForFirst();
 				NewNodeMessage nnm = new NewNodeMessage(newNodePort, nextNode.getListenerPort());

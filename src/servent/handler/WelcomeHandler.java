@@ -1,14 +1,14 @@
 package servent.handler;
 
 import app.AppConfig;
-import servent.message.Message;
-import servent.message.MessageType;
-import servent.message.UpdateMessage;
-import servent.message.WelcomeMessage;
+import mutex.LamportClock;
+import mutex.LogicalTimestamp;
+import servent.message.*;
 import servent.message.util.MessageUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CountDownLatch;
 
 public class WelcomeHandler implements MessageHandler {
 
@@ -22,7 +22,8 @@ public class WelcomeHandler implements MessageHandler {
 	public void run() {
 		if (clientMessage.getMessageType() == MessageType.WELCOME) {
 			WelcomeMessage welcomeMsg = (WelcomeMessage)clientMessage;
-			
+			AppConfig.lamportClock = new LamportClock(welcomeMsg.getLogicalTime());
+
 			AppConfig.chordState.init(welcomeMsg);
 			
 			UpdateMessage um = new UpdateMessage(AppConfig.myServentInfo.getListenerPort(),

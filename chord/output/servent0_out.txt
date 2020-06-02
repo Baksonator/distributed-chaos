@@ -1,39 +1,46 @@
-17:42:25 - Starting servent [0|localhost|1100]
-17:42:26 - Pausing for 50000 ms
-17:42:26 - First node in Chord system.
-17:42:36 - Got message [48|1200|0||NEW_NODE|1100|28]
-17:42:37 - Sending message [28|1100|0||WELCOME|1200|48]
-17:42:38 - Got message [48|1200|1||UPDATE|1100|28]
-17:42:40 - Sending message [48|1200|1|1100|UPDATE|1200|48]
-17:42:48 - Got message [4|1300|2||NEW_NODE|1100|28]
-17:42:48 - Sending message [28|1100|2||WELCOME|1300|4]
-17:42:49 - Got message [4|1300|1||UPDATE|1100|28]
-17:42:50 - Sending message [4|1300|3|1100|UPDATE|1200|48]
-17:42:59 - Got message [24|1400|2||NEW_NODE|1100|28]
-17:43:00 - Sending message [28|1100|4||WELCOME|1400|24]
-17:43:01 - Got message [24|1400|1||UPDATE|1100|28]
-17:43:02 - Sending message [24|1400|5|1100|UPDATE|1200|48]
-17:43:06 - Got message [0|1600|0||NEW_NODE|1100|28]
-17:43:08 - Sending message [28|1100|6||WELCOME|1600|0]
-17:43:08 - Got message [0|1600|1||UPDATE|1100|28]
-17:43:09 - Sending message [0|1600|7|1100|UPDATE|1200|48]
-17:43:16 - Pausing for 10000 ms
+21:00:07 - Starting servent [0|localhost|1100]
+21:00:07 - Pausing for 100000 ms
+21:00:07 - First node in Chord system.
+21:00:29 - Got message [48|1200|0||NEW_NODE|1100|28]
+21:00:29 - Sending message [28|1100|0||WELCOME|1200|48]
+21:00:30 - Got message [48|1200|1||UPDATE|1100|28]
+21:00:31 - Sending message [48|1200|1|1100|UPDATE|1200|48]
+21:00:49 - Got message [4|1300|2||NEW_NODE|1100|28]
+21:00:49 - Sending message [28|1100|2|0|MUTEX_REQUEST|1200|48]
+21:00:49 - Got message [48|1200|3|0|MUTEX_REQUEST|1100|28]
+21:00:49 - Got message [48|1200|4|0|MUTEX_REPLY|1100|28]
+21:01:09 - Got message [24|1400|5||NEW_NODE|1100|28]
+21:01:09 - Sending message [28|1100|3|0|MUTEX_REQUEST|1200|48]
+21:01:09 - Got message [48|1200|6|0|MUTEX_REQUEST|1100|28]
+21:01:09 - Got message [48|1200|7|0|MUTEX_REPLY|1100|28]
+21:01:29 - Got message [0|1600|0||NEW_NODE|1100|28]
+21:01:29 - Sending message [28|1100|4|0|MUTEX_REQUEST|1200|48]
+21:01:29 - Got message [48|1200|8|0|MUTEX_REQUEST|1100|28]
+21:01:29 - Got message [48|1200|9|0|MUTEX_REPLY|1100|28]
+21:01:47 - Pausing for 10000 ms
 0
 0: [1|localhost|1200]
-1: [2|localhost|1300]
-17:43:26 - Pausing for 50000 ms
-17:43:27 - Got message [24|1400|3|0|JOB|1100|28]
-17:43:27 - ULAZI ODJE
-17:43:27 - NODE COUNT 3
-17:43:27 - PRODJE ODJE
-17:43:27 - Next node for key:0 is 0
-17:43:27 - Next node for key:1 is 1
-17:43:27 - Next node for key:2 is 2
-17:43:28 - Sending message [28|1100|9|1|JOB|1200|48]
-17:43:29 - Sending message [28|1100|10|2|JOB|1300|4]
-17:43:29 - Sending message [28|1100|8|0|JOB|1100|28]
-17:43:29 - Got message [28|1100|8|0|JOB|1100|28]
-17:43:29 - Started new work
-17:43:48 - Got message [48|1200|5|0,4|RESULT_REQUEST|1100|28]
-17:43:49 - Sending message [48|1200|11|4|RESULT_COLLECTION|1200|48]
-17:44:16 - Stopping...
+21:01:57 - Pausing for 50000 ms
+21:01:58 - Got message [48|1200|10|0|JOB|1100|28]
+21:01:58 - Started new work
+21:01:59 - Sending message [28|1100|5|1|JOB_MESSAGE_RESPONSE|1200|48]
+21:02:00 - Got message [48|1200|13||RELEASE_ENTRY|1100|28]
+21:02:00 - Sending message [28|1100|6|0|MUTEX_RELEASE|1200|48]
+21:02:00 - Got message [48|1200|14|0|MUTEX_RELEASE|1100|28]
+21:02:02 - Sending message [28|1100|7||WELCOME|1300|4]
+21:02:02 - Got message [4|1300|1||UPDATE|1100|28]
+21:02:04 - Sending message [4|1300|8|1100|UPDATE|1200|48]
+21:02:05 - Got message [4|1300|2|0|JOB_STOP|1100|28]
+21:02:06 - Got message [4|1300|3|1|JOB_STOP|1100|28]
+21:02:06 - Next node for key:1 is 1
+21:02:06 - Sending message [28|1100|9|0|JOB_MIGRATION|1100|28]
+21:02:06 - Got message [28|1100|9|0|JOB_MIGRATION|1100|28]
+21:02:06 - Started someone else's work
+21:02:06 - Sending message [28|1100|11|2|JOB_MIGRATION|1200|48]
+21:02:07 - Sending message [28|1100|10|1|JOB_MIGRATION|1200|48]
+21:02:07 - Sending message [28|1100|12|1|JOB_STOP|1200|48]
+21:02:20 - Got message [48|1200|5|0,2|RESULT_REQUEST|1100|28]
+21:02:21 - Sending message [48|1200|13|2|RESULT_COLLECTION|1200|48]
+21:02:23 - Got message [4|1300|6|1|RESULT_REPLY|1100|28]
+21:02:24 - Sending message [28|1100|14|1|RESULT_REPLY|1200|48]
+21:02:47 - Stopping...

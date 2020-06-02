@@ -1,4 +1,4 @@
-pause 20000
+pause 40000
 pause 10000
 successor_info
 pause 50000

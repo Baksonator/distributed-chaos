@@ -1,6 +1,7 @@
 package app;
 
 import mutex.LamportClock;
+import mutex.LogicalTimestamp;
 import servent.FIFOListener;
 import servent.message.util.FifoSendWorker;
 
@@ -9,13 +10,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * This class contains all the global application configuration stuff.
@@ -79,6 +75,16 @@ public class AppConfig {
 	public static LamportClock lamportClock;
 
 	public static FIFOListener fifoListener;
+
+	public static BlockingQueue<LogicalTimestamp> requestQueue = new PriorityBlockingQueue<>();
+
+	public static CountDownLatch replyLatch;
+
+	public static CountDownLatch jobLatch;
+
+	public static final Object localLock = new Object();
+
+	public static final Semaphore localSemaphore = new Semaphore(1, true);
 
 	/**
 	 * Reads a config file. Should be called once at start of app.

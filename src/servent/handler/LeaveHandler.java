@@ -4,12 +4,16 @@ import app.AppConfig;
 import app.JobCommandHandler;
 import app.ServentInfo;
 import cli.CLIParser;
+import mutex.LogicalTimestamp;
 import servent.SimpleServentListener;
 import servent.message.LeaveMessage;
 import servent.message.Message;
 import servent.message.MessageType;
+import servent.message.MutexReleaseMessage;
 import servent.message.util.FifoSendWorker;
 import servent.message.util.MessageUtil;
+
+import java.util.concurrent.CountDownLatch;
 
 public class LeaveHandler implements MessageHandler {
 
@@ -42,6 +46,7 @@ public class LeaveHandler implements MessageHandler {
                 for (FifoSendWorker sendWorker : AppConfig.fifoSendWorkers) {
                     if (sendWorker.getNeighbor() == leaverId) {
                         sendWorker.stop();
+                        AppConfig.fifoSendWorkers.remove(sendWorker);
                         break;
                     }
                 }
@@ -54,8 +59,21 @@ public class LeaveHandler implements MessageHandler {
                 AppConfig.chordState.getAllNodeInfoHelper().remove(AppConfig.myServentInfo);
 
                 if (AppConfig.activeJobs.size() > 0) {
+                    AppConfig.jobLatch = new CountDownLatch(AppConfig.chordState.getNodeCount());
                     JobCommandHandler.restructureDeparture();
+                    try {
+                        AppConfig.jobLatch.await();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+
+                AppConfig.lamportClock.tick();
+                AppConfig.requestQueue.poll();
+                MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
+                        AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
+                        new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.chordState.getPredecessor().getUuid()));
+                MessageUtil.sendMessage(mutexReleaseMessage);
 
                 try {
                     Thread.sleep(3000);

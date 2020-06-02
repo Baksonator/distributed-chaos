@@ -1,10 +1,7 @@
 package servent.handler;
 
 import app.*;
-import servent.message.JobMessage;
-import servent.message.JobMigrationMessage;
-import servent.message.Message;
-import servent.message.MessageType;
+import servent.message.*;
 import servent.message.util.MessageUtil;
 
 import java.util.*;
@@ -47,6 +44,11 @@ public class JobHandler implements MessageHandler {
                     if (jobMsg.getMainJob() != null) {
                         AppConfig.activeJobs.add(jobMsg.getMainJob());
                         AppConfig.myMainJob = jobMsg.getMainJob();
+
+                        JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
+                                AppConfig.chordState.getNextNodeForKey(jobMsg.getSenderId()).getListenerPort(),
+                                Integer.toString(jobMsg.getSenderId()));
+                        MessageUtil.sendMessage(jobMessageResponse);
                     }
                     if (AppConfig.jobWorker != null) {
                         AppConfig.jobWorker.stop();
@@ -96,6 +98,11 @@ public class JobHandler implements MessageHandler {
                         if (jobMsg.getMainJob() != null) {
                             AppConfig.activeJobs.add(jobMsg.getMainJob());
                             AppConfig.myMainJob = jobMsg.getMainJob();
+
+                            JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
+                                    AppConfig.chordState.getNextNodeForKey(jobMsg.getSenderId()).getListenerPort(),
+                                    Integer.toString(jobMsg.getSenderId()));
+                            MessageUtil.sendMessage(jobMessageResponse);
                         }
                         JobWorker worker = new JobWorker(job, newData);
                         if (AppConfig.jobWorker != null) {
@@ -115,6 +122,10 @@ public class JobHandler implements MessageHandler {
                         AppConfig.jobWorker = worker;
                         Thread t = new Thread(worker);
                         t.start();
+                        JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
+                                AppConfig.chordState.getNextNodeForKey(jobMsg.getSenderId()).getListenerPort(),
+                                Integer.toString(jobMsg.getSenderId()));
+                        MessageUtil.sendMessage(jobMessageResponse);
                     }
                 } else {
                     ArrayList<Job> jobs = JobCommandHandler.prepareJobs(job);
@@ -164,7 +175,8 @@ public class JobHandler implements MessageHandler {
                         AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                         JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(),
-                                Integer.toString(receiverId), jobs.get(i), fractalIds, level + 1, jobMsg.getMainJob(), jobMsg.getFractalIdMapping());
+                                Integer.toString(receiverId), jobs.get(i), fractalIds, level + 1, jobMsg.getMainJob(),
+                                jobMsg.getFractalIdMapping(), jobMsg.getSenderId());
                         MessageUtil.sendMessage(jobMessage);
 
                         if (overflowLevelNodes > 0) {
@@ -179,7 +191,8 @@ public class JobHandler implements MessageHandler {
                 AppConfig.timestampedStandardPrint("Next node for key:" + receiver + " is " + AppConfig.chordState.getNextNodeForKey(receiver).getUuid());
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiver).getListenerPort(), clientMessage.getMessageText(),
-                        jobMsg.getJob(), jobMsg.getFractalIds(), jobMsg.getLevel(), jobMsg.getMainJob(), jobMsg.getFractalIdMapping());
+                        jobMsg.getJob(), jobMsg.getFractalIds(), jobMsg.getLevel(), jobMsg.getMainJob(),
+                        jobMsg.getFractalIdMapping(), jobMsg.getSenderId());
                 MessageUtil.sendMessage(jobMessage);
             }
         }

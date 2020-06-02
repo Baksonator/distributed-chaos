@@ -121,7 +121,7 @@ public class JobCommandHandler {
                     // TODO Mozda ti ne valjda ovaj newJob pre fractalIds, proveri to dobro, to imas i dole u stop
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
-                            newJob, fractalIds, 0, job, fractalIdMapping);
+                            newJob, fractalIds, 0, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
                     MessageUtil.sendMessage(jobMessage);
                 } else {
                     int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -131,7 +131,7 @@ public class JobCommandHandler {
                         AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                         JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
-                                jobs.get(j).get(i), fractalIds, 1, job, fractalIdMapping);
+                                jobs.get(j).get(i), fractalIds, 1, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
                         MessageUtil.sendMessage(jobMessage);
 
                         if (currOverflowLevelNodes > 0) {
@@ -154,7 +154,7 @@ public class JobCommandHandler {
                 if (entry.getValue().equals("")) {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
-                            null, fractalIds, 1, job, fractalIdMapping);
+                            null, fractalIds, 1, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
                     MessageUtil.sendMessage(jobMessage);
                 }
             }
@@ -181,7 +181,7 @@ public class JobCommandHandler {
                 AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
-                        job, fractalIds, 0, job, null);
+                        job, fractalIds, 0, job, null, AppConfig.myServentInfo.getUuid());
                 MessageUtil.sendMessage(jobMessage);
             } else {
                 int lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(0).getUuid();
@@ -190,7 +190,7 @@ public class JobCommandHandler {
                     AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
-                            jobs.get(i), fractalIds, 1, job, null);
+                            jobs.get(i), fractalIds, 1, job, null, AppConfig.myServentInfo.getUuid());
                     MessageUtil.sendMessage(jobMessage);
 
                     if (overflowLevelNodes > 0) {
@@ -206,7 +206,7 @@ public class JobCommandHandler {
                 if (entry.getValue().equals("")) {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
-                            null, fractalIds, 1, job, null);
+                            null, fractalIds, 1, job, null, AppConfig.myServentInfo.getUuid());
                     MessageUtil.sendMessage(jobMessage);
                 }
             }
@@ -310,7 +310,7 @@ public class JobCommandHandler {
                     AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                     JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
-                            newJob, fractalIds, 0, job, fractalIdMapping);
+                            newJob, fractalIds, 0, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
                     MessageUtil.sendMessage(jobMessage);
                 } else {
                     int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -320,7 +320,7 @@ public class JobCommandHandler {
                         AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                         JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
-                                jobs.get(j).get(i), fractalIds, 1, job, fractalIdMapping);
+                                jobs.get(j).get(i), fractalIds, 1, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
                         MessageUtil.sendMessage(jobMessage);
 
                         if (currOverflowLevelNodes > 0) {
@@ -343,7 +343,7 @@ public class JobCommandHandler {
                 if (entry.getValue().equals("")) {
                     JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
-                            null, fractalIds, 1, job, fractalIdMapping);
+                            null, fractalIds, 1, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
                     MessageUtil.sendMessage(jobMessage);
                 }
             }
@@ -393,7 +393,7 @@ public class JobCommandHandler {
                 if (entry.getValue().equals("")) {
                     JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
-                            null, fractalIds, 1, job, null);
+                            null, fractalIds, 1, job, null, AppConfig.myServentInfo.getUuid());
                     MessageUtil.sendMessage(jobMessage);
                 }
             }
@@ -495,7 +495,7 @@ public class JobCommandHandler {
                 AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                 JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
-                        newJob, fractalIds, 0, null, fractalIdMapping);
+                        newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
                 MessageUtil.sendMessage(jobMessage);
             } else {
                 int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -505,7 +505,7 @@ public class JobCommandHandler {
                     AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                     JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
-                            jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping);
+                            jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
                     MessageUtil.sendMessage(jobMessage);
 
                     if (currOverflowLevelNodes > 0) {
@@ -528,7 +528,7 @@ public class JobCommandHandler {
             if (entry.getValue().equals("")) {
                 JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
-                        null, fractalIds, 1, null, fractalIdMapping);
+                        null, fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
                 MessageUtil.sendMessage(jobMessage);
             }
         }
@@ -630,7 +630,7 @@ public class JobCommandHandler {
                 // TODO Mozda ti ne valjda ovaj newJob pre fractalIds, proveri to dobro, to imas i dole u stop
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
-                        newJob, fractalIds, 0, null, fractalIdMapping);
+                        newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
                 MessageUtil.sendMessage(jobMessage);
             } else {
                 int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -640,7 +640,7 @@ public class JobCommandHandler {
                     AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
-                            jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping);
+                            jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
                     MessageUtil.sendMessage(jobMessage);
 
                     if (currOverflowLevelNodes > 0) {
@@ -663,7 +663,7 @@ public class JobCommandHandler {
             if (entry.getValue().equals("")) {
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
-                        null, fractalIds, 1, null, fractalIdMapping);
+                        null, fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
                 MessageUtil.sendMessage(jobMessage);
             }
         }

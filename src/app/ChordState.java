@@ -14,6 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import servent.message.AskGetMessage;
 import servent.message.PutMessage;
+import servent.message.UpdateMessage;
 import servent.message.WelcomeMessage;
 import servent.message.util.MessageUtil;
 
@@ -99,16 +100,30 @@ public class ChordState {
 		this.valueMap = welcomeMsg.getValues();
 		
 		//tell bootstrap this node is not a collider
+//		try {
+//			Socket bsSocket = new Socket("localhost", AppConfig.BOOTSTRAP_PORT);
+//
+//			PrintWriter bsWriter = new PrintWriter(bsSocket.getOutputStream());
+//			bsWriter.write("New\n" + AppConfig.myServentInfo.getListenerPort() + "\n");
+//
+//			bsWriter.flush();
+//			bsSocket.close();
+//		} catch (UnknownHostException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+	}
+
+	public void init2() {
 		try {
 			Socket bsSocket = new Socket("localhost", AppConfig.BOOTSTRAP_PORT);
-			
+
 			PrintWriter bsWriter = new PrintWriter(bsSocket.getOutputStream());
 			bsWriter.write("New\n" + AppConfig.myServentInfo.getListenerPort() + "\n");
-			
+
 			bsWriter.flush();
 			bsSocket.close();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

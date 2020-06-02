@@ -24,4 +24,8 @@ public class TimeStampedMessage extends BasicMessage {
 
         this.logicalTimestamp = logicalTimestamp;
     }
+
+    public LogicalTimestamp getLogicalTimestamp() {
+        return logicalTimestamp;
+    }
 }

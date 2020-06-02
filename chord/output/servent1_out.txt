@@ -1,35 +1,47 @@
-17:42:35 - Starting servent [0|localhost|1200]
-17:42:36 - Pausing for 40000 ms
-17:42:36 - Sending message [48|1200|0||NEW_NODE|1100|28]
-17:42:37 - Got message [28|1100|0||WELCOME|1200|48]
-17:42:38 - Sending message [48|1200|1||UPDATE|1100|28]
-17:42:40 - Got message [48|1200|1|1100|UPDATE|1200|48]
-17:42:47 - Got message [4|1300|0||NEW_NODE|1200|48]
-17:42:48 - Sending message [4|1300|2||NEW_NODE|1100|28]
-17:42:50 - Got message [4|1300|3|1100|UPDATE|1200|48]
-17:42:52 - Sending message [4|1300|3|1100,1200|UPDATE|1300|4]
-17:42:56 - Got message [24|1400|0||NEW_NODE|1200|48]
-17:42:58 - Sending message [24|1400|4||NEW_NODE|1300|4]
-17:43:02 - Got message [24|1400|5|1100|UPDATE|1200|48]
-17:43:03 - Sending message [24|1400|5|1100,1200|UPDATE|1300|4]
-17:43:09 - Got message [0|1600|7|1100|UPDATE|1200|48]
-17:43:10 - Sending message [0|1600|6|1100,1200|UPDATE|1300|4]
-17:43:16 - Pausing for 5000 ms
-17:43:21 - Pausing for 5000 ms
-17:43:26 - {0=prvi000, 1=prvi001, 2=prvi002, 3=prvi01, 4=prvi02}
-17:43:26 - [[[200.0|500.0], [350.0|350.0], [350.0|600.0]], [[500.0|200.0], [350.0|350.0], [500.0|450.0]], [[500.0|700.0], [350.0|600.0], [500.0|450.0]]]
-17:43:26 - Next node for key:0 is 3
-17:43:26 - Next node for key:3 is 3
-17:43:26 - Next node for key:4 is 3
-17:43:26 - Pausing for 20000 ms
-17:43:26 - Sending message [48|1200|7|0|JOB|1400|24]
-17:43:26 - Sending message [48|1200|8|3|JOB|1400|24]
-17:43:26 - Sending message [48|1200|9|4|JOB|1400|24]
-17:43:28 - Got message [28|1100|9|1|JOB|1200|48]
-17:43:28 - Started new work
-17:43:46 - Pausing for 30000 ms
-17:43:47 - Sending message [48|1200|10|0,4|RESULT_REQUEST|1400|24]
-17:43:49 - Got message [48|1200|11|4|RESULT_COLLECTION|1200|48]
-17:43:50 - Sending message [48|1200|11|4|RESULT_COLLECTION|1300|4]
-17:43:53 - Got message [0|1600|2|1|RESULT_REPLY|1200|48]
-17:44:16 - Stopping...
+21:00:27 - Starting servent [0|localhost|1200]
+21:00:27 - Pausing for 80000 ms
+21:00:29 - Sending message [48|1200|0||NEW_NODE|1100|28]
+21:00:29 - Got message [28|1100|0||WELCOME|1200|48]
+21:00:30 - Sending message [48|1200|1||UPDATE|1100|28]
+21:00:31 - Got message [48|1200|1|1100|UPDATE|1200|48]
+21:00:49 - Got message [4|1300|0||NEW_NODE|1200|48]
+21:00:49 - Sending message [4|1300|2||NEW_NODE|1100|28]
+21:00:49 - Got message [28|1100|2|0|MUTEX_REQUEST|1200|48]
+21:00:49 - Sending message [48|1200|3|0|MUTEX_REQUEST|1100|28]
+21:00:49 - Sending message [48|1200|4|0|MUTEX_REPLY|1100|28]
+21:01:08 - Got message [24|1400|0||NEW_NODE|1200|48]
+21:01:09 - Sending message [24|1400|5||NEW_NODE|1100|28]
+21:01:09 - Got message [28|1100|3|0|MUTEX_REQUEST|1200|48]
+21:01:09 - Sending message [48|1200|6|0|MUTEX_REQUEST|1100|28]
+21:01:09 - Sending message [48|1200|7|0|MUTEX_REPLY|1100|28]
+21:01:29 - Got message [28|1100|4|0|MUTEX_REQUEST|1200|48]
+21:01:29 - Sending message [48|1200|8|0|MUTEX_REQUEST|1100|28]
+21:01:29 - Sending message [48|1200|9|0|MUTEX_REPLY|1100|28]
+21:01:47 - Pausing for 5000 ms
+21:01:52 - Pausing for 5000 ms
+21:01:57 - {0=prvi0, 1=}
+21:01:57 - [[[200.0|500.0], [350.0|350.0], [350.0|600.0]], [[500.0|200.0], [350.0|350.0], [500.0|450.0]], [[500.0|700.0], [350.0|600.0], [500.0|450.0]]]
+21:01:57 - Next node for key:0 is 0
+21:01:57 - Pausing for 20000 ms
+21:01:58 - Sending message [48|1200|11|1|JOB|1200|48]
+21:01:58 - Got message [48|1200|11|1|JOB|1200|48]
+21:01:58 - Sending message [48|1200|10|0|JOB|1100|28]
+21:01:59 - Got message [28|1100|5|1|JOB_MESSAGE_RESPONSE|1200|48]
+21:01:59 - Sending message [48|1200|12|1|JOB_MESSAGE_RESPONSE|1200|48]
+21:01:59 - Got message [48|1200|12|1|JOB_MESSAGE_RESPONSE|1200|48]
+21:02:00 - Sending message [48|1200|13||RELEASE_ENTRY|1100|28]
+21:02:00 - Got message [28|1100|6|0|MUTEX_RELEASE|1200|48]
+21:02:00 - Sending message [48|1200|14|0|MUTEX_RELEASE|1100|28]
+21:02:04 - Got message [4|1300|8|1100|UPDATE|1200|48]
+21:02:05 - Sending message [4|1300|15|1100,1200|UPDATE|1300|4]
+21:02:06 - Got message [28|1100|11|2|JOB_MIGRATION|1200|48]
+21:02:07 - Got message [28|1100|10|1|JOB_MIGRATION|1200|48]
+21:02:07 - Got message [28|1100|12|1|JOB_STOP|1200|48]
+21:02:07 - Started someone else's work
+21:02:08 - Sending message [48|1200|16|2|JOB_MIGRATION|1300|4]
+21:02:17 - Pausing for 30000 ms
+21:02:19 - Sending message [48|1200|17|0,2|RESULT_REQUEST|1300|4]
+21:02:21 - Got message [48|1200|13|2|RESULT_COLLECTION|1200|48]
+21:02:22 - Sending message [48|1200|18|2|RESULT_COLLECTION|1300|4]
+21:02:24 - Got message [28|1100|14|1|RESULT_REPLY|1200|48]
+21:02:47 - Stopping...

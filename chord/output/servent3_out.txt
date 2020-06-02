@@ -1,26 +1,7 @@
-17:42:55 - Starting servent [0|localhost|1400]
-17:42:56 - Pausing for 20000 ms
-17:42:56 - Sending message [24|1400|0||NEW_NODE|1200|48]
-17:43:00 - Got message [28|1100|4||WELCOME|1400|24]
-17:43:01 - Sending message [24|1400|1||UPDATE|1100|28]
-17:43:03 - Got message [24|1400|3|1100,1200,1300|UPDATE|1400|24]
-17:43:11 - Got message [0|1600|4|1100,1200,1300|UPDATE|1400|24]
-17:43:12 - Sending message [0|1600|2|1100,1200,1300,1400|UPDATE|1600|0]
-17:43:16 - Pausing for 10000 ms
-3
-0: [4|localhost|1600]
-1: [0|localhost|1100]
-17:43:26 - Pausing for 50000 ms
-17:43:26 - Got message [48|1200|7|0|JOB|1400|24]
-17:43:26 - Got message [48|1200|8|3|JOB|1400|24]
-17:43:26 - Started new work
-17:43:26 - Next node for key:0 is 0
-17:43:26 - Got message [48|1200|9|4|JOB|1400|24]
-17:43:26 - Next node for key:4 is 4
-17:43:27 - Sending message [24|1400|4|4|JOB|1600|0]
-17:43:27 - Sending message [24|1400|3|0|JOB|1100|28]
-17:43:47 - Got message [48|1200|10|0,4|RESULT_REQUEST|1400|24]
-17:43:48 - Sending message [48|1200|5|0,4|RESULT_REQUEST|1100|28]
-17:43:51 - Got message [48|1200|5|4|RESULT_COLLECTION|1400|24]
-17:43:52 - Sending message [48|1200|6|4|RESULT_COLLECTION|1600|0]
-17:44:16 - Stopping...
+21:01:07 - Starting servent [0|localhost|1400]
+21:01:07 - Pausing for 40000 ms
+21:01:08 - Sending message [24|1400|0||NEW_NODE|1200|48]
+21:01:47 - Pausing for 10000 ms
+0
+21:01:57 - Pausing for 50000 ms
+21:02:47 - Stopping...

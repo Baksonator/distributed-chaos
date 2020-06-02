@@ -13,9 +13,10 @@ public class JobStopMessage extends BasicMessage {
     private final Integer level;
     private final Job mainJob;
     private final Map<String, String> fractalIdMapping;
+    private final int senderId;
 
     public JobStopMessage(int senderPort, int receiverPort, String messageText, Job job, Map<Integer, String> fractalIds,
-                          Integer level, Job mainJob, Map<String, String> fractalIdMapping) {
+                          Integer level, Job mainJob, Map<String, String> fractalIdMapping, int senderId) {
         super(MessageType.JOB_STOP, senderPort, receiverPort, messageText);
 
         this.job = job;
@@ -23,6 +24,7 @@ public class JobStopMessage extends BasicMessage {
         this.level = level;
         this.mainJob = mainJob;
         this.fractalIdMapping = fractalIdMapping;
+        this.senderId = senderId;
     }
 
     public Job getJob() {
@@ -43,5 +45,9 @@ public class JobStopMessage extends BasicMessage {
 
     public Map<String, String> getFractalIdMapping() {
         return fractalIdMapping;
+    }
+
+    public int getSenderId() {
+        return senderId;
     }
 }

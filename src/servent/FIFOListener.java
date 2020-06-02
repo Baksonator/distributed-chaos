@@ -3,7 +3,11 @@ package servent;
 import app.AppConfig;
 import app.Cancellable;
 import cli.CLIParser;
+import mutex.LogicalTimestamp;
 import servent.message.Message;
+import servent.message.MutexReleaseMessage;
+import servent.message.MutexReplyMessage;
+import servent.message.MutexRequestMessage;
 import servent.message.util.MessageUtil;
 
 import java.io.IOException;
@@ -40,12 +44,52 @@ public class FIFOListener implements Runnable, Cancellable {
                 //GOT A MESSAGE! <3
                 clientMessage = MessageUtil.readMessage(clientSocket);
 
+                int senderId = -1;
                 switch (clientMessage.getMessageType()) {
                     case MUTEX_REQUEST:
+                        senderId = Integer.parseInt(clientMessage.getMessageText());
+                        if (senderId != AppConfig.myServentInfo.getUuid()) {
+                            MutexRequestMessage mutexRequestMessage = (MutexRequestMessage) clientMessage;
+                            AppConfig.lamportClock.receiveAction(mutexRequestMessage.getLogicalTimestamp().getClock());
+                            AppConfig.requestQueue.add(mutexRequestMessage.getLogicalTimestamp());
+                            MutexRequestMessage newMutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
+                                    AppConfig.chordState.getNextNodePort(), clientMessage.getMessageText(),
+                                    mutexRequestMessage.getLogicalTimestamp());
+                            MessageUtil.sendMessage(newMutexRequestMessage);
+
+                            AppConfig.lamportClock.tick();
+                            MutexReplyMessage mutexReplyMessage = new MutexReplyMessage(AppConfig.myServentInfo.getListenerPort(),
+                                    AppConfig.chordState.getNextNodeForKey(senderId).getListenerPort(), clientMessage.getMessageText(),
+                                    new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()));
+                            MessageUtil.sendMessage(mutexReplyMessage);
+                        }
                         break;
                     case MUTEX_REPLY:
+                        int receiverId = Integer.parseInt(clientMessage.getMessageText());
+                        if (receiverId == AppConfig.myServentInfo.getUuid()) {
+                            MutexReplyMessage mutexReplyMessage = (MutexReplyMessage) clientMessage;
+                            AppConfig.lamportClock.receiveAction(mutexReplyMessage.getLogicalTimestamp().getClock());
+                            AppConfig.replyLatch.countDown();
+                        } else {
+                            MutexReplyMessage mutexReplyMessage = (MutexReplyMessage) clientMessage;
+                            MutexReplyMessage newMutexReplyMessage = new MutexReplyMessage(AppConfig.myServentInfo.getListenerPort(),
+                                    AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), clientMessage.getMessageText(),
+                                    mutexReplyMessage.getLogicalTimestamp());
+                            MessageUtil.sendMessage(newMutexReplyMessage);
+                        }
                         break;
                     case MUTEX_RELEASE:
+                        senderId = Integer.parseInt(clientMessage.getMessageText());
+                        if (senderId != AppConfig.myServentInfo.getUuid()) {
+                            MutexReleaseMessage mutexReleaseMessage = (MutexReleaseMessage) clientMessage;
+                            AppConfig.lamportClock.receiveAction(mutexReleaseMessage.getLogicalTimestamp().getClock());
+                            AppConfig.requestQueue.poll();
+                            MutexReleaseMessage newMutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
+                                    AppConfig.chordState.getNextNodePort(), clientMessage.getMessageText(),
+                                    mutexReleaseMessage.getLogicalTimestamp());
+                            MessageUtil.sendMessage(newMutexReleaseMessage);
+                        }
+
                         break;
                 }
 

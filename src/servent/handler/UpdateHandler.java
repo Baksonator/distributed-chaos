@@ -2,6 +2,7 @@ package servent.handler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import app.AppConfig;
@@ -10,6 +11,7 @@ import app.JobCommandHandler;
 import app.ServentInfo;
 import servent.message.Message;
 import servent.message.MessageType;
+import servent.message.ReleaseEntryMessage;
 import servent.message.UpdateMessage;
 import servent.message.util.FifoSendWorker;
 import servent.message.util.MessageUtil;
@@ -82,8 +84,20 @@ public class UpdateHandler implements MessageHandler {
 				JobCommandHandler.fractalIds = arrivedMessage.getFractalIds();
 				AppConfig.activeJobs = arrivedMessage.getActiveJobs();
 				if (AppConfig.activeJobs.size() > 0) {
+					AppConfig.jobLatch = new CountDownLatch(AppConfig.chordState.getNodeCount());
 					JobCommandHandler.restructureEntry();
+					try {
+						AppConfig.jobLatch.await();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
+
+				AppConfig.chordState.init2();
+
+				ReleaseEntryMessage releaseEntryMessage = new ReleaseEntryMessage(AppConfig.myServentInfo.getListenerPort(),
+						AppConfig.chordState.getNextNodePort());
+				MessageUtil.sendMessage(releaseEntryMessage);
 			}
 		} else {
 			AppConfig.timestampedErrorPrint("Update message handler got message that is not UPDATE");

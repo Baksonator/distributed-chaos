@@ -5,7 +5,7 @@ public class LamportClock {
     private int c;
 
     public LamportClock() {
-        this.c = 1;
+        this.c = 0;
     }
 
     public LamportClock(int value) {

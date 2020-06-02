@@ -1,15 +1,6 @@
-17:43:06 - Starting servent [0|localhost|1600]
-17:43:06 - Pausing for 10000 ms
-17:43:06 - Sending message [0|1600|0||NEW_NODE|1100|28]
-17:43:08 - Got message [28|1100|6||WELCOME|1600|0]
-17:43:08 - Sending message [0|1600|1||UPDATE|1100|28]
-17:43:12 - Got message [0|1600|2|1100,1200,1300,1400|UPDATE|1600|0]
-4
-0: [0|localhost|1100]
-1: [1|localhost|1200]
-17:43:16 - Pausing for 50000 ms
-17:43:27 - Got message [24|1400|4|4|JOB|1600|0]
-17:43:27 - Started new work
-17:43:52 - Got message [48|1200|6|4|RESULT_COLLECTION|1600|0]
-17:43:53 - Sending message [0|1600|2|1|RESULT_REPLY|1200|48]
-17:44:06 - Stopping...
+21:01:27 - Starting servent [0|localhost|1600]
+21:01:27 - Pausing for 20000 ms
+21:01:29 - Sending message [0|1600|0||NEW_NODE|1100|28]
+0
+21:01:47 - Pausing for 50000 ms
+21:02:37 - Stopping...

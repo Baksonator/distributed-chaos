@@ -86,6 +86,10 @@ public class JobStopHandler implements MessageHandler {
                     if (AppConfig.jobWorker != null) {
                         AppConfig.jobWorker.stop();
                     }
+                    JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
+                            AppConfig.chordState.getNextNodeForKey(jobStopMsg.getSenderId()).getListenerPort(),
+                            Integer.toString(jobStopMsg.getSenderId()));
+                    MessageUtil.sendMessage(jobMessageResponse);
                     return;
                 }
 
@@ -174,6 +178,10 @@ public class JobStopHandler implements MessageHandler {
                         AppConfig.jobWorker = worker;
                         Thread t = new Thread(worker);
                         t.start();
+                        JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
+                                AppConfig.chordState.getNextNodeForKey(jobStopMsg.getSenderId()).getListenerPort(),
+                                Integer.toString(jobStopMsg.getSenderId()));
+                        MessageUtil.sendMessage(jobMessageResponse);
                     } else {
                         JobCommandHandler.fractalIds = fractalIds;
                         AppConfig.myServentInfo.setFractalId(myFractalId);
@@ -185,6 +193,10 @@ public class JobStopHandler implements MessageHandler {
                         AppConfig.jobWorker = worker;
                         Thread t = new Thread(worker);
                         t.start();
+                        JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
+                                AppConfig.chordState.getNextNodeForKey(jobStopMsg.getSenderId()).getListenerPort(),
+                                Integer.toString(jobStopMsg.getSenderId()));
+                        MessageUtil.sendMessage(jobMessageResponse);
                     }
                 } else {
                     ArrayList<Job> jobs = JobCommandHandler.prepareJobs(job);
@@ -233,7 +245,8 @@ public class JobStopHandler implements MessageHandler {
                         AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
                         JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(),
-                                Integer.toString(receiverId), jobs.get(i), fractalIds, level + 1, jobStopMsg.getMainJob(), jobStopMsg.getFractalIdMapping());
+                                Integer.toString(receiverId), jobs.get(i), fractalIds, level + 1, jobStopMsg.getMainJob(),
+                                jobStopMsg.getFractalIdMapping(), jobStopMsg.getSenderId());
                         MessageUtil.sendMessage(jobMessage);
 
                         if (overflowLevelNodes > 0) {
@@ -248,7 +261,8 @@ public class JobStopHandler implements MessageHandler {
                 AppConfig.timestampedStandardPrint("Next node for key:" + receiver + " is " + AppConfig.chordState.getNextNodeForKey(receiver).getUuid());
                 JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiver).getListenerPort(), clientMessage.getMessageText(),
-                        jobStopMsg.getJob(), jobStopMsg.getFractalIds(), jobStopMsg.getLevel(), jobStopMsg.getMainJob(), jobStopMsg.getFractalIdMapping());
+                        jobStopMsg.getJob(), jobStopMsg.getFractalIds(), jobStopMsg.getLevel(), jobStopMsg.getMainJob(),
+                        jobStopMsg.getFractalIdMapping(), jobStopMsg.getSenderId());
                 MessageUtil.sendMessage(jobMessage);
             }
         }

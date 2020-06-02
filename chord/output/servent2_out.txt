@@ -1,22 +1,27 @@
-17:42:46 - Starting servent [0|localhost|1300]
-17:42:46 - Pausing for 30000 ms
-17:42:47 - Sending message [4|1300|0||NEW_NODE|1200|48]
-17:42:48 - Got message [28|1100|2||WELCOME|1300|4]
-17:42:49 - Sending message [4|1300|1||UPDATE|1100|28]
-17:42:52 - Got message [4|1300|3|1100,1200|UPDATE|1300|4]
-17:42:58 - Got message [24|1400|4||NEW_NODE|1300|4]
-17:42:59 - Sending message [24|1400|2||NEW_NODE|1100|28]
-17:43:03 - Got message [24|1400|5|1100,1200|UPDATE|1300|4]
-17:43:03 - Sending message [24|1400|3|1100,1200,1300|UPDATE|1400|24]
-17:43:10 - Got message [0|1600|6|1100,1200|UPDATE|1300|4]
-17:43:11 - Sending message [0|1600|4|1100,1200,1300|UPDATE|1400|24]
-17:43:16 - Pausing for 10000 ms
-2
-0: [3|localhost|1400]
-1: [4|localhost|1600]
-17:43:26 - Pausing for 50000 ms
-17:43:29 - Got message [28|1100|10|2|JOB|1300|4]
-17:43:29 - Started new work
-17:43:50 - Got message [48|1200|11|4|RESULT_COLLECTION|1300|4]
-17:43:51 - Sending message [48|1200|5|4|RESULT_COLLECTION|1400|24]
-17:44:16 - Stopping...
+21:00:47 - Starting servent [0|localhost|1300]
+21:00:47 - Pausing for 60000 ms
+21:00:48 - Sending message [4|1300|0||NEW_NODE|1200|48]
+21:01:47 - Pausing for 10000 ms
+0
+21:01:57 - Pausing for 50000 ms
+21:02:02 - Got message [28|1100|7||WELCOME|1300|4]
+21:02:02 - Sending message [4|1300|1||UPDATE|1100|28]
+21:02:05 - Got message [4|1300|15|1100,1200|UPDATE|1300|4]
+21:02:05 - {0=prvi00, 1=prvi01, 2=prvi02}
+21:02:05 - [[[[200.0|500.0], [350.0|350.0], [350.0|600.0]], [[500.0|200.0], [350.0|350.0], [500.0|450.0]], [[500.0|700.0], [350.0|600.0], [500.0|450.0]]]]
+21:02:05 - {prvi00=prvi0, prvi01=prvi0, prvi02=prvi0}
+21:02:05 - prvi
+21:02:05 - Next node for key:0 is 0
+21:02:05 - Next node for key:1 is 0
+21:02:05 - Next node for key:2 is 2
+21:02:05 - Sending message [4|1300|2|0|JOB_STOP|1100|28]
+21:02:06 - Sending message [4|1300|4|2|JOB_STOP|1300|4]
+21:02:06 - Got message [4|1300|4|2|JOB_STOP|1300|4]
+21:02:06 - Sending message [4|1300|3|1|JOB_STOP|1100|28]
+21:02:08 - Got message [48|1200|16|2|JOB_MIGRATION|1300|4]
+21:02:08 - Started someone else's work
+21:02:19 - Got message [48|1200|17|0,2|RESULT_REQUEST|1300|4]
+21:02:20 - Sending message [48|1200|5|0,2|RESULT_REQUEST|1100|28]
+21:02:22 - Got message [48|1200|18|2|RESULT_COLLECTION|1300|4]
+21:02:23 - Sending message [4|1300|6|1|RESULT_REPLY|1100|28]
+21:02:47 - Stopping...
