@@ -8,6 +8,7 @@ import servent.SimpleServentListener;
 import servent.message.LeaveMessage;
 import servent.message.Message;
 import servent.message.MessageType;
+import servent.message.util.FifoSendWorker;
 import servent.message.util.MessageUtil;
 
 public class LeaveHandler implements MessageHandler {
@@ -38,6 +39,13 @@ public class LeaveHandler implements MessageHandler {
                 AppConfig.chordState.removeNode(leaverInfo);
                 AppConfig.chordState.getAllNodeInfoHelper().remove(leaverInfo);
 
+                for (FifoSendWorker sendWorker : AppConfig.fifoSendWorkers) {
+                    if (sendWorker.getNeighbor() == leaverId) {
+                        sendWorker.stop();
+                        break;
+                    }
+                }
+
                 LeaveMessage leaveMessage = new LeaveMessage(AppConfig.myServentInfo.getListenerPort(),
                         oldPort, Integer.toString(leaverId));
                 MessageUtil.sendMessage(leaveMessage);
@@ -56,6 +64,9 @@ public class LeaveHandler implements MessageHandler {
                 }
 
                 AppConfig.timestampedStandardPrint("Stopping...");
+                for (FifoSendWorker senderWorker : AppConfig.fifoSendWorkers) {
+                    senderWorker.stop();
+                }
                 simpleServentListener.stop();
             }
 

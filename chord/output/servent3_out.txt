@@ -1,26 +1,25 @@
-15:04:30 - Starting servent [0|localhost|1400]
-15:04:30 - Pausing for 20000 ms
-15:04:31 - Sending message [24|1400|0||NEW_NODE|1300|4]
-15:04:33 - Got message [28|1100|4||WELCOME|1400|24]
-15:04:34 - Sending message [24|1400|1||UPDATE|1100|28]
-15:04:38 - Got message [24|1400|3|1100,1200,1300|UPDATE|1400|24]
-15:04:46 - Got message [0|1600|4|1100,1200,1300|UPDATE|1400|24]
-15:04:46 - Sending message [0|1600|2|1100,1200,1300,1400|UPDATE|1600|0]
-15:04:50 - Pausing for 10000 ms
+13:29:30 - Starting servent [0|localhost|1400]
+13:29:30 - Pausing for 20000 ms
+13:29:31 - Sending message [24|1400|0||NEW_NODE|1100|28]
+13:29:32 - Got message [28|1100|4||WELCOME|1400|24]
+13:29:33 - Sending message [24|1400|1||UPDATE|1100|28]
+13:29:36 - Got message [24|1400|2|1100,1200,1300|UPDATE|1400|24]
+13:29:50 - Pausing for 10000 ms
+13:29:51 - Got message [48|1200|7|3|JOB|1400|24]
+13:29:51 - Got message [48|1200|4|0|JOB|1400|24]
+13:29:51 - Next node for key:0 is 0
+13:29:52 - Sending message [24|1400|2|0|JOB|1100|28]
+13:29:53 - Got message [0|1600|4|1100,1200,1300|UPDATE|1400|24]
+13:29:54 - Sending message [0|1600|3|1100,1200,1300,1400|UPDATE|1600|0]
+13:29:57 - Got message [48|1200|10|3|JOB_STOP|1400|24]
+13:29:57 - Got message [48|1200|9|3|JOB_MIGRATION|1400|24]
+13:29:57 - Started someone else's work
 3
 0: [4|localhost|1600]
 1: [0|localhost|1100]
-15:05:00 - Pausing for 50000 ms
-15:05:01 - Got message [48|1200|6|3|JOB|1400|24]
-15:05:01 - Started work
-15:05:01 - Got message [48|1200|7|4|JOB|1400|24]
-15:05:01 - Next node for key:4 is 4
-15:05:01 - Got message [48|1200|5|0|JOB|1400|24]
-15:05:01 - Next node for key:0 is 0
-15:05:02 - Sending message [24|1400|4|0|JOB|1100|28]
-15:05:02 - Sending message [24|1400|3|4|JOB|1600|0]
-15:05:21 - Got message [48|1200|8|0,4|RESULT_REQUEST|1400|24]
-15:05:22 - Sending message [48|1200|5|0,4|RESULT_REQUEST|1100|28]
-15:05:24 - Got message [48|1200|5|4|RESULT_COLLECTION|1400|24]
-15:05:25 - Sending message [48|1200|6|4|RESULT_COLLECTION|1600|0]
-15:05:50 - Stopping...
+13:30:00 - Pausing for 50000 ms
+13:30:11 - Got message [48|1200|11|0,4|RESULT_REQUEST|1400|24]
+13:30:13 - Sending message [48|1200|4|0,4|RESULT_REQUEST|1100|28]
+13:30:16 - Got message [48|1200|6|4|RESULT_COLLECTION|1400|24]
+13:30:17 - Sending message [48|1200|5|4|RESULT_COLLECTION|1600|0]
+13:30:50 - Stopping...

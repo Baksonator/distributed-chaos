@@ -3,6 +3,8 @@ package cli.command;
 import app.AppConfig;
 import cli.CLIParser;
 import servent.SimpleServentListener;
+import servent.message.util.FifoSendWorker;
+import servent.message.util.MessageUtil;
 
 public class StopCommand implements CLICommand {
 
@@ -24,6 +26,9 @@ public class StopCommand implements CLICommand {
 		AppConfig.timestampedStandardPrint("Stopping...");
 		if (AppConfig.jobWorker != null) {
 			AppConfig.jobWorker.stop();
+		}
+		for (FifoSendWorker senderWorker : AppConfig.fifoSendWorkers) {
+			senderWorker.stop();
 		}
 		parser.stop();
 		listener.stop();

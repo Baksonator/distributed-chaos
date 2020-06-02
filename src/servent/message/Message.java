@@ -47,6 +47,16 @@ public interface Message extends Serializable {
 	 * The body of the message. Use this to see what your neighbors have sent you.
 	 */
 	String getMessageText();
+
+	/**
+	 * If the message should be sent using FIFO channels
+	 */
+	boolean isFifo();
+
+	/**
+	 * Sets whether or not this Message should be sent using FIFO channels
+	 */
+	void setFifo(boolean fifo);
 	
 	/**
 	 * An id that is unique per servent. Combined with servent id, it will be unique

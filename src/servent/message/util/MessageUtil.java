@@ -2,9 +2,14 @@ package servent.message.util;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 
 import app.AppConfig;
+import app.ServentInfo;
 import servent.message.Message;
 
 /**
@@ -26,6 +31,8 @@ public class MessageUtil {
 	 * Flip this to false to disable printing every message send / receive.
 	 */
 	public static final boolean MESSAGE_UTIL_PRINTING = true;
+
+	public static Map<Integer, BlockingQueue<Message>> pendingMessages = new ConcurrentHashMap<>();
 	
 	public static Message readMessage(Socket socket) {
 		
@@ -35,6 +42,13 @@ public class MessageUtil {
 			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 	
 			clientMessage = (Message) ois.readObject();
+
+			if (clientMessage.isFifo()) {
+				String response = "ACK";
+				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+				oos.writeObject(response);
+				oos.flush();
+			}
 			
 			socket.close();
 		} catch (IOException e) {
@@ -52,8 +66,22 @@ public class MessageUtil {
 	}
 	
 	public static void sendMessage(Message message) {
-		Thread delayedSender = new Thread(new DelayedMessageSender(message));
-		
-		delayedSender.start();
+		if (message.isFifo()) {
+			for (ServentInfo serventInfo : AppConfig.chordState.getAllNodeInfo()) {
+				// TODO Add IP here as well
+				if (serventInfo.getListenerPort() == message.getReceiverPort()) {
+					try {
+						pendingMessages.get(serventInfo.getUuid()).put(message);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					break;
+				}
+			}
+		} else {
+			Thread delayedSender = new Thread(new DelayedMessageSender(message));
+
+			delayedSender.start();
+		}
 	}
 }

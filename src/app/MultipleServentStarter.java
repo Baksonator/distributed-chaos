@@ -135,8 +135,8 @@ public class MultipleServentStarter {
 	}
 	
 	public static void main(String[] args) {
-//		startServentTest("chord");
-		startServentTest("chord7");
+		startServentTest("chord");
+//		startServentTest("chord7");
 //		startServentTest("chordEntry");
 	}
 

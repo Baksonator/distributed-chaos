@@ -1,5 +1,7 @@
 package app;
 
+import servent.message.util.FifoSendWorker;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -69,7 +71,9 @@ public class AppConfig {
 	public static BlockingQueue<StatusResult> statusResults = new LinkedBlockingQueue<>();
 
 	public static volatile boolean  isSingleId = false;
-	
+
+	public static List<FifoSendWorker> fifoSendWorkers = new CopyOnWriteArrayList<>();
+
 	/**
 	 * Reads a config file. Should be called once at start of app.
 	 * The config file should be of the following format:

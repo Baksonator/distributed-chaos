@@ -19,6 +19,7 @@ public class BasicMessage implements Message {
 	private final int senderPort;
 	private final int receiverPort;
 	private final String messageText;
+	private boolean isFifo;
 	
 	//This gives us a unique id - incremented in every natural constructor.
 	private static AtomicInteger messageCounter = new AtomicInteger(0);
@@ -29,6 +30,7 @@ public class BasicMessage implements Message {
 		this.senderPort = senderPort;
 		this.receiverPort = receiverPort;
 		this.messageText = "";
+		this.isFifo = false;
 		
 		this.messageId = messageCounter.getAndIncrement();
 	}
@@ -38,6 +40,7 @@ public class BasicMessage implements Message {
 		this.senderPort = senderPort;
 		this.receiverPort = receiverPort;
 		this.messageText = messageText;
+		this.isFifo = false;
 		
 		this.messageId = messageCounter.getAndIncrement();
 	}
@@ -66,7 +69,17 @@ public class BasicMessage implements Message {
 	public String getMessageText() {
 		return messageText;
 	}
-	
+
+	@Override
+	public boolean isFifo() {
+		return isFifo;
+	}
+
+	@Override
+	public void setFifo(boolean fifo) {
+		isFifo = fifo;
+	}
+
 	@Override
 	public int getMessageId() {
 		return messageId;

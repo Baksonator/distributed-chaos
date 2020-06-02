@@ -2,6 +2,7 @@ package servent.handler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import app.AppConfig;
 import app.Job;
@@ -10,6 +11,7 @@ import app.ServentInfo;
 import servent.message.Message;
 import servent.message.MessageType;
 import servent.message.UpdateMessage;
+import servent.message.util.FifoSendWorker;
 import servent.message.util.MessageUtil;
 
 public class UpdateHandler implements MessageHandler {
@@ -35,6 +37,13 @@ public class UpdateHandler implements MessageHandler {
 
 				AppConfig.chordState.addNodes(newNodes);
 				AppConfig.chordState.getAllNodeInfoHelper().add(newNodInfo);
+
+				FifoSendWorker fifoSendWorker = new FifoSendWorker(newNodInfo.getUuid());
+				AppConfig.fifoSendWorkers.add(fifoSendWorker);
+				MessageUtil.pendingMessages.put(newNodInfo.getUuid(), new LinkedBlockingQueue<>());
+				Thread senderThread = new Thread(fifoSendWorker);
+				senderThread.start();
+
 				String newMessageText = "";
 				if (clientMessage.getMessageText().equals("")) {
 					newMessageText = String.valueOf(AppConfig.myServentInfo.getListenerPort());
@@ -55,6 +64,12 @@ public class UpdateHandler implements MessageHandler {
 					ServentInfo newServentInfo = new ServentInfo("localhost", Integer.parseInt(port));
 					newServentInfo.setUuid(i++);
 					allNodes.add(newServentInfo);
+
+					FifoSendWorker fifoSendWorker = new FifoSendWorker(newServentInfo.getUuid());
+					AppConfig.fifoSendWorkers.add(fifoSendWorker);
+					MessageUtil.pendingMessages.put(newServentInfo.getUuid(), new LinkedBlockingQueue<>());
+					Thread senderThread = new Thread(fifoSendWorker);
+					senderThread.start();
 				}
 
 				AppConfig.myServentInfo.setUuid(allNodes.size());

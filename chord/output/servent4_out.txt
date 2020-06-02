@@ -1,19 +1,26 @@
-15:04:40 - Starting servent [0|localhost|1600]
-15:04:40 - Pausing for 10000 ms
-15:04:40 - Sending message [0|1600|0||NEW_NODE|1100|28]
-15:04:41 - Got message [28|1100|6||WELCOME|1600|0]
-15:04:42 - Sending message [0|1600|1||UPDATE|1100|28]
-15:04:46 - Got message [0|1600|2|1100,1200,1300,1400|UPDATE|1600|0]
+13:29:45 - Starting servent [0|localhost|1600]
+13:29:45 - Pausing for 10000 ms
+13:29:46 - Sending message [0|1600|0||NEW_NODE|1300|4]
+13:29:49 - Got message [28|1100|6||WELCOME|1600|0]
+13:29:50 - Sending message [0|1600|1||UPDATE|1100|28]
+13:29:54 - Got message [0|1600|3|1100,1200,1300,1400|UPDATE|1600|0]
+13:29:54 - {0=prvi000, 1=prvi001, 2=prvi002, 3=prvi01, 4=prvi02}
+13:29:54 - [[[[200.0|500.0], [350.0|350.0], [350.0|600.0]], [[500.0|200.0], [350.0|350.0], [500.0|450.0]], [[500.0|700.0], [350.0|600.0], [500.0|450.0]]]]
+13:29:54 - {prvi000=prvi00, prvi01=prvi01, prvi02=prvi02, prvi002=prvi00, prvi001=prvi00}
+13:29:54 - prvi
+13:29:54 - Next node for key:0 is 0
+13:29:54 - Next node for key:3 is 1
+13:29:54 - Next node for key:4 is 4
+13:29:55 - Sending message [0|1600|2|0|JOB_STOP|1100|28]
 4
 0: [0|localhost|1100]
 1: [1|localhost|1200]
-15:04:50 - Pausing for 50000 ms
-15:05:02 - Got message [24|1400|3|4|JOB|1600|0]
-15:05:02 - Started work
-15:05:25 - Got message [48|1200|6|4|RESULT_COLLECTION|1600|0]
-15:05:25 - DOLAZI
-15:05:25 - ULAZI
-15:05:25 - ULAZI
-15:05:25 - 1
-15:05:26 - Sending message [0|1600|2|1|RESULT_REPLY|1200|48]
-15:05:40 - Stopping...
+13:29:55 - Pausing for 50000 ms
+13:29:55 - Sending message [0|1600|4|4|JOB_STOP|1600|0]
+13:29:55 - Got message [0|1600|4|4|JOB_STOP|1600|0]
+13:29:56 - Sending message [0|1600|3|3|JOB_STOP|1200|48]
+13:29:57 - Got message [4|1300|5|4|JOB_MIGRATION|1600|0]
+13:29:57 - Started someone else's work
+13:30:17 - Got message [48|1200|5|4|RESULT_COLLECTION|1600|0]
+13:30:18 - Sending message [0|1600|5|1|RESULT_REPLY|1200|48]
+13:30:45 - Stopping...
