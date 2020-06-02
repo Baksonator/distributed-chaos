@@ -108,7 +108,7 @@ public class MultipleServentStarter {
 				e.printStackTrace();
 			}
 			try { //give each node 10s to start up
-				Thread.sleep(15000);
+				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

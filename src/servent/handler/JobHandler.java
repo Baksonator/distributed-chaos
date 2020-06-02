@@ -117,7 +117,6 @@ public class JobHandler implements MessageHandler {
                         t.start();
                     }
                 } else {
-                    AppConfig.timestampedStandardPrint("ULAZI ODJE");
                     ArrayList<Job> jobs = JobCommandHandler.prepareJobs(job);
 
                     int nodeCount = 0;
@@ -131,8 +130,6 @@ public class JobHandler implements MessageHandler {
                         }
                     }
 
-                    AppConfig.timestampedStandardPrint("NODE COUNT " + nodeCount);
-                    AppConfig.timestampedStandardPrint("PRODJE ODJE");
 //                    fractalIds.forEach((integer, s) -> {
 //                        if (justId.substring(0, level + 1).equals(s.substring(firstZero, level + 1))) {
 //                            nodeCount++;

@@ -1,5 +1,7 @@
 package app;
 
+import mutex.LamportClock;
+import servent.FIFOListener;
 import servent.message.util.FifoSendWorker;
 
 import java.io.File;
@@ -73,6 +75,10 @@ public class AppConfig {
 	public static volatile boolean  isSingleId = false;
 
 	public static List<FifoSendWorker> fifoSendWorkers = new CopyOnWriteArrayList<>();
+
+	public static LamportClock lamportClock;
+
+	public static FIFOListener fifoListener;
 
 	/**
 	 * Reads a config file. Should be called once at start of app.

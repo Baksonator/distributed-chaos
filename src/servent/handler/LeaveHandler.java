@@ -68,6 +68,7 @@ public class LeaveHandler implements MessageHandler {
                     senderWorker.stop();
                 }
                 simpleServentListener.stop();
+                AppConfig.fifoListener.stop();
             }
 
         }

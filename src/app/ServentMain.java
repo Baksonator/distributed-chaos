@@ -1,6 +1,7 @@
 package app;
 
 import cli.CLIParser;
+import servent.FIFOListener;
 import servent.SimpleServentListener;
 
 /**
@@ -56,6 +57,11 @@ public class ServentMain {
 		cliThread.start();
 
 		simpleListener.setCliParser(cliParser);
+
+		FIFOListener fifoListener = new FIFOListener();
+		Thread fifoListenerThread = new Thread(fifoListener);
+		fifoListenerThread.start();
+		AppConfig.fifoListener = fifoListener;
 		
 		ServentInitializer serventInitializer = new ServentInitializer();
 		Thread initializerThread = new Thread(serventInitializer);
