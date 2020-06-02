@@ -40,6 +40,7 @@ public class QuitCommand implements CLICommand {
             for (FifoSendWorker senderWorker : AppConfig.fifoSendWorkers) {
                 senderWorker.stop();
             }
+            AppConfig.fifoListener.stop();
             return;
         }
 
