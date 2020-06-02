@@ -14,6 +14,7 @@ public class BootstrapServer {
 
 	private volatile boolean working = true;
 	private List<ServentInfoBootstrap> activeServents;
+	private int currId = 0;
 	
 	private class CLIWorker implements Runnable {
 		@Override
@@ -79,7 +80,7 @@ public class BootstrapServer {
 					PrintWriter socketWriter = new PrintWriter(newServentSocket.getOutputStream());
 					
 					if (activeServents.size() == 0) {
-						socketWriter.write("-1," + String.valueOf(-1) + "\n");
+						socketWriter.write("-1," + String.valueOf(-1) + "," + currId + "\n");
 //						activeServents.add(newServentPort);
 						activeServents.add(new ServentInfoBootstrap(newServentSocket.getLocalAddress().getHostAddress(), newServentPort)); //first one doesn't need to confirm
 					} else {
@@ -88,7 +89,8 @@ public class BootstrapServer {
 //						ServentInfoBootstrap randServent = activeServents.get(0);
 						String randServentIp = randServent.getIpAddress();
 						int randServentPort = randServent.getListenerPort();
-						socketWriter.write(randServentIp + "," + String.valueOf(randServentPort) + "\n");
+						currId++;
+						socketWriter.write(randServentIp + "," + String.valueOf(randServentPort) + "," + currId + "\n");
 					}
 					
 					socketWriter.flush();

@@ -11,13 +11,15 @@ public class UpdateMessage extends BasicMessage {
 
 	private final Map<Integer, String> fractalIds;
 	private final List<Job> activeJobs;
+	private final int newId;
 
 	public UpdateMessage(int senderPort, int receiverPort, String text, Map<Integer, String> fractalIds,
-						 List<Job> activeJobs) {
+						 List<Job> activeJobs, int newId) {
 		super(MessageType.UPDATE, senderPort, receiverPort, text);
 
 		this.fractalIds = fractalIds;
 		this.activeJobs = activeJobs;
+		this.newId = newId;
 	}
 
 	public Map<Integer, String> getFractalIds() {
@@ -26,5 +28,9 @@ public class UpdateMessage extends BasicMessage {
 
 	public List<Job> getActiveJobs() {
 		return activeJobs;
+	}
+
+	public int getNewId() {
+		return newId;
 	}
 }

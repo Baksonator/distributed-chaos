@@ -43,6 +43,7 @@ public class ServentInitializer implements Runnable {
 		String response = getSomeServentIpAndPort();
 		String ipAddress = response.split(",")[0];
 		int someServentPort = Integer.parseInt(response.split(",")[1]);
+		int myId = Integer.parseInt(response.split(",")[2]);
 //		int someServentPort = getSomeServentIpAndPort();
 		
 		if (someServentPort == -2) {
@@ -57,6 +58,7 @@ public class ServentInitializer implements Runnable {
 			JobCommandHandler.fractalIds.put(0, "");
 			AppConfig.lamportClock = new LamportClock();
 		} else { //bootstrap gave us something else - let that node tell our successor that we are here
+			AppConfig.myServentInfo.setUuid(myId);
 			NewNodeMessage nnm = new NewNodeMessage(AppConfig.myServentInfo.getListenerPort(), someServentPort);
 			MessageUtil.sendMessage(nnm);
 		}

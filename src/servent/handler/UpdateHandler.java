@@ -29,8 +29,9 @@ public class UpdateHandler implements MessageHandler {
 		if (clientMessage.getMessageType() == MessageType.UPDATE) {
 			// TODO Mora i IP Adresa ili nesto
 			if (clientMessage.getSenderPort() != AppConfig.myServentInfo.getListenerPort()) {
+				UpdateMessage updateMessage = (UpdateMessage) clientMessage;
 				ServentInfo newNodInfo = new ServentInfo("localhost", clientMessage.getSenderPort());
-				newNodInfo.setUuid(AppConfig.chordState.getNodeCount());
+				newNodInfo.setUuid(updateMessage.getNewId());
 				List<ServentInfo> newNodes = new ArrayList<>();
 				newNodes.add(newNodInfo);
 
@@ -54,7 +55,7 @@ public class UpdateHandler implements MessageHandler {
 				}
 				JobCommandHandler.fractalIds.put(AppConfig.chordState.getNodeCount() - 1, "");
 				Message nextUpdate = new UpdateMessage(clientMessage.getSenderPort(), AppConfig.chordState.getNextNodePort(),
-						newMessageText, JobCommandHandler.fractalIds, AppConfig.activeJobs);
+						newMessageText, JobCommandHandler.fractalIds, AppConfig.activeJobs, updateMessage.getNewId());
 				MessageUtil.sendMessage(nextUpdate);
 			} else {
 				String messageText = clientMessage.getMessageText();
@@ -74,7 +75,7 @@ public class UpdateHandler implements MessageHandler {
 					senderThread.start();
 				}
 
-				AppConfig.myServentInfo.setUuid(allNodes.size());
+//				AppConfig.myServentInfo.setUuid(allNodes.size());
 				AppConfig.chordState.setNodeCount(allNodes.size() + 1);
 				AppConfig.chordState.getAllNodeInfoHelper().addAll(allNodes);
 				AppConfig.chordState.getAllNodeInfoHelper().add(AppConfig.myServentInfo);

@@ -88,6 +88,9 @@ public class AppConfig {
 	public static final Semaphore localSemaphore = new Semaphore(1, true);
 
 	public static volatile boolean isDesignated = false;
+
+	public static volatile int currId = 1;
+
 	/**
 	 * Reads a config file. Should be called once at start of app.
 	 * The config file should be of the following format:
