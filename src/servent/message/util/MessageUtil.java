@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import app.AppConfig;
 import app.ServentInfo;
 import servent.message.Message;
+import servent.message.MessageType;
 
 /**
  * For now, just the read and send implementation, based on Java serializing.
@@ -59,7 +60,9 @@ public class MessageUtil {
 		}
 		
 		if (MESSAGE_UTIL_PRINTING) {
-			AppConfig.timestampedStandardPrint("Got message " + clientMessage);
+			if (clientMessage.getMessageType() != MessageType.PING && clientMessage.getMessageType() != MessageType.PONG) {
+				AppConfig.timestampedStandardPrint("Got message " + clientMessage);
+			}
 		}
 				
 		return clientMessage;

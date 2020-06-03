@@ -64,6 +64,10 @@ public class JobWorker implements Runnable {
         return job;
     }
 
+    public boolean isWorking() {
+        return working;
+    }
+
     public void stop() {
         working = false;
     }

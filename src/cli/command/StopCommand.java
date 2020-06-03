@@ -33,6 +33,9 @@ public class StopCommand implements CLICommand {
 		parser.stop();
 		AppConfig.fifoListener.stop();
 		listener.stop();
+		AppConfig.backupWorker.stop();
+		AppConfig.pinger.stop();
+		AppConfig.failureDetector.stop();
 	}
 
 }

@@ -49,6 +49,8 @@ public class LeaveHandler implements MessageHandler {
 
                 AppConfig.chordState.removeNode(leaverInfo);
                 AppConfig.chordState.getAllNodeInfoHelper().remove(leaverInfo);
+                AppConfig.chordState.getSuspiciousMap().remove(leaverId);
+                AppConfig.chordState.getLastHeardMap().remove(leaverId);
 
                 for (FifoSendWorker sendWorker : AppConfig.fifoSendWorkers) {
                     if (sendWorker.getNeighbor() == leaverId) {
@@ -101,6 +103,9 @@ public class LeaveHandler implements MessageHandler {
                 }
                 simpleServentListener.stop();
                 AppConfig.fifoListener.stop();
+                AppConfig.backupWorker.stop();
+                AppConfig.pinger.stop();
+                AppConfig.failureDetector.stop();
             }
 
         }

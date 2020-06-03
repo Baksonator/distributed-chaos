@@ -16,5 +16,9 @@ public class ReleaseEntryHandler implements MessageHandler {
                 new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), false);
         MessageUtil.sendMessage(mutexReleaseMessage);
         AppConfig.localSemaphore.release();
+//        AppConfig.paused.set(false);
+//        synchronized (AppConfig.pauseLock) {
+//            AppConfig.pauseLock.notifyAll();
+//        }
     }
 }

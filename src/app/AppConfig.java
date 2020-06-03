@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -90,6 +91,16 @@ public class AppConfig {
 	public static volatile boolean isDesignated = false;
 
 	public static volatile int currId = 1;
+
+	public static final Object pauseLock = new Object();
+	public static AtomicBoolean paused = new AtomicBoolean(false);
+
+	public static List<Point> backupSuccessor = new ArrayList<>();
+	public static List<Point> backupPredecessor = new ArrayList<>();
+
+	public static Pinger pinger;
+	public static FailureDetector failureDetector;
+	public static BackupWorker backupWorker;
 
 	/**
 	 * Reads a config file. Should be called once at start of app.

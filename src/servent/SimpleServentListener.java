@@ -122,6 +122,12 @@ public class SimpleServentListener implements Runnable, Cancellable {
 				case JOB_MESSAGE_RESPONSE:
 					messageHandler = new JobMessageResponseHandler(clientMessage);
 					break;
+				case PING:
+					messageHandler = new PingHandler(clientMessage);
+					break;
+				case PONG:
+					messageHandler = new PongHandler(clientMessage);
+					break;
 				case POISON:
 					break;
 				}

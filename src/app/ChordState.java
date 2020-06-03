@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -62,6 +63,9 @@ public class ChordState {
 	private List<ServentInfo> allNodeInfo;
 
 	private List<ServentInfo> allNodeInfoHelper;
+
+	private Map<Integer, Boolean> suspiciousMap;
+	private Map<Integer, Timestamp> lastHeardMap;
 	
 	private Map<Integer, Integer> valueMap;
 	
@@ -86,6 +90,8 @@ public class ChordState {
 		valueMap = new ConcurrentHashMap<>();
 		allNodeInfo = new CopyOnWriteArrayList<>();
 		allNodeInfoHelper = new CopyOnWriteArrayList<>();
+		suspiciousMap = new ConcurrentHashMap<>();
+		lastHeardMap = new ConcurrentHashMap<>();
 	}
 	
 	/**
@@ -180,6 +186,14 @@ public class ChordState {
 
 	public List<ServentInfo> getAllNodeInfoHelper() {
 		return allNodeInfoHelper;
+	}
+
+	public Map<Integer, Boolean> getSuspiciousMap() {
+		return suspiciousMap;
+	}
+
+	public Map<Integer, Timestamp> getLastHeardMap() {
+		return lastHeardMap;
 	}
 
 	public void updateLogLevel() {

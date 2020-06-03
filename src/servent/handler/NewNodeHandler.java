@@ -25,6 +25,7 @@ public class NewNodeHandler implements MessageHandler {
 			// TODO PAZI NA OVU PROMENU
 			if (AppConfig.myServentInfo.getUuid() == AppConfig.chordState.getAllNodeInfoHelper().get(0).getUuid()) {
 				// I am the first node in the ring
+//				AppConfig.paused.set(true);
 				AppConfig.chordState.setPredecessor(newNodeInfo);
 
 //				synchronized (AppConfig.localLock) {

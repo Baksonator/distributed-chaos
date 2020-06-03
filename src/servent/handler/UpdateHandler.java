@@ -1,5 +1,6 @@
 package servent.handler;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -40,6 +41,8 @@ public class UpdateHandler implements MessageHandler {
 
 				AppConfig.chordState.addNodes(newNodes);
 				AppConfig.chordState.getAllNodeInfoHelper().add(newNodInfo);
+				AppConfig.chordState.getLastHeardMap().put(updateMessage.getNewId(), new Timestamp(System.currentTimeMillis()));
+				AppConfig.chordState.getSuspiciousMap().put(updateMessage.getNewId(), false);
 
 				FifoSendWorker fifoSendWorker = new FifoSendWorker(newNodInfo.getUuid());
 				AppConfig.fifoSendWorkers.add(fifoSendWorker);
@@ -70,6 +73,8 @@ public class UpdateHandler implements MessageHandler {
 
 					FifoSendWorker fifoSendWorker = new FifoSendWorker(newServentInfo.getUuid());
 					AppConfig.fifoSendWorkers.add(fifoSendWorker);
+					AppConfig.chordState.getSuspiciousMap().put(newServentInfo.getUuid(), false);
+					AppConfig.chordState.getLastHeardMap().put(newServentInfo.getUuid(), new Timestamp(System.currentTimeMillis()));
 					MessageUtil.pendingMessages.put(newServentInfo.getUuid(), new LinkedBlockingQueue<>());
 					Thread senderThread = new Thread(fifoSendWorker);
 					senderThread.start();

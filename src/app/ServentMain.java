@@ -62,6 +62,21 @@ public class ServentMain {
 		Thread fifoListenerThread = new Thread(fifoListener);
 		fifoListenerThread.start();
 		AppConfig.fifoListener = fifoListener;
+
+		Pinger pinger = new Pinger();
+		Thread pingerThread = new Thread(pinger);
+		pingerThread.start();
+		AppConfig.pinger = pinger;
+
+		FailureDetector failureDetector = new FailureDetector();
+		Thread failureDetectorThread = new Thread(failureDetector);
+		failureDetectorThread.start();
+		AppConfig.failureDetector = failureDetector;
+
+		BackupWorker backupWorker = new BackupWorker();
+		Thread backupWorkerThread = new Thread(backupWorker);
+		backupWorkerThread.start();
+		AppConfig.backupWorker = backupWorker;
 		
 		ServentInitializer serventInitializer = new ServentInitializer();
 		Thread initializerThread = new Thread(serventInitializer);

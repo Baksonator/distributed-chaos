@@ -47,6 +47,7 @@ public class FIFOListener implements Runnable, Cancellable {
                 int senderId = -1;
                 switch (clientMessage.getMessageType()) {
                     case MUTEX_REQUEST:
+                        AppConfig.paused.set(true);
                         senderId = Integer.parseInt(clientMessage.getMessageText());
                         if (senderId != AppConfig.myServentInfo.getUuid()) {
                             MutexRequestMessage mutexRequestMessage = (MutexRequestMessage) clientMessage;
@@ -70,6 +71,7 @@ public class FIFOListener implements Runnable, Cancellable {
                             MutexReplyMessage mutexReplyMessage = (MutexReplyMessage) clientMessage;
                             AppConfig.lamportClock.receiveAction(mutexReplyMessage.getLogicalTimestamp().getClock());
                             AppConfig.replyLatch.countDown();
+                            AppConfig.paused.set(true);
                         } else {
                             MutexReplyMessage mutexReplyMessage = (MutexReplyMessage) clientMessage;
                             MutexReplyMessage newMutexReplyMessage = new MutexReplyMessage(AppConfig.myServentInfo.getListenerPort(),
@@ -91,6 +93,12 @@ public class FIFOListener implements Runnable, Cancellable {
                         } else if (mutexReleaseMessage.isFlag()) {
                             AppConfig.lamportClock.receiveAction(mutexReleaseMessage.getLogicalTimestamp().getClock());
                             AppConfig.requestQueue.poll();
+                        }
+                        if (AppConfig.requestQueue.size() == 0) {
+                            AppConfig.paused.set(false);
+                            synchronized (AppConfig.pauseLock) {
+                                AppConfig.pauseLock.notifyAll();
+                            }
                         }
 
                         break;
