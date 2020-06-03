@@ -1,5 +1,9 @@
 package app;
 
+import mutex.LogicalTimestamp;
+import servent.message.MutexReleaseMessage;
+import servent.message.util.MessageUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,5 +39,14 @@ public class StatusCollector implements Runnable {
                         + statusResult.getResults().get(0));
             }
         }
+
+        AppConfig.lamportClock.tick();
+        AppConfig.requestQueue.poll();
+        MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
+                AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
+                new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), false);
+        MessageUtil.sendMessage(mutexReleaseMessage);
+
+        AppConfig.localSemaphore.release();
     }
 }

@@ -3,8 +3,10 @@ package servent.handler;
 import app.AppConfig;
 import app.Job;
 import app.Point;
+import mutex.LogicalTimestamp;
 import servent.message.Message;
 import servent.message.MessageType;
+import servent.message.MutexReleaseMessage;
 import servent.message.ResultReplyMessage;
 import servent.message.util.MessageUtil;
 
@@ -50,6 +52,15 @@ public class ResultReplyHandler implements MessageHandler {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                AppConfig.lamportClock.tick();
+                AppConfig.requestQueue.poll();
+                MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
+                        AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
+                        new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), false);
+                MessageUtil.sendMessage(mutexReleaseMessage);
+
+                AppConfig.localSemaphore.release();
             } else {
                 ResultReplyMessage resultReplyMessageNew = new ResultReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
