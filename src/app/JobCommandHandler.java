@@ -110,7 +110,8 @@ public class JobCommandHandler {
             int j = 0;
             for (Job newJob : newJobs) {
                 AppConfig.timestampedStandardPrint(newJob.getName());
-                lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
+                lastAssigned = next;
+//                lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
                 int tempNodesByJob = nodesByJob;
                 if (extraNodes > 0) {
                     tempNodesByJob++;
@@ -184,7 +185,8 @@ public class JobCommandHandler {
                         job, fractalIds, 0, job, null, AppConfig.myServentInfo.getUuid());
                 MessageUtil.sendMessage(jobMessage);
             } else {
-                int lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(0).getUuid();
+                int lastAssigned = 0;
+//                int lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(0).getUuid();
                 for (int i = 0; i < job.getN(); i++) {
                     int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
                     AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
@@ -300,7 +302,8 @@ public class JobCommandHandler {
             int j = 0;
             for (Job newJob : newJobs) {
                 AppConfig.timestampedStandardPrint(newJob.getName());
-                lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
+                lastAssigned = next;
+//                lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
                 int tempNodesByJob = nodesByJob;
                 if (extraNodes > 0) {
                     tempNodesByJob++;
@@ -485,7 +488,8 @@ public class JobCommandHandler {
         int j = 0;
         for (Job newJob : newJobs) {
             AppConfig.timestampedStandardPrint(newJob.getName());
-            lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
+            lastAssigned = next;
+//            lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
             int tempNodesByJob = nodesByJob;
             if (extraNodes > 0) {
                 tempNodesByJob++;
@@ -619,7 +623,9 @@ public class JobCommandHandler {
         int j = 0;
         for (Job newJob : newJobs) {
             AppConfig.timestampedStandardPrint(newJob.getName());
-            lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
+            lastAssigned = next;
+//            lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
+            AppConfig.timestampedStandardPrint(AppConfig.chordState.getAllNodeInfoHelper().toString());
             int tempNodesByJob = nodesByJob;
             if (extraNodes > 0) {
                 tempNodesByJob++;
