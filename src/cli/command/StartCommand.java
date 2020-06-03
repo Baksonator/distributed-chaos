@@ -71,6 +71,8 @@ public class StartCommand implements CLICommand {
                     AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                     new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), false);
             MessageUtil.sendMessage(mutexReleaseMessage);
+
+            AppConfig.localSemaphore.release();
         } else {
             // TODO Ask user for job on CL
         }
