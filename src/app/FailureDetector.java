@@ -10,6 +10,8 @@ import java.util.concurrent.CountDownLatch;
 public class FailureDetector implements Runnable, Cancellable {
 
     private volatile boolean working = true;
+    private long savedTime = -1;
+    private boolean flag = false;
 
     @Override
     public void run() {
@@ -52,7 +54,11 @@ public class FailureDetector implements Runnable, Cancellable {
                         AppConfig.timestampedStandardPrint("NODE " + entry.getKey() + " DIEDED");
                         AppConfig.myDied.set(entry.getKey());
                         AppConfig.diedLatch = new CountDownLatch(AppConfig.chordState.getNodeCount() - 2);
-                        JobCommandHandler.failure(entry.getKey());
+                        if (AppConfig.chordState.getNodeCount() == 3) {
+                            JobCommandHandler.failure3_1(entry.getKey());
+                        } else {
+                            JobCommandHandler.failure(entry.getKey());
+                        }
                     }
                 }
             }
@@ -60,7 +66,64 @@ public class FailureDetector implements Runnable, Cancellable {
             if (AppConfig.chordState.getNodeCount() > 1) {
                 if (AppConfig.chordState.getNodeCount() == 2) {
 
+                    if (AppConfig.chordState.getSuspiciousMap() != null &&
+                            AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid()) != null) {
+
+                        if (savedTime == -1) {
+                            savedTime = System.currentTimeMillis();
+                        }
+
+                        if (AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid())) {
+
+                            if (!flag) {
+                                flag = true;
+                                savedTime = System.currentTimeMillis();
+                            } else {
+
+                                if (currTime - savedTime > AppConfig.HARD_FAILURE_TIME) {
+                                    JobCommandHandler.failure2_1();
+                                }
+                            }
+
+                        } else {
+                            flag = false;
+                        }
+
+                    }
+
                 } else if (AppConfig.chordState.getNodeCount() == 3) {
+
+                    if (AppConfig.chordState.getSuspiciousMap() != null && AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getPredecessor().getUuid()) != null &&
+                            AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid()) != null) {
+
+                        if (savedTime == -1) {
+                            savedTime = System.currentTimeMillis();
+                        }
+
+                        if (AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getPredecessor().getUuid()) &&
+                                AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid())) {
+
+                            if (!flag) {
+                                flag = true;
+                                savedTime = System.currentTimeMillis();
+                            } else {
+
+                                if (currTime - savedTime > AppConfig.HARD_FAILURE_TIME) {
+                                    JobCommandHandler.failure2_3();
+                                }
+                            }
+
+                        } else {
+                            flag = false;
+                            if (AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid())) {
+
+                                SuspicionRequestMessage suspicionRequestMessage = new SuspicionRequestMessage(AppConfig.myServentInfo.getListenerPort(),
+                                        AppConfig.chordState.getPredecessor().getListenerPort(), Integer.toString(AppConfig.chordState.getPredecessor().getUuid()),
+                                        AppConfig.myServentInfo.getUuid(), AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
+                                MessageUtil.sendMessage(suspicionRequestMessage);
+                            }
+                        }
+                    }
 
                 } else {
                     if (AppConfig.chordState.getSuspiciousMap() != null && AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getPredecessor().getUuid()) != null &&
@@ -87,11 +150,11 @@ public class FailureDetector implements Runnable, Cancellable {
                 }
             }
 
-            for (Map.Entry<Integer, Boolean> entry : AppConfig.chordState.getSuspiciousMap().entrySet()) {
-                if (entry.getValue()) {
-//                    AppConfig.timestampedStandardPrint("Node with ID " + entry.getKey() + " is suspicious!");
-                }
-            }
+//            for (Map.Entry<Integer, Boolean> entry : AppConfig.chordState.getSuspiciousMap().entrySet()) {
+//                if (entry.getValue()) {
+////                    AppConfig.timestampedStandardPrint("Node with ID " + entry.getKey() + " is suspicious!");
+//                }
+//            }
         }
     }
 

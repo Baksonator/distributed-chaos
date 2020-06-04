@@ -146,6 +146,9 @@ public class ChordState {
 	}
 	
 	public int getNextNodePort() {
+		if (nodeCount == 1) {
+			return AppConfig.myServentInfo.getListenerPort();
+		}
 		return successorTableAlt.get(0).getListenerPort();
 //		return successorTable[0].getListenerPort();
 	}
