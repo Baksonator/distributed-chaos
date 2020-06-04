@@ -80,7 +80,8 @@ public class FailureDetector implements Runnable, Cancellable {
                                 savedTime = System.currentTimeMillis();
                             } else {
 
-                                if (currTime - savedTime > AppConfig.HARD_FAILURE_TIME) {
+                                if (System.currentTimeMillis() - savedTime > AppConfig.HARD_FAILURE_TIME) {
+                                    AppConfig.timestampedStandardPrint("Some nodes failed");
                                     JobCommandHandler.failure2_1();
                                 }
                             }
@@ -108,7 +109,8 @@ public class FailureDetector implements Runnable, Cancellable {
                                 savedTime = System.currentTimeMillis();
                             } else {
 
-                                if (currTime - savedTime > AppConfig.HARD_FAILURE_TIME) {
+                                if (System.currentTimeMillis() - savedTime > AppConfig.HARD_FAILURE_TIME) {
+                                    AppConfig.timestampedStandardPrint("Some nodes failed");
                                     JobCommandHandler.failure2_3();
                                 }
                             }
@@ -156,6 +158,14 @@ public class FailureDetector implements Runnable, Cancellable {
 //                }
 //            }
         }
+    }
+
+    public void setSavedTime(long savedTime) {
+        this.savedTime = savedTime;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
     }
 
     @Override

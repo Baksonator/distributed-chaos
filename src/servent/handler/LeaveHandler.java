@@ -60,6 +60,9 @@ public class LeaveHandler implements MessageHandler {
                     }
                 }
 
+                AppConfig.failureDetector.setFlag(false);
+                AppConfig.failureDetector.setSavedTime(-1);
+
                 LeaveMessage newLeaveMessage = new LeaveMessage(AppConfig.myServentInfo.getListenerPort(),
                         oldPort, Integer.toString(leaverId), false);
                 MessageUtil.sendMessage(newLeaveMessage);

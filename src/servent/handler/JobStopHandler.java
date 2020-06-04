@@ -48,6 +48,7 @@ public class JobStopHandler implements MessageHandler {
                                 }
                             }
                         } else if (numberToSendTo > 1) {
+                            int copyOfNumberToSendTo = numberToSendTo;
                             ArrayList<Job> jobsToSend;
                             int logLevel = 0;
                             while (numberToSendTo != 1) {
@@ -64,14 +65,27 @@ public class JobStopHandler implements MessageHandler {
                                 logLevel--;
                             }
                             int k = 0;
-                            for (Map.Entry<String, String> entry : Utils.sortByValue(jobStopMsg.getFractalIdMapping()).entrySet()) {
-                                if (entry.getValue().equals(myOldFractalId)) {
-                                    Integer key = Utils.getKeyByValue(fractalIds, entry.getKey());
-                                    JobMigrationMessage jobMigrationMessage = new JobMigrationMessage(
-                                            AppConfig.myServentInfo.getListenerPort(),
-                                            AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
-                                            Integer.toString(key), Utils.inPolygon(jobsToSend.get(k), AppConfig.jobWorker.getResults()));
-                                    MessageUtil.sendMessage(jobMigrationMessage);
+                            if (job.getP() <= 0.5) {
+                                for (Map.Entry<String, String> entry : Utils.sortByValue(jobStopMsg.getFractalIdMapping()).entrySet()) {
+                                    if (entry.getValue().equals(myOldFractalId)) {
+                                        Integer key = Utils.getKeyByValue(fractalIds, entry.getKey());
+                                        JobMigrationMessage jobMigrationMessage = new JobMigrationMessage(
+                                                AppConfig.myServentInfo.getListenerPort(),
+                                                AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
+                                                Integer.toString(key), Utils.inPolygon(jobsToSend.get(k), List.copyOf(AppConfig.jobWorker.getResults())));
+                                        MessageUtil.sendMessage(jobMigrationMessage);
+                                    }
+                                }
+                            } else {
+                                for (Map.Entry<String, String> entry : Utils.sortByValue(jobStopMsg.getFractalIdMapping()).entrySet()) {
+                                    if (entry.getValue().equals(myOldFractalId)) {
+                                        Integer key = Utils.getKeyByValue(fractalIds, entry.getKey());
+                                        JobMigrationMessage jobMigrationMessage = new JobMigrationMessage(
+                                                AppConfig.myServentInfo.getListenerPort(),
+                                                AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
+                                                Integer.toString(key), Utils.inPolygon(jobsToSend.get(k), AppConfig.jobWorker.getResults()));
+                                        MessageUtil.sendMessage(jobMigrationMessage);
+                                    }
                                 }
                             }
                         }
