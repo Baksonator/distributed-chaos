@@ -21,6 +21,7 @@ public class SuspicionReplyHandler implements MessageHandler {
             if (suspicionReplyMessage.isSuspicious()) {
                 AppConfig.chordState.getReallySuspucious().put(suspicionReplyMessage.getNodeId(), true);
             }
+            AppConfig.edgeCaseLatch.countDown();
         }
     }
 }

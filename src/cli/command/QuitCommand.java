@@ -40,7 +40,14 @@ public class QuitCommand implements CLICommand {
             for (FifoSendWorker senderWorker : AppConfig.fifoSendWorkers) {
                 senderWorker.stop();
             }
+            AppConfig.paused.set(false);
+            synchronized (AppConfig.pauseLock) {
+                AppConfig.pauseLock.notifyAll();
+            }
             AppConfig.fifoListener.stop();
+            AppConfig.backupWorker.stop();
+            AppConfig.pinger.stop();
+            AppConfig.failureDetector.stop();
             return;
         }
 
@@ -71,6 +78,24 @@ public class QuitCommand implements CLICommand {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+
+        if (AppConfig.chordState.getNodeCount() == 1) {
+            parser.stop();
+            listener.stop();
+            AppConfig.timestampedStandardPrint("Stopping...");
+            for (FifoSendWorker senderWorker : AppConfig.fifoSendWorkers) {
+                senderWorker.stop();
+            }
+            AppConfig.paused.set(false);
+            synchronized (AppConfig.pauseLock) {
+                AppConfig.pauseLock.notifyAll();
+            }
+            AppConfig.fifoListener.stop();
+            AppConfig.backupWorker.stop();
+            AppConfig.pinger.stop();
+            AppConfig.failureDetector.stop();
+            return;
         }
 
         LeaveMessage leaveMessage = new LeaveMessage(AppConfig.myServentInfo.getListenerPort(),

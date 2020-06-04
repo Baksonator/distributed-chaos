@@ -20,6 +20,7 @@ public class DiedReplyHandler implements MessageHandler {
             int alsoDied = Integer.parseInt(diedReplyMessage.getMessageText());
             if (alsoDied != -1) {
                 AppConfig.alsoDied.set(alsoDied);
+                AppConfig.whoNoticed.set(diedReplyMessage.getSenderId());
                 AppConfig.diedLatch.countDown();
             }
             AppConfig.diedLatch.countDown();

@@ -105,6 +105,7 @@ public class AppConfig {
 	public static CountDownLatch diedLatch;
 
 	public static AtomicInteger alsoDied = new AtomicInteger(-1);
+	public static AtomicInteger whoNoticed = new AtomicInteger(-1);
 
 	public static AtomicInteger myDied = new AtomicInteger(-1);
 
@@ -112,6 +113,8 @@ public class AppConfig {
 
 	public static BlockingQueue<List<Point>> backupsReceived = new LinkedBlockingQueue<>();
 	public static BlockingQueue<Integer> backupsReceivedIds = new LinkedBlockingQueue<>();
+
+	public static CountDownLatch edgeCaseLatch = new CountDownLatch(0);
 
 	/**
 	 * Reads a config file. Should be called once at start of app.

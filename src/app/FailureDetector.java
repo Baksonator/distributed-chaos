@@ -5,6 +5,7 @@ import servent.message.util.MessageUtil;
 
 import java.sql.Timestamp;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 public class FailureDetector implements Runnable, Cancellable {
 
@@ -38,6 +39,8 @@ public class FailureDetector implements Runnable, Cancellable {
                 break;
             }
 
+            AppConfig.myDied.set(-1);
+
             long currTime = System.currentTimeMillis();
 
             for (Map.Entry<Integer, Timestamp> entry : AppConfig.chordState.getLastHeardMap().entrySet()) {
@@ -48,6 +51,7 @@ public class FailureDetector implements Runnable, Cancellable {
                     if (AppConfig.chordState.getReallySuspucious().containsKey(entry.getKey())) {
                         AppConfig.timestampedStandardPrint("NODE " + entry.getKey() + " DIEDED");
                         AppConfig.myDied.set(entry.getKey());
+                        AppConfig.diedLatch = new CountDownLatch(AppConfig.chordState.getNodeCount() - 2);
                         JobCommandHandler.failure(entry.getKey());
                     }
                 }
@@ -59,16 +63,26 @@ public class FailureDetector implements Runnable, Cancellable {
                 } else if (AppConfig.chordState.getNodeCount() == 3) {
 
                 } else {
-                    if (AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getPredecessor().getUuid()) &&
-                    AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid())) {
+                    if (AppConfig.chordState.getSuspiciousMap() != null && AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getPredecessor().getUuid()) != null &&
+                        AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid()) != null) {
 
-                    } else if (AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getPredecessor().getUuid())) {
+                        if (AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getPredecessor().getUuid()) &&
+                                AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid())) {
 
-                    } else if (AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid())) {
-                        SuspicionRequestMessage suspicionRequestMessage = new SuspicionRequestMessage(AppConfig.myServentInfo.getListenerPort(),
-                                AppConfig.chordState.getPredecessor().getListenerPort(), Integer.toString(AppConfig.chordState.getPredecessor().getUuid()),
-                                AppConfig.myServentInfo.getUuid(), AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
-                        MessageUtil.sendMessage(suspicionRequestMessage);
+                            SuspicionRequestMessage suspicionRequestMessage = new SuspicionRequestMessage(AppConfig.myServentInfo.getListenerPort(),
+                                    AppConfig.chordState.getSuccessorTableAlt().get(1).getListenerPort(),
+                                    Integer.toString(AppConfig.chordState.getPredecessor().getUuid()),
+                                    AppConfig.myServentInfo.getUuid(), AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
+                            MessageUtil.sendMessage(suspicionRequestMessage);
+
+                        } else if (AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid())) {
+
+                            SuspicionRequestMessage suspicionRequestMessage = new SuspicionRequestMessage(AppConfig.myServentInfo.getListenerPort(),
+                                    AppConfig.chordState.getPredecessor().getListenerPort(), Integer.toString(AppConfig.chordState.getPredecessor().getUuid()),
+                                    AppConfig.myServentInfo.getUuid(), AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
+                            MessageUtil.sendMessage(suspicionRequestMessage);
+
+                        }
                     }
                 }
             }
