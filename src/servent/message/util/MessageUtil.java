@@ -60,7 +60,8 @@ public class MessageUtil {
 		}
 		
 		if (MESSAGE_UTIL_PRINTING) {
-			if (clientMessage.getMessageType() != MessageType.PING && clientMessage.getMessageType() != MessageType.PONG) {
+			if (clientMessage.getMessageType() != MessageType.PING && clientMessage.getMessageType() != MessageType.PONG
+					&& clientMessage.getMessageType() != MessageType.SUSPICION_REQUEST && clientMessage.getMessageType() != MessageType.SUSPICION_REPLY) {
 				AppConfig.timestampedStandardPrint("Got message " + clientMessage);
 			}
 		}

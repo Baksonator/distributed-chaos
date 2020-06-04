@@ -39,15 +39,18 @@ public class BackupWorker implements Runnable, Cancellable {
                 if (AppConfig.chordState.getNodeCount() > 1) {
                     if (AppConfig.chordState.getNodeCount() == 2) {
                         BackupMessage backupMessage = new BackupMessage(AppConfig.myServentInfo.getListenerPort(),
-                                AppConfig.chordState.getNextNodePort(), AppConfig.jobWorker.getResults());
+                                AppConfig.chordState.getNextNodePort(), AppConfig.jobWorker.getResults(),
+                                AppConfig.myServentInfo.getUuid());
                         MessageUtil.sendMessage(backupMessage);
                     } else {
                         BackupMessage backupMessage = new BackupMessage(AppConfig.myServentInfo.getListenerPort(),
-                                AppConfig.chordState.getNextNodePort(), AppConfig.jobWorker.getResults());
+                                AppConfig.chordState.getNextNodePort(), AppConfig.jobWorker.getResults(),
+                                AppConfig.myServentInfo.getUuid());
                         MessageUtil.sendMessage(backupMessage);
 
                         BackupMessage backupMessage1 = new BackupMessage(AppConfig.myServentInfo.getListenerPort(),
-                                AppConfig.chordState.getPredecessor().getListenerPort(), AppConfig.jobWorker.getResults());
+                                AppConfig.chordState.getPredecessor().getListenerPort(), AppConfig.jobWorker.getResults(),
+                                AppConfig.myServentInfo.getUuid());
                         MessageUtil.sendMessage(backupMessage1);
                     }
                 }

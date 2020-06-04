@@ -101,6 +101,10 @@ public class LeaveHandler implements MessageHandler {
                 for (FifoSendWorker senderWorker : AppConfig.fifoSendWorkers) {
                     senderWorker.stop();
                 }
+                AppConfig.paused.set(false);
+                synchronized (AppConfig.pauseLock) {
+                    AppConfig.pauseLock.notifyAll();
+                }
                 simpleServentListener.stop();
                 AppConfig.fifoListener.stop();
                 AppConfig.backupWorker.stop();

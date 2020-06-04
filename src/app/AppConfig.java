@@ -102,6 +102,17 @@ public class AppConfig {
 	public static FailureDetector failureDetector;
 	public static BackupWorker backupWorker;
 
+	public static CountDownLatch diedLatch;
+
+	public static AtomicInteger alsoDied = new AtomicInteger(-1);
+
+	public static AtomicInteger myDied = new AtomicInteger(-1);
+
+	public static AtomicInteger receivedBackups = new AtomicInteger(-1);
+
+	public static BlockingQueue<List<Point>> backupsReceived = new LinkedBlockingQueue<>();
+	public static BlockingQueue<Integer> backupsReceivedIds = new LinkedBlockingQueue<>();
+
 	/**
 	 * Reads a config file. Should be called once at start of app.
 	 * The config file should be of the following format:

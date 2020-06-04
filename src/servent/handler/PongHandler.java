@@ -20,6 +20,7 @@ public class PongHandler implements MessageHandler {
             int senderId = Integer.parseInt(clientMessage.getMessageText());
             AppConfig.chordState.getLastHeardMap().put(senderId, new Timestamp(System.currentTimeMillis()));
             AppConfig.chordState.getSuspiciousMap().put(senderId, false);
+            AppConfig.chordState.getReallySuspucious().remove(senderId);
         }
     }
 }

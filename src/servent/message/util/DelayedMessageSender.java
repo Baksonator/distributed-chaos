@@ -35,7 +35,8 @@ public class DelayedMessageSender implements Runnable {
 		}
 		
 		if (MessageUtil.MESSAGE_UTIL_PRINTING) {
-			if (messageToSend.getMessageType() != MessageType.PING && messageToSend.getMessageType() != MessageType.PONG) {
+			if (messageToSend.getMessageType() != MessageType.PING && messageToSend.getMessageType() != MessageType.PONG
+					&& messageToSend.getMessageType() != MessageType.SUSPICION_REQUEST && messageToSend.getMessageType() != MessageType.SUSPICION_REPLY) {
 				AppConfig.timestampedStandardPrint("Sending message " + messageToSend);
 			}
 		}
@@ -49,7 +50,9 @@ public class DelayedMessageSender implements Runnable {
 			
 			sendSocket.close();
 		} catch (IOException e) {
-			AppConfig.timestampedErrorPrint("Couldn't send message: " + messageToSend.toString());
+			if (messageToSend.getMessageType() != MessageType.PING && messageToSend.getMessageType() != MessageType.PONG) {
+				AppConfig.timestampedErrorPrint("Couldn't send message: " + messageToSend.toString());
+			}
 		}
 	}
 	

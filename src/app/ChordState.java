@@ -66,6 +66,7 @@ public class ChordState {
 
 	private Map<Integer, Boolean> suspiciousMap;
 	private Map<Integer, Timestamp> lastHeardMap;
+	private Map<Integer, Boolean> reallySuspucious;
 	
 	private Map<Integer, Integer> valueMap;
 	
@@ -92,6 +93,7 @@ public class ChordState {
 		allNodeInfoHelper = new CopyOnWriteArrayList<>();
 		suspiciousMap = new ConcurrentHashMap<>();
 		lastHeardMap = new ConcurrentHashMap<>();
+		reallySuspucious = new ConcurrentHashMap<>();
 	}
 	
 	/**
@@ -194,6 +196,10 @@ public class ChordState {
 
 	public Map<Integer, Timestamp> getLastHeardMap() {
 		return lastHeardMap;
+	}
+
+	public Map<Integer, Boolean> getReallySuspucious() {
+		return reallySuspucious;
 	}
 
 	public void updateLogLevel() {

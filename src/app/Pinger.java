@@ -26,7 +26,7 @@ public class Pinger implements Runnable, Cancellable {
             }
 
             try {
-                Thread.sleep(AppConfig.SOFT_FAILURE_TIME - 100);
+                Thread.sleep(AppConfig.SOFT_FAILURE_TIME - 250);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -53,6 +53,10 @@ public class Pinger implements Runnable, Cancellable {
                     PingMessage pingMessage1 = new PingMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getPredecessor().getListenerPort());
                     MessageUtil.sendMessage(pingMessage1);
+
+                    PingMessage pingMessage2 = new PingMessage(AppConfig.myServentInfo.getListenerPort(),
+                            AppConfig.chordState.getAllNodeInfo().get(AppConfig.chordState.getNodeCount() - 3).getListenerPort());
+                    MessageUtil.sendMessage(pingMessage2);
 
                 }
 
