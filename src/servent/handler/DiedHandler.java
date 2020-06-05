@@ -49,6 +49,8 @@ public class DiedHandler implements MessageHandler {
 
             DiedReplyMessage diedReplyMessage = new DiedReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                     clientMessage.getSenderPort(), Integer.toString(AppConfig.myDied.get()), AppConfig.myServentInfo.getUuid());
+            diedReplyMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+            diedReplyMessage.setReceiverIp(clientMessage.getSenderIp());
             MessageUtil.sendMessage(diedReplyMessage);
         }
     }

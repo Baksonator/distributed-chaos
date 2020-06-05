@@ -32,6 +32,8 @@ public class ResultCollectionHandler implements MessageHandler {
                         AppConfig.chordState.getNextNodePort(), clientMessage.getMessageText(),
                         Stream.concat(AppConfig.jobWorker.getResults().stream(),
                                 oldMsg.getResults().stream()).collect(Collectors.toList()));
+                resultCollectionMessage.setSenderIp(clientMessage.getSenderIp());
+                resultCollectionMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                 MessageUtil.sendMessage(resultCollectionMessage);
             } else {
                 int requestorId = -1;
@@ -50,6 +52,8 @@ public class ResultCollectionHandler implements MessageHandler {
                         Stream.concat(AppConfig.jobWorker.getResults().stream(),
                                 oldMsg.getResults().stream()).collect(Collectors.toList()), AppConfig.jobWorker.getJob(),
                         false, "");
+                resultReplyMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                resultReplyMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(requestorId).getIpAddress());
                 MessageUtil.sendMessage(resultReplyMessage);
             }
         }

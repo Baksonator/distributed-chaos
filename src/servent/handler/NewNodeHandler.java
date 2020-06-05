@@ -20,7 +20,8 @@ public class NewNodeHandler implements MessageHandler {
 	public void run() {
 		if (clientMessage.getMessageType() == MessageType.NEW_NODE) {
 			int newNodePort = clientMessage.getSenderPort();
-			ServentInfo newNodeInfo = new ServentInfo("localhost", newNodePort);
+			String newNodeIp = clientMessage.getSenderIp();
+			ServentInfo newNodeInfo = new ServentInfo(newNodeIp, newNodePort);
 
 			if (AppConfig.myServentInfo.getUuid() == AppConfig.chordState.getAllNodeInfoHelper().get(0).getUuid()) {
 				// I am the first node in the ring
@@ -43,6 +44,8 @@ public class NewNodeHandler implements MessageHandler {
 					MutexRequestMessage mutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
 							AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
 							myRequestLogicalTimestamp);
+					mutexRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+					mutexRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
 					MessageUtil.sendMessage(mutexRequestMessage);
 				}
 
@@ -68,11 +71,15 @@ public class NewNodeHandler implements MessageHandler {
 
 				WelcomeMessage wm = new WelcomeMessage(AppConfig.myServentInfo.getListenerPort(), newNodePort, null,
 						AppConfig.lamportClock.getValue(), AppConfig.chordState.getNodeCount());
+				wm.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+				wm.setReceiverIp(newNodeIp);
 				MessageUtil.sendMessage(wm);
 //				}
 			} else {
 				ServentInfo nextNode = AppConfig.chordState.getNextNodeForFirst();
 				NewNodeMessage nnm = new NewNodeMessage(newNodePort, nextNode.getListenerPort());
+				nnm.setSenderIp(newNodeIp);
+				nnm.setReceiverIp(nextNode.getIpAddress());
 				MessageUtil.sendMessage(nnm);
 			}
 //		}

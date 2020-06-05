@@ -31,6 +31,8 @@ public class StatusCollectionHandler implements MessageHandler {
                 newIds.add(AppConfig.myServentInfo.getFractalId());
                 StatusCollectionMessage statusCollectionMessage = new StatusCollectionMessage(clientMessage.getSenderPort(),
                         AppConfig.chordState.getNextNodePort(), clientMessage.getMessageText(), newResults, newIds);
+                statusCollectionMessage.setSenderIp(clientMessage.getSenderIp());
+                statusCollectionMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                 MessageUtil.sendMessage(statusCollectionMessage);
             } else {
                 int requestorId = -1;
@@ -51,6 +53,8 @@ public class StatusCollectionHandler implements MessageHandler {
                 StatusReplyMessage statusReplyMessage = new StatusReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
                         newResults, newIds, AppConfig.jobWorker.getJob());
+                statusReplyMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                statusReplyMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(requestorId).getIpAddress());
                 MessageUtil.sendMessage(statusReplyMessage);
             }
         }

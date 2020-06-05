@@ -31,10 +31,13 @@ public class UpdateHandler implements MessageHandler {
 			// TODO Mora i IP Adresa ili nesto
 			if (clientMessage.getSenderPort() != AppConfig.myServentInfo.getListenerPort()) {
 				UpdateMessage updateMessage = (UpdateMessage) clientMessage;
-				ServentInfo newNodInfo = new ServentInfo("localhost", clientMessage.getSenderPort());
+				ServentInfo newNodInfo = new ServentInfo(clientMessage.getSenderIp(), clientMessage.getSenderPort());
 				newNodInfo.setUuid(updateMessage.getNewId());
 				List<ServentInfo> newNodes = new ArrayList<>();
 				newNodes.add(newNodInfo);
+
+				AppConfig.failureDetector.setFlag(false);
+				AppConfig.failureDetector.setSavedTime(-1);
 
 				AppConfig.chordState.incrementNodeCount();
 				AppConfig.chordState.updateLogLevel();
@@ -57,18 +60,26 @@ public class UpdateHandler implements MessageHandler {
 					newMessageText = clientMessage.getMessageText() + "," + AppConfig.myServentInfo.getListenerPort();
 				}
 				JobCommandHandler.fractalIds.put(AppConfig.chordState.getNodeCount() - 1, "");
+				List<String> currIps = new ArrayList<>(updateMessage.getIps());
+				currIps.add(AppConfig.myServentInfo.getIpAddress());
+				List<Integer> currIds = new ArrayList<>(updateMessage.getIds());
+				currIds.add(AppConfig.myServentInfo.getUuid());
 				Message nextUpdate = new UpdateMessage(clientMessage.getSenderPort(), AppConfig.chordState.getNextNodePort(),
-						newMessageText, JobCommandHandler.fractalIds, AppConfig.activeJobs, updateMessage.getNewId());
+						newMessageText, JobCommandHandler.fractalIds, AppConfig.activeJobs, updateMessage.getNewId(),
+						currIps, currIds);
+				nextUpdate.setSenderIp(clientMessage.getSenderIp());
+				nextUpdate.setReceiverIp(AppConfig.chordState.getNextNodeIp());
 				MessageUtil.sendMessage(nextUpdate);
 			} else {
 				String messageText = clientMessage.getMessageText();
 				String[] ports = messageText.split(",");
+				UpdateMessage updateMessage = (UpdateMessage) clientMessage;
 				
 				List<ServentInfo> allNodes = new ArrayList<>();
 				int i = 0;
 				for (String port : ports) {
-					ServentInfo newServentInfo = new ServentInfo("localhost", Integer.parseInt(port));
-					newServentInfo.setUuid(i++);
+					ServentInfo newServentInfo = new ServentInfo(updateMessage.getIps().get(i), Integer.parseInt(port));
+					newServentInfo.setUuid(updateMessage.getIds().get(i++));
 					allNodes.add(newServentInfo);
 
 					FifoSendWorker fifoSendWorker = new FifoSendWorker(newServentInfo.getUuid());
@@ -103,6 +114,8 @@ public class UpdateHandler implements MessageHandler {
 
 				ReleaseEntryMessage releaseEntryMessage = new ReleaseEntryMessage(AppConfig.myServentInfo.getListenerPort(),
 						AppConfig.chordState.getNextNodePort());
+				releaseEntryMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+				releaseEntryMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
 				MessageUtil.sendMessage(releaseEntryMessage);
 			}
 		} else {

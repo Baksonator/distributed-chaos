@@ -61,6 +61,8 @@ public class StartCommand implements CLICommand {
                 MutexRequestMessage mutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                         myRequestLogicalTimestamp);
+                mutexRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                mutexRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                 MessageUtil.sendMessage(mutexRequestMessage);
             }
 
@@ -96,6 +98,8 @@ public class StartCommand implements CLICommand {
             MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
                     AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                     new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), false);
+            mutexReleaseMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+            mutexReleaseMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
             MessageUtil.sendMessage(mutexReleaseMessage);
 
             AppConfig.localSemaphore.release();
@@ -151,6 +155,8 @@ public class StartCommand implements CLICommand {
                     MutexRequestMessage mutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                             myRequestLogicalTimestamp);
+                    mutexRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    mutexRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                     MessageUtil.sendMessage(mutexRequestMessage);
                 }
 
@@ -186,6 +192,8 @@ public class StartCommand implements CLICommand {
                 MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                         new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), false);
+                mutexReleaseMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                mutexReleaseMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                 MessageUtil.sendMessage(mutexReleaseMessage);
 
                 AppConfig.localSemaphore.release();

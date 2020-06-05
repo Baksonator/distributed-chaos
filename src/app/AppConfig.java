@@ -227,8 +227,11 @@ public class AppConfig {
 			timestampedErrorPrint("Problem reading " + portProperty + ". Exiting...");
 			System.exit(0);
 		}
+
+		String ipProperty = "servent"+serventId+".ip";
+		String ipAddress = properties.getProperty(ipProperty);
 		
-		myServentInfo = new ServentInfo("localhost", serventPort);
+		myServentInfo = new ServentInfo(ipAddress, serventPort);
 	}
 	
 }

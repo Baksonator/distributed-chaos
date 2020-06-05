@@ -40,6 +40,8 @@ public class Pinger implements Runnable, Cancellable {
                 if (AppConfig.chordState.getNodeCount() == 2) {
                     PingMessage pingMessage = new PingMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodePort());
+                    pingMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    pingMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                     MessageUtil.sendMessage(pingMessage);
 
                 } else {
@@ -47,15 +49,21 @@ public class Pinger implements Runnable, Cancellable {
                     for (ServentInfo neighbor : AppConfig.chordState.getSuccessorTableAlt()) {
                         PingMessage pingMessage = new PingMessage(AppConfig.myServentInfo.getListenerPort(),
                                 neighbor.getListenerPort());
+                        pingMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        pingMessage.setReceiverIp(neighbor.getIpAddress());
                         MessageUtil.sendMessage(pingMessage);
                     }
 
                     PingMessage pingMessage1 = new PingMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getPredecessor().getListenerPort());
+                    pingMessage1.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    pingMessage1.setReceiverIp(AppConfig.chordState.getPredecessor().getIpAddress());
                     MessageUtil.sendMessage(pingMessage1);
 
                     PingMessage pingMessage2 = new PingMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getAllNodeInfo().get(AppConfig.chordState.getNodeCount() - 3).getListenerPort());
+                    pingMessage2.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    pingMessage2.setReceiverIp(AppConfig.chordState.getAllNodeInfo().get(AppConfig.chordState.getNodeCount() - 3).getIpAddress());
                     MessageUtil.sendMessage(pingMessage2);
 
                 }

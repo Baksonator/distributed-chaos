@@ -14,6 +14,8 @@ public class ReleaseEntryHandler implements MessageHandler {
         MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
                 AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                 new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), false);
+        mutexReleaseMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+        mutexReleaseMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
         MessageUtil.sendMessage(mutexReleaseMessage);
         AppConfig.localSemaphore.release();
 //        AppConfig.paused.set(false);

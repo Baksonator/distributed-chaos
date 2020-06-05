@@ -41,16 +41,22 @@ public class BackupWorker implements Runnable, Cancellable {
                         BackupMessage backupMessage = new BackupMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodePort(), AppConfig.jobWorker.getResults(),
                                 AppConfig.myServentInfo.getUuid());
+                        backupMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        backupMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                         MessageUtil.sendMessage(backupMessage);
                     } else {
                         BackupMessage backupMessage = new BackupMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodePort(), AppConfig.jobWorker.getResults(),
                                 AppConfig.myServentInfo.getUuid());
+                        backupMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        backupMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                         MessageUtil.sendMessage(backupMessage);
 
                         BackupMessage backupMessage1 = new BackupMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getPredecessor().getListenerPort(), AppConfig.jobWorker.getResults(),
                                 AppConfig.myServentInfo.getUuid());
+                        backupMessage1.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        backupMessage1.setReceiverIp(AppConfig.chordState.getPredecessor().getIpAddress());
                         MessageUtil.sendMessage(backupMessage1);
                     }
                 }

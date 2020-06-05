@@ -23,10 +23,14 @@ public class BackupRequestHandler implements MessageHandler {
             if (backupRequestMessage.isPred()) {
                 BackupReplyMessage backupReplyMessage = new BackupReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                         clientMessage.getSenderPort(), AppConfig.backupPredecessor, nodeId);
+                backupReplyMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                backupReplyMessage.setReceiverIp(clientMessage.getSenderIp());
                 MessageUtil.sendMessage(backupReplyMessage);
             } else {
                 BackupReplyMessage backupReplyMessage = new BackupReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                         clientMessage.getSenderPort(), AppConfig.backupSuccessor, nodeId);
+                backupReplyMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                backupReplyMessage.setReceiverIp(clientMessage.getSenderIp());
                 MessageUtil.sendMessage(backupReplyMessage);
             }
 //            if (AppConfig.chordState.getPredecessor().getUuid() == nodeId) {

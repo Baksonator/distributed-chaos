@@ -31,6 +31,8 @@ public class JobMigrationHandler implements MessageHandler {
                 JobMigrationMessage jobMigrationMessageNew = new JobMigrationMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         jobMigrationMessage.getData());
+                jobMigrationMessageNew.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMigrationMessageNew.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(jobMigrationMessageNew);
             }
         }

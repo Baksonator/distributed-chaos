@@ -33,10 +33,12 @@ public class StatusReplyHandler implements MessageHandler {
                     e.printStackTrace();
                 }
             } else {
-                StatusReplyMessage resultReplyMessageNew = new StatusReplyMessage(AppConfig.myServentInfo.getListenerPort(),
+                StatusReplyMessage statusReplyMessage1 = new StatusReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
                         statusReplyMessage.getResults(), statusReplyMessage.getIds(), statusReplyMessage.getJob());
-                MessageUtil.sendMessage(resultReplyMessageNew);
+                statusReplyMessage1.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                statusReplyMessage1.setReceiverIp(AppConfig.chordState.getNextNodeForKey(requestorId).getIpAddress());
+                MessageUtil.sendMessage(statusReplyMessage1);
             }
         }
     }

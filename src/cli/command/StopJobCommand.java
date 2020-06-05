@@ -21,6 +21,7 @@ public class StopJobCommand implements CLICommand {
     public void execute(String args) {
         if (args == null) {
             AppConfig.timestampedErrorPrint("No job specified!");
+            return;
         }
 
         Job job = AppConfig.jobs.stream().filter(job1 -> job1.getName().equals(args)).findFirst().get();
@@ -44,6 +45,8 @@ public class StopJobCommand implements CLICommand {
             MutexRequestMessage mutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                     AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                     myRequestLogicalTimestamp);
+            mutexRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+            mutexRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
             MessageUtil.sendMessage(mutexRequestMessage);
         }
 
@@ -79,6 +82,8 @@ public class StopJobCommand implements CLICommand {
         MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
                 AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                 new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), false);
+        mutexReleaseMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+        mutexReleaseMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
         MessageUtil.sendMessage(mutexReleaseMessage);
 
         AppConfig.localSemaphore.release();

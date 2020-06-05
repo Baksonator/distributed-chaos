@@ -60,6 +60,8 @@ public class ServentInitializer implements Runnable {
 		} else { //bootstrap gave us something else - let that node tell our successor that we are here
 			AppConfig.myServentInfo.setUuid(myId);
 			NewNodeMessage nnm = new NewNodeMessage(AppConfig.myServentInfo.getListenerPort(), someServentPort);
+			nnm.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+			nnm.setReceiverIp(ipAddress);
 			MessageUtil.sendMessage(nnm);
 		}
 	}

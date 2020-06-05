@@ -29,6 +29,8 @@ public class StatusRequestHandler implements MessageHandler {
                     StatusCollectionMessage statusCollectionMessage = new StatusCollectionMessage(clientMessage.getSenderPort(),
                             AppConfig.chordState.getNextNodePort(), Integer.toString(lastId),
                             results, ids);
+                    statusCollectionMessage.setSenderIp(clientMessage.getSenderIp());
+                    statusCollectionMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                     MessageUtil.sendMessage(statusCollectionMessage);
                 } else {
                     int requestorId = -1;
@@ -48,11 +50,15 @@ public class StatusRequestHandler implements MessageHandler {
                     StatusReplyMessage statusReplyMessage = new StatusReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
                             result, ids, AppConfig.jobWorker.getJob());
+                    statusReplyMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    statusReplyMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                     MessageUtil.sendMessage(statusReplyMessage);
                 }
             } else {
                 StatusRequestMessage statusRequestMessage = new StatusRequestMessage(clientMessage.getSenderPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), receiverId + "," + lastId);
+                statusRequestMessage.setSenderIp(clientMessage.getSenderIp());
+                statusRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(statusRequestMessage);
             }
         }

@@ -56,12 +56,16 @@ public class FIFOListener implements Runnable, Cancellable {
                             MutexRequestMessage newMutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                                     AppConfig.chordState.getNextNodePort(), clientMessage.getMessageText(),
                                     mutexRequestMessage.getLogicalTimestamp());
+                            newMutexRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                            newMutexRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                             MessageUtil.sendMessage(newMutexRequestMessage);
 
                             AppConfig.lamportClock.tick();
                             MutexReplyMessage mutexReplyMessage = new MutexReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                                     AppConfig.chordState.getNextNodeForKey(senderId).getListenerPort(), clientMessage.getMessageText(),
                                     new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()));
+                            mutexReplyMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                            mutexReplyMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(senderId).getIpAddress());
                             MessageUtil.sendMessage(mutexReplyMessage);
                         }
                         break;
@@ -77,6 +81,8 @@ public class FIFOListener implements Runnable, Cancellable {
                             MutexReplyMessage newMutexReplyMessage = new MutexReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                                     AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), clientMessage.getMessageText(),
                                     mutexReplyMessage.getLogicalTimestamp());
+                            newMutexReplyMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                            newMutexReplyMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                             MessageUtil.sendMessage(newMutexReplyMessage);
                         }
                         break;
@@ -89,6 +95,8 @@ public class FIFOListener implements Runnable, Cancellable {
                             MutexReleaseMessage newMutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
                                     AppConfig.chordState.getNextNodePort(), clientMessage.getMessageText(),
                                     mutexReleaseMessage.getLogicalTimestamp(), mutexReleaseMessage.isFlag());
+                            newMutexReleaseMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                            newMutexReleaseMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                             MessageUtil.sendMessage(newMutexReleaseMessage);
                         } else if (mutexReleaseMessage.isFlag()) {
                             AppConfig.lamportClock.receiveAction(mutexReleaseMessage.getLogicalTimestamp().getClock());

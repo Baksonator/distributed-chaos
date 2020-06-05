@@ -64,4 +64,9 @@ public interface Message extends Serializable {
 	 */
 	int getMessageId();
 
+	String getSenderIp();
+	void setSenderIp(String senderIp);
+	String getReceiverIp();
+	void setReceiverIp(String receiverIp);
+
 }

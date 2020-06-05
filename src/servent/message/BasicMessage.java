@@ -20,6 +20,8 @@ public class BasicMessage implements Message {
 	private final int receiverPort;
 	private final String messageText;
 	private boolean isFifo;
+	private String senderIp;
+	private String receiverIp;
 	
 	//This gives us a unique id - incremented in every natural constructor.
 	private static AtomicInteger messageCounter = new AtomicInteger(0);
@@ -31,6 +33,8 @@ public class BasicMessage implements Message {
 		this.receiverPort = receiverPort;
 		this.messageText = "";
 		this.isFifo = false;
+		this.senderIp = "";
+		this.receiverIp = "";
 		
 		this.messageId = messageCounter.getAndIncrement();
 	}
@@ -41,6 +45,8 @@ public class BasicMessage implements Message {
 		this.receiverPort = receiverPort;
 		this.messageText = messageText;
 		this.isFifo = false;
+		this.senderIp = "";
+		this.receiverIp = "";
 		
 		this.messageId = messageCounter.getAndIncrement();
 	}
@@ -57,7 +63,7 @@ public class BasicMessage implements Message {
 	
 	@Override
 	public String getReceiverIpAddress() {
-		return "localhost";
+		return receiverIp;
 	}
 	
 	@Override
@@ -84,7 +90,27 @@ public class BasicMessage implements Message {
 	public int getMessageId() {
 		return messageId;
 	}
-	
+
+	@Override
+	public String getSenderIp() {
+		return senderIp;
+	}
+
+	@Override
+	public void setSenderIp(String senderIp) {
+		this.senderIp = senderIp;
+	}
+
+	@Override
+	public String getReceiverIp() {
+		return receiverIp;
+	}
+
+	@Override
+	public void setReceiverIp(String receiverIp) {
+		this.receiverIp = receiverIp;
+	}
+
 	/**
 	 * Comparing messages is based on their unique id and the original sender port.
 	 */

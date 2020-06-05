@@ -44,6 +44,8 @@ public class StatusCommand implements CLICommand {
                 MutexRequestMessage mutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                         myRequestLogicalTimestamp);
+                mutexRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                mutexRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                 MessageUtil.sendMessage(mutexRequestMessage);
             }
 
@@ -97,6 +99,8 @@ public class StatusCommand implements CLICommand {
 //                AppConfig.pendingResultJobName = jobName;
                 StatusRequestMessage statusRequestMessage = new StatusRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), receiverId + "," + lastId);
+                statusRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                statusRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(statusRequestMessage);
             }
         } else {
@@ -126,6 +130,8 @@ public class StatusCommand implements CLICommand {
                     MutexRequestMessage mutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                             myRequestLogicalTimestamp);
+                    mutexRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    mutexRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                     MessageUtil.sendMessage(mutexRequestMessage);
                 }
 
@@ -176,6 +182,8 @@ public class StatusCommand implements CLICommand {
                 AppConfig.pendingResultJobName = jobName;
                 StatusRequestMessage statusRequestMessage = new StatusRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), receiverId + "," + lastId);
+                statusRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                statusRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(statusRequestMessage);
             } else {
                 String jobName = argsSplit[0];
@@ -219,6 +227,8 @@ public class StatusCommand implements CLICommand {
                     MutexRequestMessage mutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                             myRequestLogicalTimestamp);
+                    mutexRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    mutexRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                     MessageUtil.sendMessage(mutexRequestMessage);
                 }
 
@@ -247,6 +257,8 @@ public class StatusCommand implements CLICommand {
                 AppConfig.pendingResultJobName = jobName;
                 StatusRequestMessage statusRequestMessage = new StatusRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), receiverId + "," + receiverId);
+                statusRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                statusRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(statusRequestMessage);
 
             }

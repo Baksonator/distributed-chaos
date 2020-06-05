@@ -103,8 +103,8 @@ public class ChordState {
 	 */
 	public void init(WelcomeMessage welcomeMsg) {
 		//set a temporary pointer to next node, for sending of update message
-		successorTable[0] = new ServentInfo("localhost", welcomeMsg.getSenderPort());
-		successorTableAlt.add(new ServentInfo("localhost", welcomeMsg.getSenderPort()));
+//		successorTable[0] = new ServentInfo("localhost", welcomeMsg.getSenderPort());
+		successorTableAlt.add(new ServentInfo(welcomeMsg.getSenderIp(), welcomeMsg.getSenderPort()));
 		this.valueMap = welcomeMsg.getValues();
 		
 		//tell bootstrap this node is not a collider
@@ -151,6 +151,13 @@ public class ChordState {
 		}
 		return successorTableAlt.get(0).getListenerPort();
 //		return successorTable[0].getListenerPort();
+	}
+
+	public String getNextNodeIp() {
+		if (nodeCount == 1) {
+			return AppConfig.myServentInfo.getIpAddress();
+		}
+		return successorTableAlt.get(0).getIpAddress();
 	}
 	
 	public ServentInfo getPredecessor() {

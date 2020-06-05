@@ -47,6 +47,8 @@ public class ResultCommand implements CLICommand {
                 MutexRequestMessage mutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                         myRequestLogicalTimestamp);
+                mutexRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                mutexRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                 MessageUtil.sendMessage(mutexRequestMessage);
             }
 
@@ -93,6 +95,8 @@ public class ResultCommand implements CLICommand {
             AppConfig.pendingResultJobName = jobName;
             ResultRequestMessage resultRequestMessage = new ResultRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                     AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), receiverId + "," + lastId);
+            resultRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+            resultRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
             MessageUtil.sendMessage(resultRequestMessage);
         } else {
             String jobName = splitArgs[0];
@@ -136,6 +140,8 @@ public class ResultCommand implements CLICommand {
                 MutexRequestMessage mutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                         myRequestLogicalTimestamp);
+                mutexRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                mutexRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                 MessageUtil.sendMessage(mutexRequestMessage);
             }
 
@@ -159,6 +165,8 @@ public class ResultCommand implements CLICommand {
 
             ResultRequestMessage resultRequestMessage = new ResultRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                     AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), receiverId + "," + receiverId);
+            resultRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+            resultRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
             MessageUtil.sendMessage(resultRequestMessage);
 
             AppConfig.pendingResultJobName = jobName;

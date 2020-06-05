@@ -28,6 +28,8 @@ public class JobMessageResponseHandler implements MessageHandler {
                         MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                                 new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), false);
+                        mutexReleaseMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        mutexReleaseMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                         MessageUtil.sendMessage(mutexReleaseMessage);
                     }
                 }
@@ -35,6 +37,8 @@ public class JobMessageResponseHandler implements MessageHandler {
                 JobMessageResponse newJobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(),
                         clientMessage.getMessageText());
+                newJobMessageResponse.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                newJobMessageResponse.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(newJobMessageResponse);
             }
         }

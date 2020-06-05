@@ -67,6 +67,8 @@ public class ResultReplyHandler implements MessageHandler {
                 MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                         new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), false);
+                mutexReleaseMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                mutexReleaseMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                 MessageUtil.sendMessage(mutexReleaseMessage);
 
                 AppConfig.localSemaphore.release();
@@ -74,6 +76,8 @@ public class ResultReplyHandler implements MessageHandler {
                 ResultReplyMessage resultReplyMessageNew = new ResultReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
                         resultReplyMessage.getResults(), resultReplyMessage.getJob(), resultReplyMessage.isFlag(), resultReplyMessage.getFractalId());
+                resultReplyMessageNew.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                resultReplyMessageNew.setReceiverIp(AppConfig.chordState.getNextNodeForKey(requestorId).getIpAddress());
                 MessageUtil.sendMessage(resultReplyMessageNew);
             }
         }

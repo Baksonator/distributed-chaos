@@ -23,6 +23,8 @@ public class ResultRequestHandler implements MessageHandler {
                 if (lastId != AppConfig.myServentInfo.getUuid()) {
                     ResultCollectionMessage resultCollectionMessage = new ResultCollectionMessage(clientMessage.getSenderPort(),
                             AppConfig.chordState.getNextNodePort(), Integer.toString(lastId), AppConfig.jobWorker.getResults());
+                    resultCollectionMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    resultCollectionMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                     MessageUtil.sendMessage(resultCollectionMessage);
                 } else {
                     int requestorId = -1;
@@ -48,11 +50,15 @@ public class ResultRequestHandler implements MessageHandler {
                     ResultReplyMessage resultReplyMessage = new ResultReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
                             AppConfig.jobWorker.getResults(), AppConfig.jobWorker.getJob(), flag, fractalId);
+                    resultReplyMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    resultReplyMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(requestorId).getIpAddress());
                     MessageUtil.sendMessage(resultReplyMessage);
                 }
             } else {
                 ResultRequestMessage resultRequestMessage = new ResultRequestMessage(clientMessage.getSenderPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), receiverId + "," + lastId);
+                resultRequestMessage.setSenderIp(clientMessage.getSenderIp());
+                resultRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(resultRequestMessage);
             }
         }

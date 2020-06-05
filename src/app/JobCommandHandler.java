@@ -120,6 +120,8 @@ public class JobCommandHandler {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             newJob, fractalIds, 0, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
                 } else {
                     int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -130,6 +132,8 @@ public class JobCommandHandler {
                         JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                                 jobs.get(j).get(i), fractalIds, 1, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                        jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                         MessageUtil.sendMessage(jobMessage);
 
                         if (currOverflowLevelNodes > 0) {
@@ -153,6 +157,8 @@ public class JobCommandHandler {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
                             null, fractalIds, 1, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(entry.getKey()).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
                 }
             }
@@ -182,6 +188,8 @@ public class JobCommandHandler {
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         job, fractalIds, 0, job, null, AppConfig.myServentInfo.getUuid());
+                jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(jobMessage);
             } else {
                 int lastAssigned = 0;
@@ -192,6 +200,8 @@ public class JobCommandHandler {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             jobs.get(i), fractalIds, 1, job, null, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
 
                     if (overflowLevelNodes > 0) {
@@ -208,6 +218,8 @@ public class JobCommandHandler {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
                             null, fractalIds, 1, job, null, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(entry.getKey()).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
                 }
             }
@@ -313,6 +325,8 @@ public class JobCommandHandler {
                     JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             newJob, fractalIds, 0, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
                 } else {
                     int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -323,6 +337,8 @@ public class JobCommandHandler {
                         JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                                 jobs.get(j).get(i), fractalIds, 1, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                        jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                         MessageUtil.sendMessage(jobMessage);
 
                         if (currOverflowLevelNodes > 0) {
@@ -346,6 +362,8 @@ public class JobCommandHandler {
                     JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
                             null, fractalIds, 1, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(entry.getKey()).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
                 }
             }
@@ -396,6 +414,8 @@ public class JobCommandHandler {
                     JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
                             null, fractalIds, 1, job, null, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(entry.getKey()).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
                 }
             }
@@ -405,6 +425,8 @@ public class JobCommandHandler {
 
     public static void restructureEntry() {
         Map<Integer, String> oldFractalIds = fractalIds;
+
+        AppConfig.timestampedStandardPrint(oldFractalIds.toString()+ " OLD");
 
         ArrayList<Job> newJobs = new ArrayList<>(AppConfig.activeJobs);
 //            ArrayList<Job> newJobs = new ArrayList<>(helperActiveJobs);
@@ -499,6 +521,8 @@ public class JobCommandHandler {
                 JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(jobMessage);
             } else {
                 int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -509,6 +533,8 @@ public class JobCommandHandler {
                     JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
 
                     if (currOverflowLevelNodes > 0) {
@@ -532,6 +558,8 @@ public class JobCommandHandler {
                 JobStopMessage jobMessage = new JobStopMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
                         null, fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(entry.getKey()).getIpAddress());
                 MessageUtil.sendMessage(jobMessage);
             }
         }
@@ -635,6 +663,8 @@ public class JobCommandHandler {
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
+                jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(jobMessage);
             } else {
                 int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -645,6 +675,8 @@ public class JobCommandHandler {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping, AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
 
                     if (currOverflowLevelNodes > 0) {
@@ -668,6 +700,8 @@ public class JobCommandHandler {
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
                         null, fractalIds, 1, null, fractalIdMapping, AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
+                jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(entry.getKey()).getIpAddress());
                 MessageUtil.sendMessage(jobMessage);
             }
         }
@@ -680,6 +714,8 @@ public class JobCommandHandler {
                         AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                         Integer.toString(key), AppConfig.jobWorker.getResults());
+                jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                 MessageUtil.sendMessage(jobMigrationMessage);
             }
         }
@@ -723,6 +759,8 @@ public class JobCommandHandler {
         for (ServentInfo serventInfo : AppConfig.chordState.getAllNodeInfo()) {
             DiedMessage diedMessage = new DiedMessage(AppConfig.myServentInfo.getListenerPort(), serventInfo.getListenerPort(),
                     Integer.toString(diedId));
+            diedMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+            diedMessage.setReceiverIp(serventInfo.getIpAddress());
             MessageUtil.sendMessage(diedMessage);
         }
 
@@ -765,11 +803,15 @@ public class JobCommandHandler {
                     SuspicionRequestMessage suspicionRequestMessage = new SuspicionRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getPredecessor().getListenerPort(), Integer.toString(AppConfig.chordState.getPredecessor().getUuid()),
                             AppConfig.myServentInfo.getUuid(), AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
+                    suspicionRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    suspicionRequestMessage.setReceiverIp(AppConfig.chordState.getPredecessor().getIpAddress());
                     MessageUtil.sendMessage(suspicionRequestMessage);
                 } else {
                     SuspicionRequestMessage suspicionRequestMessage = new SuspicionRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getSuccessorTableAlt().get(1).getListenerPort(), Integer.toString(AppConfig.chordState.getPredecessor().getUuid()),
                             AppConfig.myServentInfo.getUuid(), AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
+                    suspicionRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    suspicionRequestMessage.setReceiverIp(AppConfig.chordState.getSuccessorTableAlt().get(1).getIpAddress());
                     MessageUtil.sendMessage(suspicionRequestMessage);
                 }
 
@@ -798,10 +840,14 @@ public class JobCommandHandler {
                     if (AppConfig.chordState.getNodeCount() == 3) {
                         BackupRequestMessage backupRequestMessage = new BackupRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getPredecessor().getListenerPort(), Integer.toString(alsoDied), true);
+                        backupRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        backupRequestMessage.setReceiverIp(AppConfig.chordState.getPredecessor().getIpAddress());
                         MessageUtil.sendMessage(backupRequestMessage);
                     } else {
                         BackupRequestMessage backupRequestMessage = new BackupRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getSuccessorTableAlt().get(1).getListenerPort(), Integer.toString(alsoDied), true);
+                        backupRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        backupRequestMessage.setReceiverIp(AppConfig.chordState.getSuccessorTableAlt().get(1).getIpAddress());
                         MessageUtil.sendMessage(backupRequestMessage);
                     }
 
@@ -841,6 +887,8 @@ public class JobCommandHandler {
                     for (ServentInfo serventInfo : AppConfig.chordState.getAllNodeInfo()) {
                         DiedMessage diedMessage = new DiedMessage(AppConfig.myServentInfo.getListenerPort(), serventInfo.getListenerPort(),
                                 Integer.toString(alsoDied));
+                        diedMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        diedMessage.setReceiverIp(serventInfo.getIpAddress());
                         MessageUtil.sendMessage(diedMessage);
                     }
                 }
@@ -948,6 +996,8 @@ public class JobCommandHandler {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
                 } else {
                     int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -958,6 +1008,8 @@ public class JobCommandHandler {
                         JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                                 jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                        jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                         MessageUtil.sendMessage(jobMessage);
 
                         if (currOverflowLevelNodes > 0) {
@@ -981,6 +1033,8 @@ public class JobCommandHandler {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
                             null, fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(entry.getKey()).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
                 }
             }
@@ -993,6 +1047,8 @@ public class JobCommandHandler {
                             AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                             Integer.toString(key), myList);
+                    jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                     MessageUtil.sendMessage(jobMigrationMessage);
                 }
             }
@@ -1006,6 +1062,8 @@ public class JobCommandHandler {
                                 AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                                 Integer.toString(key), alsoDiedList);
+                        jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                         MessageUtil.sendMessage(jobMigrationMessage);
                     }
                 }
@@ -1045,6 +1103,8 @@ public class JobCommandHandler {
 
             BackupRequestMessage backupRequestMessage = new BackupRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                     last.getListenerPort(), Integer.toString(alsoDied), false);
+            backupRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+            backupRequestMessage.setReceiverIp(last.getIpAddress());
             MessageUtil.sendMessage(backupRequestMessage);
 
             List<Point> myList = new ArrayList<>(AppConfig.backupSuccessor);
@@ -1153,6 +1213,8 @@ public class JobCommandHandler {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
                 } else {
                     int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -1163,6 +1225,8 @@ public class JobCommandHandler {
                         JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                                 jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                        jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                         MessageUtil.sendMessage(jobMessage);
 
                         if (currOverflowLevelNodes > 0) {
@@ -1186,6 +1250,8 @@ public class JobCommandHandler {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
                             null, fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(entry.getKey()).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
                 }
             }
@@ -1198,6 +1264,8 @@ public class JobCommandHandler {
                             AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                             Integer.toString(key), myList);
+                    jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                     MessageUtil.sendMessage(jobMigrationMessage);
                 }
             }
@@ -1210,6 +1278,8 @@ public class JobCommandHandler {
                             AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                             Integer.toString(key), alsoDiedList);
+                    jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                     MessageUtil.sendMessage(jobMigrationMessage);
                 }
             }
@@ -1376,6 +1446,8 @@ public class JobCommandHandler {
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(jobMessage);
             } else {
                 int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -1386,6 +1458,8 @@ public class JobCommandHandler {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
 
                     if (currOverflowLevelNodes > 0) {
@@ -1409,6 +1483,8 @@ public class JobCommandHandler {
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
                         null, fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(entry.getKey()).getIpAddress());
                 MessageUtil.sendMessage(jobMessage);
             }
         }
@@ -1421,6 +1497,8 @@ public class JobCommandHandler {
                         AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                         Integer.toString(key), AppConfig.backupSuccessor);
+                jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                 MessageUtil.sendMessage(jobMigrationMessage);
             }
         }
@@ -1433,6 +1511,8 @@ public class JobCommandHandler {
                         AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                         Integer.toString(key), AppConfig.backupPredecessor);
+                jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                 MessageUtil.sendMessage(jobMigrationMessage);
             }
         }
@@ -1468,6 +1548,8 @@ public class JobCommandHandler {
 
         DiedMessage diedMessage = new DiedMessage(AppConfig.myServentInfo.getListenerPort(),
                 AppConfig.chordState.getPredecessor().getListenerPort(), Integer.toString(diedId));
+        diedMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+        diedMessage.setReceiverIp(AppConfig.chordState.getPredecessor().getIpAddress());
         MessageUtil.sendMessage(diedMessage);
 
         if (AppConfig.activeJobs.size() == 0) {
@@ -1571,6 +1653,8 @@ public class JobCommandHandler {
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(jobMessage);
             } else {
                 int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -1581,6 +1665,8 @@ public class JobCommandHandler {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
 
                     if (currOverflowLevelNodes > 0) {
@@ -1604,6 +1690,8 @@ public class JobCommandHandler {
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
                         null, fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(entry.getKey()).getIpAddress());
                 MessageUtil.sendMessage(jobMessage);
             }
         }
@@ -1616,6 +1704,8 @@ public class JobCommandHandler {
                         AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                         Integer.toString(key), AppConfig.backupSuccessor);
+                jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                 MessageUtil.sendMessage(jobMigrationMessage);
             }
         }
@@ -1752,6 +1842,8 @@ public class JobCommandHandler {
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                 MessageUtil.sendMessage(jobMessage);
             } else {
                 int currOverflowLevelNodes = overflowLevelNodesByJob.get(j);
@@ -1762,6 +1854,8 @@ public class JobCommandHandler {
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             jobs.get(j).get(i), fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                    jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                     MessageUtil.sendMessage(jobMessage);
 
                     if (currOverflowLevelNodes > 0) {
@@ -1785,6 +1879,8 @@ public class JobCommandHandler {
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(entry.getKey()).getListenerPort(), Integer.toString(entry.getKey()),
                         null, fractalIds, 1, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
+                jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(entry.getKey()).getIpAddress());
                 MessageUtil.sendMessage(jobMessage);
             }
         }
@@ -1797,6 +1893,8 @@ public class JobCommandHandler {
                         AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                         Integer.toString(key), AppConfig.backupSuccessor);
+                jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                 MessageUtil.sendMessage(jobMigrationMessage);
             }
         }
@@ -1853,6 +1951,7 @@ public class JobCommandHandler {
 
         int copyOfOverflowLevelNodes = overflowLevelNodes;
 
+        AppConfig.timestampedStandardPrint(AppConfig.chordState.getAllNodeInfoHelper().toString());
         String prefix = job.getName() + "0";
 //        int lastAssigned = 0;
         for (int i = 0; i < job.getN(); i++) {
@@ -1871,6 +1970,7 @@ public class JobCommandHandler {
     private static void assign(String prefix, int left, int right, int dots) {
         if (left == right) {
             int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(left).getUuid();
+            AppConfig.timestampedStandardPrint("RECEIVEDIDT " + receiverId);
             fractalIds.put(receiverId, prefix);
         } else {
             int incrementLevel = (int)Math.pow(dots, (int)((right - left + 1) / dots - 1));

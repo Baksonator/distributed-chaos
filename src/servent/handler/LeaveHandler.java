@@ -39,9 +39,13 @@ public class LeaveHandler implements MessageHandler {
                     AppConfig.isDesignated = true;
                 }
 
-                int oldPort = AppConfig.chordState.getNextNodePort();
+                AppConfig.failureDetector.setFlag(false);
+                AppConfig.failureDetector.setSavedTime(-1);
 
-                ServentInfo leaverInfo = new ServentInfo("localhost", clientMessage.getSenderPort());
+                int oldPort = AppConfig.chordState.getNextNodePort();
+                String oldIp = AppConfig.chordState.getNextNodeIp();
+
+                ServentInfo leaverInfo = new ServentInfo(clientMessage.getSenderIp(), clientMessage.getSenderPort());
                 leaverInfo.setUuid(leaverId);
 
                 AppConfig.chordState.decrementNodeCount();
@@ -51,6 +55,7 @@ public class LeaveHandler implements MessageHandler {
                 AppConfig.chordState.getAllNodeInfoHelper().remove(leaverInfo);
                 AppConfig.chordState.getSuspiciousMap().remove(leaverId);
                 AppConfig.chordState.getLastHeardMap().remove(leaverId);
+                AppConfig.timestampedStandardPrint(AppConfig.chordState.getAllNodeInfoHelper().toString());
 
                 for (FifoSendWorker sendWorker : AppConfig.fifoSendWorkers) {
                     if (sendWorker.getNeighbor() == leaverId) {
@@ -60,11 +65,10 @@ public class LeaveHandler implements MessageHandler {
                     }
                 }
 
-                AppConfig.failureDetector.setFlag(false);
-                AppConfig.failureDetector.setSavedTime(-1);
-
                 LeaveMessage newLeaveMessage = new LeaveMessage(AppConfig.myServentInfo.getListenerPort(),
                         oldPort, Integer.toString(leaverId), false);
+                newLeaveMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                newLeaveMessage.setReceiverIp(oldIp);
                 MessageUtil.sendMessage(newLeaveMessage);
             } else {
                 AppConfig.chordState.decrementNodeCount();
@@ -84,6 +88,8 @@ public class LeaveHandler implements MessageHandler {
                     MutexReleaseMessage mutexReleaseMessage = new MutexReleaseMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.chordState.getPredecessor().getUuid()),
                             new LogicalTimestamp(AppConfig.lamportClock.getValue(), AppConfig.myServentInfo.getUuid()), true);
+                    mutexReleaseMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    mutexReleaseMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
                     MessageUtil.sendMessage(mutexReleaseMessage);
                 }
 

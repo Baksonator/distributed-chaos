@@ -24,6 +24,8 @@ public class SuspicionRequestHandler implements MessageHandler {
                     Integer.toString(suspicionRequestMessage.getSenderId()),
                     AppConfig.chordState.getSuspiciousMap().get(suspicionRequestMessage.getInquiryNodeId()),
                     suspicionRequestMessage.getInquiryNodeId());
+            suspicionReplyMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+            suspicionReplyMessage.setReceiverIp(clientMessage.getSenderIp());
             MessageUtil.sendMessage(suspicionReplyMessage);
         }
     }

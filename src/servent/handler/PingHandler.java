@@ -17,8 +17,11 @@ public class PingHandler implements MessageHandler {
     @Override
     public void run() {
         if (clientMessage.getMessageType() == MessageType.PING) {
-            MessageUtil.sendMessage(new PongMessage(AppConfig.myServentInfo.getListenerPort(), clientMessage.getSenderPort(),
-                    Integer.toString(AppConfig.myServentInfo.getUuid())));
+            PongMessage pongMessage = new PongMessage(AppConfig.myServentInfo.getListenerPort(),
+                    clientMessage.getSenderPort(), Integer.toString(AppConfig.myServentInfo.getUuid()));
+            pongMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+            pongMessage.setReceiverIp(clientMessage.getSenderIp());
+            MessageUtil.sendMessage(pongMessage);
         }
     }
 }

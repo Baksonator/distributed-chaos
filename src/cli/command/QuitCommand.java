@@ -61,6 +61,8 @@ public class QuitCommand implements CLICommand {
             MutexRequestMessage mutexRequestMessage = new MutexRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                     AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()),
                     myRequestLogicalTimestamp);
+            mutexRequestMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+            mutexRequestMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
             MessageUtil.sendMessage(mutexRequestMessage);
         }
 
@@ -100,6 +102,8 @@ public class QuitCommand implements CLICommand {
 
         LeaveMessage leaveMessage = new LeaveMessage(AppConfig.myServentInfo.getListenerPort(),
                 AppConfig.chordState.getNextNodePort(), Integer.toString(AppConfig.myServentInfo.getUuid()), true);
+        leaveMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+        leaveMessage.setReceiverIp(AppConfig.chordState.getNextNodeIp());
         MessageUtil.sendMessage(leaveMessage);
 
         parser.stop();

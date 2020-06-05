@@ -49,6 +49,8 @@ public class JobStopHandler implements MessageHandler {
                                             AppConfig.myServentInfo.getListenerPort(),
                                             AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                                             Integer.toString(key), AppConfig.jobWorker.getResults());
+                                    jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                                    jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                                     MessageUtil.sendMessage(jobMigrationMessage);
                                 }
                             }
@@ -85,6 +87,8 @@ public class JobStopHandler implements MessageHandler {
                                                 AppConfig.myServentInfo.getListenerPort(),
                                                 AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                                                 Integer.toString(key), Utils.inPolygon(jobsToSend.get(k++), AppConfig.jobWorker.getResults()));
+                                        jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                                        jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                                         MessageUtil.sendMessage(jobMigrationMessage);
                                     }
                                 }
@@ -107,6 +111,8 @@ public class JobStopHandler implements MessageHandler {
                                                 AppConfig.myServentInfo.getListenerPort(),
                                                 AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                                                 Integer.toString(key), sending);
+                                        jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                                        jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                                         MessageUtil.sendMessage(jobMigrationMessage);
                                     }
                                 }
@@ -123,6 +129,8 @@ public class JobStopHandler implements MessageHandler {
                     JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(jobStopMsg.getSenderId()).getListenerPort(),
                             Integer.toString(jobStopMsg.getSenderId()));
+                    jobMessageResponse.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                    jobMessageResponse.setReceiverIp(AppConfig.chordState.getNextNodeForKey(jobStopMsg.getSenderId()).getIpAddress());
                     MessageUtil.sendMessage(jobMessageResponse);
                     return;
                 }
@@ -154,6 +162,8 @@ public class JobStopHandler implements MessageHandler {
                                             AppConfig.myServentInfo.getListenerPort(),
                                             AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                                             Integer.toString(key), AppConfig.jobWorker.getResults());
+                                    jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                                    jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                                     MessageUtil.sendMessage(jobMigrationMessage);
                                 }
                             }
@@ -185,6 +195,8 @@ public class JobStopHandler implements MessageHandler {
                                                 AppConfig.myServentInfo.getListenerPort(),
                                                 AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                                                 Integer.toString(key), Utils.inPolygon(jobsToSend.get(k++), AppConfig.jobWorker.getResults()));
+                                        jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                                        jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                                         MessageUtil.sendMessage(jobMigrationMessage);
                                     }
                                 }
@@ -206,6 +218,8 @@ public class JobStopHandler implements MessageHandler {
                                                 AppConfig.myServentInfo.getListenerPort(),
                                                 AppConfig.chordState.getNextNodeForKey(key).getListenerPort(),
                                                 Integer.toString(key), sending);
+                                        jobMigrationMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                                        jobMigrationMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(key).getIpAddress());
                                         MessageUtil.sendMessage(jobMigrationMessage);
                                     }
                                 }
@@ -242,6 +256,8 @@ public class JobStopHandler implements MessageHandler {
                         JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(jobStopMsg.getSenderId()).getListenerPort(),
                                 Integer.toString(jobStopMsg.getSenderId()));
+                        jobMessageResponse.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        jobMessageResponse.setReceiverIp(AppConfig.chordState.getNextNodeForKey(jobStopMsg.getSenderId()).getIpAddress());
                         MessageUtil.sendMessage(jobMessageResponse);
                     } else {
                         JobCommandHandler.fractalIds = fractalIds;
@@ -257,6 +273,8 @@ public class JobStopHandler implements MessageHandler {
                         JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
                                 AppConfig.chordState.getNextNodeForKey(jobStopMsg.getSenderId()).getListenerPort(),
                                 Integer.toString(jobStopMsg.getSenderId()));
+                        jobMessageResponse.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        jobMessageResponse.setReceiverIp(AppConfig.chordState.getNextNodeForKey(jobStopMsg.getSenderId()).getIpAddress());
                         MessageUtil.sendMessage(jobMessageResponse);
                     }
                 } else {
@@ -308,6 +326,8 @@ public class JobStopHandler implements MessageHandler {
                                 AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(),
                                 Integer.toString(receiverId), jobs.get(i), fractalIds, level + 1, jobStopMsg.getMainJob(),
                                 jobStopMsg.getFractalIdMapping(), jobStopMsg.getSenderId());
+                        jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                        jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiverId).getIpAddress());
                         MessageUtil.sendMessage(jobMessage);
 
                         if (overflowLevelNodes > 0) {
@@ -324,6 +344,8 @@ public class JobStopHandler implements MessageHandler {
                         AppConfig.chordState.getNextNodeForKey(receiver).getListenerPort(), clientMessage.getMessageText(),
                         jobStopMsg.getJob(), jobStopMsg.getFractalIds(), jobStopMsg.getLevel(), jobStopMsg.getMainJob(),
                         jobStopMsg.getFractalIdMapping(), jobStopMsg.getSenderId());
+                jobMessage.setSenderIp(AppConfig.myServentInfo.getIpAddress());
+                jobMessage.setReceiverIp(AppConfig.chordState.getNextNodeForKey(receiver).getIpAddress());
                 MessageUtil.sendMessage(jobMessage);
             }
         }
