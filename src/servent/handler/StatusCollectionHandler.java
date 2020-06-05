@@ -37,13 +37,12 @@ public class StatusCollectionHandler implements MessageHandler {
             } else {
                 int requestorId = -1;
                 for (ServentInfo nodeInfo : AppConfig.chordState.getAllNodeInfo()) {
-                    // TODO Add IP Address as well
-                    if (nodeInfo.getListenerPort() == clientMessage.getSenderPort()) {
+                    if (nodeInfo.getIpAddress().equals(clientMessage.getSenderIp()) && nodeInfo.getListenerPort() == clientMessage.getSenderPort()) {
                         requestorId = nodeInfo.getUuid();
                         break;
                     }
                 }
-                if (AppConfig.myServentInfo.getListenerPort() == clientMessage.getSenderPort()) {
+                if (AppConfig.myServentInfo.getIpAddress().equals(clientMessage.getSenderIp()) && AppConfig.myServentInfo.getListenerPort() == clientMessage.getSenderPort()) {
                     requestorId = AppConfig.myServentInfo.getUuid();
                 }
                 List<Integer> newResults = oldMsg.getResults();

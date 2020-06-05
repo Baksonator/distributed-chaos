@@ -72,8 +72,7 @@ public class MessageUtil {
 	public static void sendMessage(Message message) {
 		if (message.isFifo()) {
 			for (ServentInfo serventInfo : AppConfig.chordState.getAllNodeInfo()) {
-				// TODO Add IP here as well
-				if (serventInfo.getListenerPort() == message.getReceiverPort()) {
+				if (serventInfo.getIpAddress().equals(message.getReceiverIp()) && serventInfo.getListenerPort() == message.getReceiverPort()) {
 					try {
 						pendingMessages.get(serventInfo.getUuid()).put(message);
 					} catch (InterruptedException e) {

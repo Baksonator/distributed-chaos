@@ -28,8 +28,7 @@ public class UpdateHandler implements MessageHandler {
 	@Override
 	public void run() {
 		if (clientMessage.getMessageType() == MessageType.UPDATE) {
-			// TODO Mora i IP Adresa ili nesto
-			if (clientMessage.getSenderPort() != AppConfig.myServentInfo.getListenerPort()) {
+			if (!clientMessage.getSenderIp().equals(AppConfig.myServentInfo.getIpAddress()) || clientMessage.getSenderPort() != AppConfig.myServentInfo.getListenerPort()) {
 				UpdateMessage updateMessage = (UpdateMessage) clientMessage;
 				ServentInfo newNodInfo = new ServentInfo(clientMessage.getSenderIp(), clientMessage.getSenderPort());
 				newNodInfo.setUuid(updateMessage.getNewId());
