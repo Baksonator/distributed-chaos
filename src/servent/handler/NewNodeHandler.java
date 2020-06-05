@@ -22,7 +22,6 @@ public class NewNodeHandler implements MessageHandler {
 			int newNodePort = clientMessage.getSenderPort();
 			ServentInfo newNodeInfo = new ServentInfo("localhost", newNodePort);
 
-			// TODO PAZI NA OVU PROMENU
 			if (AppConfig.myServentInfo.getUuid() == AppConfig.chordState.getAllNodeInfoHelper().get(0).getUuid()) {
 				// I am the first node in the ring
 //				AppConfig.paused.set(true);
@@ -38,7 +37,6 @@ public class NewNodeHandler implements MessageHandler {
 				LogicalTimestamp myRequestLogicalTimestamp = new LogicalTimestamp(AppConfig.lamportClock.getValue(),
 						AppConfig.myServentInfo.getUuid());
 
-				AppConfig.isDesignated = false;
 				AppConfig.replyLatch = new CountDownLatch(AppConfig.chordState.getNodeCount() - 1);
 
 				if (AppConfig.chordState.getNodeCount() > 1) {
@@ -49,6 +47,8 @@ public class NewNodeHandler implements MessageHandler {
 				}
 
 				AppConfig.requestQueue.add(myRequestLogicalTimestamp);
+
+				AppConfig.timestampedStandardPrint(AppConfig.replyLatch.getCount()+ " COUNT");
 
 				try {
 					AppConfig.replyLatch.await();
@@ -63,6 +63,8 @@ public class NewNodeHandler implements MessageHandler {
 						e.printStackTrace();
 					}
 				}
+
+				AppConfig.isDesignated = false;
 
 				WelcomeMessage wm = new WelcomeMessage(AppConfig.myServentInfo.getListenerPort(), newNodePort, null,
 						AppConfig.lamportClock.getValue(), AppConfig.chordState.getNodeCount());

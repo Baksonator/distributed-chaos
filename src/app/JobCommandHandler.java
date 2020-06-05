@@ -23,9 +23,6 @@ public class JobCommandHandler {
 
     public static void start(Job job) {
 //        if (!helperActiveJobs.isEmpty()) {
-        // TODO Kad ne moze da se izvrsi posao
-        // TODO Validacija i za ovo i za stop
-        // TODO AKO NESTO BAGUJE PROVERI LAST ASSIGNED SVUDA
         if (!AppConfig.activeJobs.isEmpty()) {
             Map<Integer, String> oldFractalIds = fractalIds;
 
@@ -120,7 +117,6 @@ public class JobCommandHandler {
                 if (tempNodesByJob < newJob.getN()) {
                     int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
                     AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
-                    // TODO Mozda ti ne valjda ovaj newJob pre fractalIds, proveri to dobro, to imas i dole u stop
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             newJob, fractalIds, 0, job, fractalIdMapping, AppConfig.myServentInfo.getUuid());
@@ -145,7 +141,7 @@ public class JobCommandHandler {
                     }
                 }
                 j++;
-                next += (j * nodesByJob);
+                next += nodesByJob;
                 if (extraNodes > 0) {
                     next++;
                     extraNodes--;
@@ -162,6 +158,8 @@ public class JobCommandHandler {
             }
 
         } else {
+            fractalIds.clear();
+
             assignFractalsIds(job, AppConfig.chordState.getNodeCount(), 0);
 //            assignFractalsIds(job, 9, 0);
             for (int i = 0; i < AppConfig.chordState.getNodeCount(); i++) {
@@ -336,7 +334,7 @@ public class JobCommandHandler {
                     }
                 }
                 j++;
-                next += (j * nodesByJob);
+                next += nodesByJob;
                 if (extraNodes > 0) {
                     next++;
                     extraNodes--;
@@ -522,7 +520,7 @@ public class JobCommandHandler {
                 }
             }
             j++;
-            next += (j * nodesByJob);
+            next += nodesByJob;
             if (extraNodes > 0) {
                 next++;
                 extraNodes--;
@@ -634,7 +632,6 @@ public class JobCommandHandler {
             if (tempNodesByJob < newJob.getN()) {
                 int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
                 AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
-                // TODO Mozda ti ne valjda ovaj newJob pre fractalIds, proveri to dobro, to imas i dole u stop
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
@@ -659,7 +656,7 @@ public class JobCommandHandler {
                 }
             }
             j++;
-            next += (j * nodesByJob);
+            next += nodesByJob;
             if (extraNodes > 0) {
                 next++;
                 extraNodes--;
@@ -729,7 +726,6 @@ public class JobCommandHandler {
             MessageUtil.sendMessage(diedMessage);
         }
 
-        // TODO Mozda vrati
 //        AppConfig.diedLatch = new CountDownLatch(AppConfig.chordState.getNodeCount() - 1);
 
 //        AppConfig.timestampedStandardPrint("STIZE");
@@ -765,11 +761,17 @@ public class JobCommandHandler {
             AppConfig.edgeCaseLatch = new CountDownLatch(1);
 
             if (AppConfig.chordState.getSuspiciousMap().get(AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid())) {
-                SuspicionRequestMessage suspicionRequestMessage = new SuspicionRequestMessage(AppConfig.myServentInfo.getListenerPort(),
-                        AppConfig.chordState.getSuccessorTableAlt().get(1).getListenerPort(), Integer.toString(AppConfig.chordState.getPredecessor().getUuid()),
-                        AppConfig.myServentInfo.getUuid(), AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
-                MessageUtil.sendMessage(suspicionRequestMessage);
-
+                if (AppConfig.chordState.getNodeCount() == 3) {
+                    SuspicionRequestMessage suspicionRequestMessage = new SuspicionRequestMessage(AppConfig.myServentInfo.getListenerPort(),
+                            AppConfig.chordState.getPredecessor().getListenerPort(), Integer.toString(AppConfig.chordState.getPredecessor().getUuid()),
+                            AppConfig.myServentInfo.getUuid(), AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
+                    MessageUtil.sendMessage(suspicionRequestMessage);
+                } else {
+                    SuspicionRequestMessage suspicionRequestMessage = new SuspicionRequestMessage(AppConfig.myServentInfo.getListenerPort(),
+                            AppConfig.chordState.getSuccessorTableAlt().get(1).getListenerPort(), Integer.toString(AppConfig.chordState.getPredecessor().getUuid()),
+                            AppConfig.myServentInfo.getUuid(), AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid());
+                    MessageUtil.sendMessage(suspicionRequestMessage);
+                }
 
                 try {
                     AppConfig.edgeCaseLatch.await();
@@ -791,11 +793,17 @@ public class JobCommandHandler {
                 }
 
                 if (reallyReallySuspicious) {
-                    BackupRequestMessage backupRequestMessage = new BackupRequestMessage(AppConfig.myServentInfo.getListenerPort(),
-                            AppConfig.chordState.getSuccessorTableAlt().get(1).getListenerPort(), Integer.toString(diedId));
-                    MessageUtil.sendMessage(backupRequestMessage);
-
                     alsoDied = AppConfig.chordState.getSuccessorTableAlt().get(0).getUuid();
+
+                    if (AppConfig.chordState.getNodeCount() == 3) {
+                        BackupRequestMessage backupRequestMessage = new BackupRequestMessage(AppConfig.myServentInfo.getListenerPort(),
+                                AppConfig.chordState.getPredecessor().getListenerPort(), Integer.toString(alsoDied), true);
+                        MessageUtil.sendMessage(backupRequestMessage);
+                    } else {
+                        BackupRequestMessage backupRequestMessage = new BackupRequestMessage(AppConfig.myServentInfo.getListenerPort(),
+                                AppConfig.chordState.getSuccessorTableAlt().get(1).getListenerPort(), Integer.toString(alsoDied), true);
+                        MessageUtil.sendMessage(backupRequestMessage);
+                    }
 
                     try {
                         alsoDiedList = AppConfig.backupsReceived.take();
@@ -836,6 +844,10 @@ public class JobCommandHandler {
                         MessageUtil.sendMessage(diedMessage);
                     }
                 }
+            }
+
+            if (AppConfig.activeJobs.size() == 0) {
+                return;
             }
 
             //////////////////////////////////////////
@@ -933,7 +945,6 @@ public class JobCommandHandler {
                 if (tempNodesByJob < newJob.getN()) {
                     int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
                     AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
-                    // TODO Mozda ti ne valjda ovaj newJob pre fractalIds, proveri to dobro, to imas i dole u stop
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
@@ -958,7 +969,7 @@ public class JobCommandHandler {
                     }
                 }
                 j++;
-                next += (j * nodesByJob);
+                next += nodesByJob;
                 if (extraNodes > 0) {
                     next++;
                     extraNodes--;
@@ -986,7 +997,7 @@ public class JobCommandHandler {
                 }
             }
 
-            if (alsoDiedList.size() > 0) {
+            if (alsoDied != -1) {
                 String secondFractalId = oldFractalIds.get(alsoDied);
                 for (Map.Entry<String, String> entry : fractalIdMapping.entrySet()) {
                     if (entry.getKey().equals(secondFractalId)) {
@@ -1003,6 +1014,10 @@ public class JobCommandHandler {
 
         } else {
             if (AppConfig.whoNoticed.get() < AppConfig.myServentInfo.getUuid()) {
+                return;
+            }
+
+            if (AppConfig.activeJobs.size() == 0) {
                 return;
             }
 
@@ -1029,7 +1044,7 @@ public class JobCommandHandler {
             }
 
             BackupRequestMessage backupRequestMessage = new BackupRequestMessage(AppConfig.myServentInfo.getListenerPort(),
-                    last.getListenerPort(), Integer.toString(diedId));
+                    last.getListenerPort(), Integer.toString(alsoDied), false);
             MessageUtil.sendMessage(backupRequestMessage);
 
             List<Point> myList = new ArrayList<>(AppConfig.backupSuccessor);
@@ -1128,7 +1143,6 @@ public class JobCommandHandler {
                 AppConfig.timestampedStandardPrint(newJob.getName());
                 lastAssigned = next;
 //            lastAssigned = AppConfig.chordState.getAllNodeInfoHelper().get(next).getUuid();
-                AppConfig.timestampedStandardPrint(AppConfig.chordState.getAllNodeInfoHelper().toString());
                 int tempNodesByJob = nodesByJob;
                 if (extraNodes > 0) {
                     tempNodesByJob++;
@@ -1136,7 +1150,6 @@ public class JobCommandHandler {
                 if (tempNodesByJob < newJob.getN()) {
                     int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
                     AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
-                    // TODO Mozda ti ne valjda ovaj newJob pre fractalIds, proveri to dobro, to imas i dole u stop
                     JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                             newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
@@ -1161,7 +1174,7 @@ public class JobCommandHandler {
                     }
                 }
                 j++;
-                next += (j * nodesByJob);
+                next += nodesByJob;
                 if (extraNodes > 0) {
                     next++;
                     extraNodes--;
@@ -1201,6 +1214,7 @@ public class JobCommandHandler {
                 }
             }
         }
+        AppConfig.chordState.getReallySuspucious().clear();
     }
 
     public static void failure2_3() {
@@ -1259,6 +1273,10 @@ public class JobCommandHandler {
                 AppConfig.fifoSendWorkers.remove(sendWorker);
                 break;
             }
+        }
+
+        if (AppConfig.activeJobs.size() == 0) {
+            return;
         }
 
         Map<Integer, String> oldFractalIds = fractalIds;
@@ -1355,7 +1373,6 @@ public class JobCommandHandler {
             if (tempNodesByJob < newJob.getN()) {
                 int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
                 AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
-                // TODO Mozda ti ne valjda ovaj newJob pre fractalIds, proveri to dobro, to imas i dole u stop
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
@@ -1380,7 +1397,7 @@ public class JobCommandHandler {
                 }
             }
             j++;
-            next += (j * nodesByJob);
+            next += nodesByJob;
             if (extraNodes > 0) {
                 next++;
                 extraNodes--;
@@ -1453,6 +1470,10 @@ public class JobCommandHandler {
                 AppConfig.chordState.getPredecessor().getListenerPort(), Integer.toString(diedId));
         MessageUtil.sendMessage(diedMessage);
 
+        if (AppConfig.activeJobs.size() == 0) {
+            return;
+        }
+
         Map<Integer, String> oldFractalIds = fractalIds;
 
         ArrayList<Job> newJobs = new ArrayList<>(AppConfig.activeJobs);
@@ -1547,7 +1568,6 @@ public class JobCommandHandler {
             if (tempNodesByJob < newJob.getN()) {
                 int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
                 AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
-                // TODO Mozda ti ne valjda ovaj newJob pre fractalIds, proveri to dobro, to imas i dole u stop
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
@@ -1572,7 +1592,7 @@ public class JobCommandHandler {
                 }
             }
             j++;
-            next += (j * nodesByJob);
+            next += nodesByJob;
             if (extraNodes > 0) {
                 next++;
                 extraNodes--;
@@ -1631,6 +1651,10 @@ public class JobCommandHandler {
             }
         }
 
+        if (AppConfig.activeJobs.size() == 0) {
+            return;
+        }
+
         Map<Integer, String> oldFractalIds = fractalIds;
 
         ArrayList<Job> newJobs = new ArrayList<>(AppConfig.activeJobs);
@@ -1725,7 +1749,6 @@ public class JobCommandHandler {
             if (tempNodesByJob < newJob.getN()) {
                 int receiverId = AppConfig.chordState.getAllNodeInfoHelper().get(lastAssigned).getUuid();
                 AppConfig.timestampedStandardPrint("Next node for key:" + receiverId + " is " + AppConfig.chordState.getNextNodeForKey(receiverId).getUuid());
-                // TODO Mozda ti ne valjda ovaj newJob pre fractalIds, proveri to dobro, to imas i dole u stop
                 JobMessage jobMessage = new JobMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), Integer.toString(receiverId),
                         newJob, fractalIds, 0, null, fractalIdMapping, AppConfig.myServentInfo.getUuid());
@@ -1750,7 +1773,7 @@ public class JobCommandHandler {
                 }
             }
             j++;
-            next += (j * nodesByJob);
+            next += nodesByJob;
             if (extraNodes > 0) {
                 next++;
                 extraNodes--;

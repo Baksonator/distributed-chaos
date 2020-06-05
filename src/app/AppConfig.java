@@ -80,7 +80,7 @@ public class AppConfig {
 
 	public static BlockingQueue<LogicalTimestamp> requestQueue = new PriorityBlockingQueue<>();
 
-	public static CountDownLatch replyLatch;
+	public static CountDownLatch replyLatch = new CountDownLatch(0);
 
 	public static CountDownLatch jobLatch;
 

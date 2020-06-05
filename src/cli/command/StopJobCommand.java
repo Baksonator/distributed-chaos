@@ -19,6 +19,10 @@ public class StopJobCommand implements CLICommand {
 
     @Override
     public void execute(String args) {
+        if (args == null) {
+            AppConfig.timestampedErrorPrint("No job specified!");
+        }
+
         Job job = AppConfig.jobs.stream().filter(job1 -> job1.getName().equals(args)).findFirst().get();
         if (!AppConfig.activeJobs.contains(job)) {
             AppConfig.timestampedErrorPrint("This job does not exist!");
@@ -34,7 +38,6 @@ public class StopJobCommand implements CLICommand {
         LogicalTimestamp myRequestLogicalTimestamp = new LogicalTimestamp(AppConfig.lamportClock.getValue(),
                 AppConfig.myServentInfo.getUuid());
 
-        AppConfig.isDesignated = false;
         AppConfig.replyLatch = new CountDownLatch(AppConfig.chordState.getNodeCount() - 1);
 
         if (AppConfig.chordState.getNodeCount() > 1) {
@@ -59,6 +62,8 @@ public class StopJobCommand implements CLICommand {
                 e.printStackTrace();
             }
         }
+
+        AppConfig.isDesignated = false;
 
         AppConfig.jobLatch = new CountDownLatch(AppConfig.chordState.getNodeCount());
         JobCommandHandler.stop(job);

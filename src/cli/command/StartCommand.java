@@ -55,7 +55,6 @@ public class StartCommand implements CLICommand {
             LogicalTimestamp myRequestLogicalTimestamp = new LogicalTimestamp(AppConfig.lamportClock.getValue(),
                     AppConfig.myServentInfo.getUuid());
 
-            AppConfig.isDesignated = false;
             AppConfig.replyLatch = new CountDownLatch(AppConfig.chordState.getNodeCount() - 1);
 
             if (AppConfig.chordState.getNodeCount() > 1) {
@@ -80,6 +79,8 @@ public class StartCommand implements CLICommand {
                     e.printStackTrace();
                 }
             }
+
+            AppConfig.isDesignated = false;
 
             AppConfig.jobLatch = new CountDownLatch(AppConfig.chordState.getNodeCount());
             JobCommandHandler.start(job);
@@ -144,7 +145,6 @@ public class StartCommand implements CLICommand {
                 LogicalTimestamp myRequestLogicalTimestamp = new LogicalTimestamp(AppConfig.lamportClock.getValue(),
                         AppConfig.myServentInfo.getUuid());
 
-                AppConfig.isDesignated = false;
                 AppConfig.replyLatch = new CountDownLatch(AppConfig.chordState.getNodeCount() - 1);
 
                 if (AppConfig.chordState.getNodeCount() > 1) {
@@ -169,6 +169,8 @@ public class StartCommand implements CLICommand {
                         e.printStackTrace();
                     }
                 }
+
+                AppConfig.isDesignated = false;
 
                 AppConfig.jobLatch = new CountDownLatch(AppConfig.chordState.getNodeCount());
                 JobCommandHandler.start(newJob);

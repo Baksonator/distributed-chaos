@@ -41,7 +41,6 @@ public class ResultCommand implements CLICommand {
             LogicalTimestamp myRequestLogicalTimestamp = new LogicalTimestamp(AppConfig.lamportClock.getValue(),
                     AppConfig.myServentInfo.getUuid());
 
-            AppConfig.isDesignated = false;
             AppConfig.replyLatch = new CountDownLatch(AppConfig.chordState.getNodeCount() - 1);
 
             if (AppConfig.chordState.getNodeCount() > 1) {
@@ -66,6 +65,8 @@ public class ResultCommand implements CLICommand {
                     e.printStackTrace();
                 }
             }
+
+            AppConfig.isDesignated = false;
 
             int receiverId = -1;
             for (Map.Entry<Integer, String> entry : JobCommandHandler.fractalIds.entrySet()) {
@@ -129,7 +130,6 @@ public class ResultCommand implements CLICommand {
             LogicalTimestamp myRequestLogicalTimestamp = new LogicalTimestamp(AppConfig.lamportClock.getValue(),
                     AppConfig.myServentInfo.getUuid());
 
-            AppConfig.isDesignated = false;
             AppConfig.replyLatch = new CountDownLatch(AppConfig.chordState.getNodeCount() - 1);
 
             if (AppConfig.chordState.getNodeCount() > 1) {
@@ -154,6 +154,8 @@ public class ResultCommand implements CLICommand {
                     e.printStackTrace();
                 }
             }
+
+            AppConfig.isDesignated = false;
 
             ResultRequestMessage resultRequestMessage = new ResultRequestMessage(AppConfig.myServentInfo.getListenerPort(),
                     AppConfig.chordState.getNextNodeForKey(receiverId).getListenerPort(), receiverId + "," + receiverId);
