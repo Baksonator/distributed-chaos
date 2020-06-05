@@ -74,15 +74,17 @@ public class BootstrapServer {
 				 * or -1 if he is the first one.
 				 */
 				if (message.equals("Hail")) {
-					int newServentPort = socketScanner.nextInt();
+					String[] reply = socketScanner.nextLine().split(",");
+					String ipAddress = reply[0];
+					int newServentPort = Integer.parseInt(reply[1]);
 					
-					System.out.println("got " + newServentPort);
+					System.out.println("got " + ipAddress + ":" + newServentPort);
 					PrintWriter socketWriter = new PrintWriter(newServentSocket.getOutputStream());
 					
 					if (activeServents.size() == 0) {
 						socketWriter.write("-1," + String.valueOf(-1) + "," + currId + "\n");
 //						activeServents.add(newServentPort);
-						activeServents.add(new ServentInfoBootstrap(newServentSocket.getLocalAddress().getHostAddress(), newServentPort)); //first one doesn't need to confirm
+						activeServents.add(new ServentInfoBootstrap(ipAddress, newServentPort)); //first one doesn't need to confirm
 					} else {
 //						int randServent = activeServents.get(rand.nextInt(activeServents.size()));
 						ServentInfoBootstrap randServent = activeServents.get(rand.nextInt(activeServents.size()));
@@ -99,21 +101,27 @@ public class BootstrapServer {
 					/**
 					 * When a servent is confirmed not to be a collider, we add him to the list.
 					 */
-					int newServentPort = socketScanner.nextInt();
+					String[] reply = socketScanner.nextLine().split(",");
+					String ipAddress = reply[0];
+					int newServentPort = Integer.parseInt(reply[1]);
+//					int newServentPort = socketScanner.nextInt();
 					
-					System.out.println("adding " + newServentPort);
+					System.out.println("adding " + ipAddress + " : " + newServentPort);
 
 //					activeServents.add(newServentPort);
-					activeServents.add(new ServentInfoBootstrap(newServentSocket.getLocalAddress().getHostAddress(), newServentPort));
+					activeServents.add(new ServentInfoBootstrap(ipAddress, newServentPort));
 					AppConfig.timestampedStandardPrint(activeServents.toString());
 					newServentSocket.close();
 				} else if (message.equals("Left")) {
-					String ip = newServentSocket.getLocalAddress().getHostAddress();
-					int port = socketScanner.nextInt();
+					String[] reply = socketScanner.nextLine().split(",");
+					String ipAddress = reply[0];
+					int newServentPort = Integer.parseInt(reply[1]);
+//					String ip = newServentSocket.getLocalAddress().getHostAddress();
+//					int port = socketScanner.nextInt();
 
-					AppConfig.timestampedStandardPrint(ip + ":" + port + " leaving");
+					AppConfig.timestampedStandardPrint(ipAddress + " : " + newServentPort + " leaving");
 
-					activeServents.remove(new ServentInfoBootstrap(ip, port));
+					activeServents.remove(new ServentInfoBootstrap(ipAddress, newServentPort));
 					AppConfig.timestampedStandardPrint(activeServents.toString());
 					newServentSocket.close();
 				}

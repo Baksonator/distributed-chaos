@@ -117,7 +117,7 @@ public class QuitCommand implements CLICommand {
             Socket bsSocket = new Socket(bsIp, bsPort);
 
             PrintWriter bsWriter = new PrintWriter(bsSocket.getOutputStream());
-            bsWriter.write("Left\n" + AppConfig.myServentInfo.getListenerPort() + "\n");
+            bsWriter.write("Left\n" + AppConfig.myServentInfo.getIpAddress() + "," + AppConfig.myServentInfo.getListenerPort() + "\n");
             bsWriter.flush();
 
             bsSocket.close();

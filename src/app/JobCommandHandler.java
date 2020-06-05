@@ -742,7 +742,7 @@ public class JobCommandHandler {
         AppConfig.chordState.decrementNodeCount();
         AppConfig.chordState.updateLogLevel();
 
-        contactBootstrap(leaverInfo.getListenerPort());
+        contactBootstrap(leaverInfo.getIpAddress(), leaverInfo.getListenerPort());
         AppConfig.chordState.removeNode(leaverInfo);
         AppConfig.chordState.getAllNodeInfoHelper().remove(leaverInfo);
         AppConfig.chordState.getSuspiciousMap().remove(diedId);
@@ -870,7 +870,7 @@ public class JobCommandHandler {
                     AppConfig.chordState.decrementNodeCount();
                     AppConfig.chordState.updateLogLevel();
 
-                    contactBootstrap(leaverInfo.getListenerPort());
+                    contactBootstrap(leaverInfo.getIpAddress(), leaverInfo.getListenerPort());
                     AppConfig.chordState.removeNode(leaverInfo);
                     AppConfig.chordState.getAllNodeInfoHelper().remove(leaverInfo);
                     AppConfig.chordState.getSuspiciousMap().remove(alsoDied);
@@ -1304,7 +1304,7 @@ public class JobCommandHandler {
         AppConfig.chordState.decrementNodeCount();
         AppConfig.chordState.updateLogLevel();
 
-        contactBootstrap(leaverInfo.getListenerPort());
+        contactBootstrap(leaverInfo.getIpAddress(), leaverInfo.getListenerPort());
         AppConfig.chordState.removeNode(leaverInfo);
         AppConfig.chordState.getAllNodeInfoHelper().remove(leaverInfo);
         AppConfig.chordState.getSuspiciousMap().remove(idFirst);
@@ -1331,7 +1331,7 @@ public class JobCommandHandler {
         AppConfig.chordState.decrementNodeCount();
         AppConfig.chordState.updateLogLevel();
 
-        contactBootstrap(leaverInfo.getListenerPort());
+        contactBootstrap(leaverInfo.getIpAddress(), leaverInfo.getListenerPort());
         AppConfig.chordState.removeNode(leaverInfo);
         AppConfig.chordState.getAllNodeInfoHelper().remove(leaverInfo);
         AppConfig.chordState.getSuspiciousMap().remove(idSecond);
@@ -1532,7 +1532,7 @@ public class JobCommandHandler {
         AppConfig.chordState.decrementNodeCount();
         AppConfig.chordState.updateLogLevel();
 
-        contactBootstrap(leaverInfo.getListenerPort());
+        contactBootstrap(leaverInfo.getIpAddress(), leaverInfo.getListenerPort());
         AppConfig.chordState.removeNode(leaverInfo);
         AppConfig.chordState.getAllNodeInfoHelper().remove(leaverInfo);
         AppConfig.chordState.getSuspiciousMap().remove(diedId);
@@ -1727,7 +1727,7 @@ public class JobCommandHandler {
         AppConfig.chordState.decrementNodeCount();
         AppConfig.chordState.updateLogLevel();
 
-        contactBootstrap(leaverInfo.getListenerPort());
+        contactBootstrap(leaverInfo.getIpAddress(), leaverInfo.getListenerPort());
         AppConfig.chordState.removeNode(leaverInfo);
         AppConfig.chordState.getAllNodeInfoHelper().remove(leaverInfo);
         AppConfig.chordState.getSuspiciousMap().remove(diedId);
@@ -1982,7 +1982,7 @@ public class JobCommandHandler {
         }
     }
 
-    private static void contactBootstrap(int listenerPort) {
+    private static void contactBootstrap(String ip, int listenerPort) {
         int bsPort = AppConfig.BOOTSTRAP_PORT;
         String bsIp = AppConfig.BOOTSTRAP_IP;
 
@@ -1990,7 +1990,7 @@ public class JobCommandHandler {
             Socket bsSocket = new Socket(bsIp, bsPort);
 
             PrintWriter bsWriter = new PrintWriter(bsSocket.getOutputStream());
-            bsWriter.write("Left\n" + listenerPort + "\n");
+            bsWriter.write("Left\n" + ip + "," + listenerPort + "\n");
             bsWriter.flush();
 
             bsSocket.close();

@@ -125,10 +125,10 @@ public class ChordState {
 
 	public void init2() {
 		try {
-			Socket bsSocket = new Socket("localhost", AppConfig.BOOTSTRAP_PORT);
+			Socket bsSocket = new Socket(AppConfig.BOOTSTRAP_IP, AppConfig.BOOTSTRAP_PORT);
 
 			PrintWriter bsWriter = new PrintWriter(bsSocket.getOutputStream());
-			bsWriter.write("New\n" + AppConfig.myServentInfo.getListenerPort() + "\n");
+			bsWriter.write("New\n" + AppConfig.myServentInfo.getIpAddress() + "," + AppConfig.myServentInfo.getListenerPort() + "\n");
 
 			bsWriter.flush();
 			bsSocket.close();

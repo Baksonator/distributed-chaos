@@ -23,7 +23,7 @@ public class ServentInitializer implements Runnable {
 			Socket bsSocket = new Socket(bsIp, bsPort);
 			
 			PrintWriter bsWriter = new PrintWriter(bsSocket.getOutputStream());
-			bsWriter.write("Hail\n" + AppConfig.myServentInfo.getListenerPort() + "\n");
+			bsWriter.write("Hail\n" + AppConfig.myServentInfo.getIpAddress() + "," + AppConfig.myServentInfo.getListenerPort() + "\n");
 			bsWriter.flush();
 			
 			Scanner bsScanner = new Scanner(bsSocket.getInputStream());
