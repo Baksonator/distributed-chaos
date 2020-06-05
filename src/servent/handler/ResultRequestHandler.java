@@ -35,9 +35,19 @@ public class ResultRequestHandler implements MessageHandler {
                     if (AppConfig.myServentInfo.getListenerPort() == clientMessage.getSenderPort()) {
                         requestorId = AppConfig.myServentInfo.getUuid();
                     }
+                    String justId = AppConfig.myServentInfo.getFractalId().substring(AppConfig.myServentInfo.getFractalId().indexOf("0"));
+                    boolean flag;
+                    String fractalId;
+                    if (justId.length() == 1) {
+                        flag = false;
+                        fractalId = "";
+                    } else {
+                        flag = true;
+                        fractalId = AppConfig.myServentInfo.getFractalId();
+                    }
                     ResultReplyMessage resultReplyMessage = new ResultReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
-                            AppConfig.jobWorker.getResults(), AppConfig.jobWorker.getJob());
+                            AppConfig.jobWorker.getResults(), AppConfig.jobWorker.getJob(), flag, fractalId);
                     MessageUtil.sendMessage(resultReplyMessage);
                 }
             } else {

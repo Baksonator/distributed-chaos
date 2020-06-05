@@ -47,8 +47,17 @@ public class ResultReplyHandler implements MessageHandler {
                 BufferedImage newImage = new BufferedImage(writableRaster.getWidth(), writableRaster.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
                 newImage.setData(writableRaster);
 
+                String fractalId = "";
+                if (resultReplyMessage.isFlag()) {
+                    fractalId = resultReplyMessage.getFractalId();
+                }
+
                 try {
-                    ImageIO.write(newImage, "PNG", new File(myJob.getName() + ".png"));
+                    if (fractalId.equals("")) {
+                        ImageIO.write(newImage, "PNG", new File(myJob.getName() + ".png"));
+                    } else {
+                        ImageIO.write(newImage, "PNG", new File(fractalId + ".png"));
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -64,7 +73,7 @@ public class ResultReplyHandler implements MessageHandler {
             } else {
                 ResultReplyMessage resultReplyMessageNew = new ResultReplyMessage(AppConfig.myServentInfo.getListenerPort(),
                         AppConfig.chordState.getNextNodeForKey(requestorId).getListenerPort(), Integer.toString(requestorId),
-                        resultReplyMessage.getResults(), resultReplyMessage.getJob());
+                        resultReplyMessage.getResults(), resultReplyMessage.getJob(), resultReplyMessage.isFlag(), resultReplyMessage.getFractalId());
                 MessageUtil.sendMessage(resultReplyMessageNew);
             }
         }

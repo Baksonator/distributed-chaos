@@ -11,12 +11,17 @@ public class ResultReplyMessage extends BasicMessage {
 
     private final List<Point> results;
     private final Job job;
+    private final boolean flag;
+    private final String fractalId;
 
-    public ResultReplyMessage(int senderPort, int receiverPort, String messageText, List<Point> results, Job job) {
+    public ResultReplyMessage(int senderPort, int receiverPort, String messageText, List<Point> results, Job job,
+                              boolean flag, String fractalId) {
         super(MessageType.RESULT_REPLY, senderPort, receiverPort, messageText);
 
         this.results = results;
         this.job = job;
+        this.flag = flag;
+        this.fractalId = fractalId;
     }
 
     public List<Point> getResults() {
@@ -25,5 +30,13 @@ public class ResultReplyMessage extends BasicMessage {
 
     public Job getJob() {
         return job;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public String getFractalId() {
+        return fractalId;
     }
 }

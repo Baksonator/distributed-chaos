@@ -14,11 +14,17 @@ public class StopJobCommand implements CLICommand {
 
     @Override
     public String commandName() {
-        return "stopJob";
+        return "stop";
     }
 
     @Override
     public void execute(String args) {
+        Job job = AppConfig.jobs.stream().filter(job1 -> job1.getName().equals(args)).findFirst().get();
+        if (!AppConfig.activeJobs.contains(job)) {
+            AppConfig.timestampedErrorPrint("This job does not exist!");
+            return;
+        }
+
         try {
             AppConfig.localSemaphore.acquire();
         } catch (InterruptedException e) {
@@ -55,7 +61,6 @@ public class StopJobCommand implements CLICommand {
         }
 
         AppConfig.jobLatch = new CountDownLatch(AppConfig.chordState.getNodeCount());
-        Job job = AppConfig.jobs.stream().filter(job1 -> job1.getName().equals(args)).findFirst().get();
         JobCommandHandler.stop(job);
 
         try {

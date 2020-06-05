@@ -32,14 +32,16 @@ public class CLIParser implements Runnable, Cancellable {
 	private volatile boolean working = true;
 	
 	private final List<CLICommand> commandList;
+	private final Scanner sc;
 	
 	public CLIParser(SimpleServentListener listener) {
 		this.commandList = new ArrayList<>();
-		
+		this.sc = new Scanner(System.in);
+
 		commandList.add(new InfoCommand());
 		commandList.add(new PauseCommand());
 		commandList.add(new SuccessorInfo());
-		commandList.add(new StartCommand());
+		commandList.add(new StartCommand(sc));
 		commandList.add(new ResultCommand());
 		commandList.add(new StatusCommand());
 		commandList.add(new StopJobCommand());
@@ -51,7 +53,7 @@ public class CLIParser implements Runnable, Cancellable {
 	
 	@Override
 	public void run() {
-		Scanner sc = new Scanner(System.in);
+//		Scanner sc = new Scanner(System.in);
 		
 		while (working) {
 			String commandLine = sc.nextLine();

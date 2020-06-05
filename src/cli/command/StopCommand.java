@@ -18,7 +18,7 @@ public class StopCommand implements CLICommand {
 	
 	@Override
 	public String commandName() {
-		return "stop";
+		return "stopForce";
 	}
 
 	@Override
