@@ -26,6 +26,10 @@ public class JobHandler implements MessageHandler {
                 int level = jobMsg.getLevel();
 
                 if (job == null) {
+                    if (AppConfig.jobWorker != null) {
+                        AppConfig.jobWorker.stop();
+                    }
+
                     if (jobMsg.getFractalIdMapping() != null) {
                         String myOldFractalId = AppConfig.myServentInfo.getFractalId();
                         for (Map.Entry<String, String> entry : jobMsg.getFractalIdMapping().entrySet()) {
@@ -45,9 +49,6 @@ public class JobHandler implements MessageHandler {
                         AppConfig.activeJobs.add(jobMsg.getMainJob());
                         AppConfig.myMainJob = jobMsg.getMainJob();
                     }
-                    if (AppConfig.jobWorker != null) {
-                        AppConfig.jobWorker.stop();
-                    }
                     JobMessageResponse jobMessageResponse = new JobMessageResponse(AppConfig.myServentInfo.getListenerPort(),
                             AppConfig.chordState.getNextNodeForKey(jobMsg.getSenderId()).getListenerPort(),
                             Integer.toString(jobMsg.getSenderId()));
@@ -61,6 +62,10 @@ public class JobHandler implements MessageHandler {
 
                 if (justId.length() - level == 1) {
                     if (jobMsg.getFractalIdMapping() != null) {
+                        if (AppConfig.jobWorker != null) {
+                            AppConfig.jobWorker.stop();
+                        }
+
                         String myOldFractalId = AppConfig.myServentInfo.getFractalId();
 //                        AppConfig.timestampedStandardPrint(jobMsg.getFractalIdMapping().toString());
 //                        AppConfig.timestampedStandardPrint(sortByValue(jobMsg.getFractalIdMapping()).toString());
@@ -99,9 +104,6 @@ public class JobHandler implements MessageHandler {
                             AppConfig.myMainJob = jobMsg.getMainJob();
                         }
                         JobWorker worker = new JobWorker(job, newData);
-                        if (AppConfig.jobWorker != null) {
-                            AppConfig.jobWorker.stop();
-                        }
                         AppConfig.jobWorker = worker;
                         Thread t = new Thread(worker);
                         t.start();

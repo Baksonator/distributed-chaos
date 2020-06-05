@@ -10,20 +10,20 @@ public class Pinger implements Runnable, Cancellable {
     @Override
     public void run() {
         while (working) {
-            synchronized (AppConfig.pauseLock) {
-                if (AppConfig.paused.get()) {
-                    try {
-                        AppConfig.pauseLock.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        return;
-                    }
-
-                    if (!working) {
-                        break;
-                    }
-                }
-            }
+//            synchronized (AppConfig.pauseLock) {
+//                if (AppConfig.paused.get()) {
+//                    try {
+//                        AppConfig.pauseLock.wait();
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                        return;
+//                    }
+//
+//                    if (!working) {
+//                        break;
+//                    }
+//                }
+//            }
 
             try {
                 Thread.sleep(AppConfig.SOFT_FAILURE_TIME - 250);

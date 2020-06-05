@@ -816,6 +816,7 @@ public class JobCommandHandler {
                     AppConfig.chordState.decrementNodeCount();
                     AppConfig.chordState.updateLogLevel();
 
+                    contactBootstrap(leaverInfo.getListenerPort());
                     AppConfig.chordState.removeNode(leaverInfo);
                     AppConfig.chordState.getAllNodeInfoHelper().remove(leaverInfo);
                     AppConfig.chordState.getSuspiciousMap().remove(alsoDied);
